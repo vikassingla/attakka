@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>jCarousel Examples</title>
+<link href="right-scroller/style.css" rel="stylesheet" type="text/css">
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="right-scroller/jquery-1.js"></script>
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="right-scroller/jquery.js"></script>
+<!--
+  jCarousel skin stylesheets
+-->
+<link rel="stylesheet" type="text/css" href="right-scroller/skin.css">
+<link rel="stylesheet" type="text/css" href="right-scroller/skin_002.css">
+
+
+
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    // Initialise the first and second carousel by class selector.
+	// Note that they use both the same configuration options (none in this case).
+	jQuery('.first-and-second-carousel').jcarousel();
+	
+	// If you want to use a caoursel with different configuration options,
+	// you have to initialise it seperately.
+	// We do it by an id selector here.
+	jQuery('#third-carousel').jcarousel({
+        vertical: true
+    });
+});
+
+</script>
+
+
+
+
+
+</head>
+<body>
+<div id="wrap">
+ 
+
+  <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
+    <li><div class="black-border-new-small"><div class="views-field subcategoryhorror-new-small"><img src="images/a1.png" alt="#" />
+				<div class="nametop-heading-box-horror-small"> 5150 Elm's Way </div>
+				
+				</div>
+				 <div class="top-rating-panel-small"><img src="images/rate/smallrate-4.png" alt="#" /></div>
+				 <div class="number-rating-small">431</div>
+				</div></li>
+				
+				    <li><div class="black-border-new-small"><div class="views-field subcategoryhorror-new-small"><img src="images/a2.png" alt="#" />
+				<div class="nametop-heading-box-horror-small"> 28 Days Later</div>
+				
+				</div>
+				 <div class="top-rating-panel-small"><img src="images/rate/smallrate-4.png" alt="#" /></div>
+				  <div class="number-rating-small">430</div>
+				</div></li>
+				
+				
+				
+				    <li><div class="black-border-new-small"><div class="views-field subcategoryhorror-new-small"><img src="images/a3.png" alt="#" />
+				<div class="nametop-heading-box-horror-small"> 30 Days of Night</div>
+				
+				</div>
+				 <div class="top-rating-panel-small"><img src="images/rate/smallrate-3.png" alt="#" /></div>
+				 <div class="number-rating-small">429</div>
+				</div></li>
+				
+				
+				
+				    <li><div class="black-border-new-small" ><div class="views-field subcategoryhorror-new-small"><img src="images/a4.png" alt="#" />
+				<div class="nametop-heading-box-horror-small">100 Feet </div>
+				
+				</div>
+				 <div class="top-rating-panel-small"><img src="images/rate/smallrate-3.png" alt="#" /></div>
+				<div class="number-rating-small">428</div>
+				</div></li>
+				
+				
+				
+				    <li><div class="black-border-new-small"><div class="views-field subcategoryhorror-new-small"><img src="images/a5.png" alt="#" />
+				<div class="nametop-heading-box-horror-small"> The Possession</div>
+				
+				</div>
+				 <div class="top-rating-panel-small"><img src="images/rate/smallrate-2.png" alt="#" /></div>
+				<div class="number-rating-small">427</div>
+				</div></li>
+				
+				
+				   
+    
+  </ul>
+  
+ 
+</div></body></html>

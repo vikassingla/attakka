@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+    <title>jQuery Resize And Crop (jrac) example</title>
+    
+    <!-- jQuery -->
+    <script type="text/javascript" src="jquery-1.6.2.js"></script>
+    
+    <!-- jQuery-Ui -->
+    <link rel="stylesheet" type="text/css" href="jquery-ui.css" />
+    <script type="text/javascript" src="jquery-ui.js"></script>
+    
+    <!-- SHJS - Syntax Highlighting for JavaScript -->
+    <script type="text/javascript" src="sh_main.min.js"></script>
+    <script type="text/javascript">$(document).ready(function(){sh_highlightDocument();});</script>
+    
+    <!-- jrac - jQuery Resize And Crop -->
+    <link rel="stylesheet" type="text/css" href="style.jrac.css" />
+    <script type="text/javascript" src="jquery.jrac.js"></script>
+
+    <!-- This page business -->
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript">
+      <!--//--><![CDATA[//><!--
+      $(document).ready(function(){
+        // Apply jrac on some image.
+        $('.pane img').jrac({
+          'crop_width': 250,
+          'crop_height': 170,
+          'crop_x': 100,
+          'crop_y': 100,
+          'image_width': 400,
+          'viewport_onload': function() {
+            var $viewport = this;
+            var inputs = $viewport.$container.parent('.pane').find('.coords input:text');
+            var events = ['jrac_crop_x','jrac_crop_y','jrac_crop_width','jrac_crop_height','jrac_image_width','jrac_image_height'];
+            for (var i = 0; i < events.length; i++) {
+              var event_name = events[i];
+              // Register an event with an element.
+              $viewport.observator.register(event_name, inputs.eq(i));
+              // Attach a handler to that event for the element.
+              inputs.eq(i).bind(event_name, function(event, $viewport, value) {
+                $(this).val(value);
+              })
+              // Attach a handler for the built-in jQuery change event, handler
+              // which read user input and apply it to relevent viewport object.
+              .change(event_name, function(event) {
+                var event_name = event.data;
+                $viewport.$image.scale_proportion_locked = $viewport.$container.parent('.pane').find('.coords input:checkbox').is(':checked');
+                $viewport.observator.set_property(event_name,$(this).val());
+              });
+            }
+           /* $viewport.$container.append('<div>Image natual size: '
+              +$viewport.$image.originalWidth+' x '
+              +$viewport.$image.originalHeight+'</div>')*/
+          }
+        })
+         
+        // React on all viewport events.
+        .bind('jrac_events', function(event, $viewport) {
+          var inputs = $(this).parents('.pane').find('.coords input');
+          inputs.css('background-color',($viewport.observator.crop_consistent())?'chartreuse':'salmon');
+        });
+
+		  
+        
+      });
+      //--><!]]>
+    </script>
+  </head>
+  <body>
+
+    <div class="pane clearfix">
+      <img src="images/32.jpg" alt="Loulou form Sos Chats Geneva" />
+      <table class="coords">
+        <tr><td>crop x</td><td><input type="text" id="crop_x" name="crop_x" /></td></tr>
+        <tr><td>crop y</td><td><input type="text" id="crop_y" name="crop_y"/></td></tr>
+        <tr><td>crop width</td><td><input type="text" id="crop_width" name="crop_width"/></td></tr>
+        <tr><td>crop height</td><td><input type="text" id="crop_height" name="crop_height"/></td></tr>
+        <tr><td>image width</td><td><input type="text" id="img_width" name="img_width" /></td></tr>
+        <tr><td>image height</td><td><input type="text" id="img_height" name="img_height"/></td></tr>
+    
+      </table>
+      <div>
+		<input type="button" name="zoom_in" id="zoom_in" value="+"/>
+		<input type="button" name="zoom_out" id="zoom_out" value="-"/>	
+      </div>
+    </div>
+
+ 
+
+  </body>
+</html>

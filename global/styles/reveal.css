@@ -1,0 +1,32 @@
+
+
+#showcase,
+#showcase .column,
+#college,
+#whymac,
+#buy,
+#globalfooter { opacity:0; -webkit-transition:opacity 0.5s; -moz-transition:opacity 0.5s;}
+
+.loaded #showcase,
+.loaded #showcase .column,
+.loaded #college,
+.loaded #whymac,
+.loaded #buy,
+.loaded #globalfooter { opacity:1; }
+
+.revealed #showcase { position:static; }
+
+#showcase         { -webkit-transition-delay:0.8s; -moz-transition-delay:0.8s; }
+#showcase .first  { -webkit-transition-delay:1.0s; -moz-transition-delay:1.0s; }
+#showcase .second { -webkit-transition-delay:1.1s; -moz-transition-delay:1.1s; }
+#showcase .third  { -webkit-transition-delay:1.2s; -moz-transition-delay:1.2s; }
+#college  		  { -webkit-transition-delay:1.4s; -moz-transition-delay:1.4s; }
+#whymac           { -webkit-transition-delay:1.6s; -moz-transition-delay:1.6s; }
+#buy              { -webkit-transition-delay:1.8s; -moz-transition-delay:1.8s; }
+#globalfooter     { -webkit-transition-delay:2.0s; -moz-transition-delay:2.0s; }
+
+.canceled #showcase .content,
+.canceled #showcase-whymac,
+.canceled #education,
+.canceled #buy,
+.canceled #globalfooter { -webkit-transition:none; -moz-transition:none; }

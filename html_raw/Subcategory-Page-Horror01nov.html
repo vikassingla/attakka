@@ -1,0 +1,600 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://gmpg.org/xfn/11">
+
+
+
+<!-- title -->
+<title>ATTAKKA</title>
+
+<style>
+.chromestyle {
+
+    width: 142%;
+	margin-right:10px;
+}
+
+ .floatingHeader {
+      position: fixed;
+      top: 0;
+      visibility: hidden;
+    }
+	</style>
+    
+    <script language="javascript" type="text/javascript">
+<!--
+var count1 = 0;
+        var count2 = 0;
+        var count3 = 0;
+      
+        function ShowHide1() {
+          
+
+            if (document.getElementById("hd1").value == 'on') {
+
+                document.getElementById("btn1").src = "images/videogallery-btrn.png";
+
+                document.getElementById("trDescription1").style.display = "none";
+                document.getElementById("hd1").value = 'off';
+                count1 = count1 + 1;
+            }
+            else {
+
+                document.getElementById("btn1").src = "images/videogallery-btrn-hover.png";
+
+                document.getElementById("trDescription1").style.display = "";
+                count1 = count1 + 1;
+                document.getElementById("hd1").value = 'on';
+            }
+
+            if (document.getElementById("hd2").value == 'on') {
+
+                document.getElementById("btn2").src = "images/see-btrn.png";
+                document.getElementById("hd2").value = 'off';
+                document.getElementById("trDescription2").style.display = "none";
+                count2 = count2 + 1;
+            }
+        }
+        function ShowHide2() {
+            if (document.getElementById("hd2").value == 'on') {
+
+                document.getElementById("btn2").src = "images/see-btrn.png";
+                document.getElementById("hd2").value = 'off';
+                document.getElementById("trDescription2").style.display = "none";
+                count2 = count2 + 1;
+            }
+            else {
+
+                document.getElementById("btn2").src = "images/see-btrn-hover.png";
+                document.getElementById("hd2").value = 'on';
+                document.getElementById("trDescription2").style.display = "";
+                count2 = count2 + 1;
+            }
+            if (document.getElementById("hd1").value == 'on') {
+
+                document.getElementById("btn1").src = "images/videogallery-btrn.png";
+
+                document.getElementById("trDescription1").style.display = "none";
+                document.getElementById("hd1").value = 'off';
+                count1 = count1 + 1;
+            }
+          
+        }
+		
+		//-->
+</script>
+
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> 
+<script type="text/javascript">
+jQuery(document).ready(function() {
+  jQuery(".content").hide();
+  //toggle the componenet with class msg_body
+  jQuery(".heading").click(function()
+  {
+    jQuery(this).next(".content").slideToggle(500);
+  });
+});
+</script>
+	
+
+</style>
+<script type="text/javascript" src="script/jquery.js"></script>
+	<script type="text/javascript">
+$(document).ready(function () {	
+	
+	$('#nav li').hover(
+		function () {
+			//show its submenu
+			$('ul', this).stop().slideDown(100);
+
+		}, 
+		function () {
+			//hide its submenu
+			$('ul', this).stop().slideUp(100);			
+		}
+	);
+	
+});
+	</script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" >
+$(document).ready(function()
+{
+$(".account").click(function()
+{
+var X=$(this).attr('id');
+
+if(X==1)
+{
+$(".submenu").hide();
+$(this).attr('id', '0');	
+}
+else
+{
+
+$(".submenu").show();
+$(this).attr('id', '1');
+}
+	
+});
+
+//Mouseup textarea false
+$(".submenu").mouseup(function()
+{
+return false
+});
+$(".account").mouseup(function()
+{
+return false
+});
+
+
+//Textarea without editing.
+$(document).mouseup(function()
+{
+$(".submenu").hide();
+$(".account").attr('id', '');
+});
+	
+});
+	
+	</script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>
+    function UpdateTableHeaders() {
+       $(".persist-area").each(function() {
+       
+           var el             = $(this),
+               offset         = el.offset(),
+               scrollTop      = $(window).scrollTop(),
+               floatingHeader = $(".floatingHeader", this)
+           
+           if ((scrollTop > offset.top) && (scrollTop < offset.top + el.height())) {
+               floatingHeader.css({
+                "visibility": "visible"
+               });
+           } else {
+               floatingHeader.css({
+                "visibility": "hidden"
+               });      
+           };
+       });
+    }
+    
+    // DOM Ready      
+    $(function() {
+    
+       var clonedHeaderRow;
+    
+       $(".persist-area").each(function() {
+           clonedHeaderRow = $(".persist-header", this);
+           clonedHeaderRow
+             .before(clonedHeaderRow.clone())
+             .css("width", clonedHeaderRow.width())
+             .addClass("floatingHeader");
+             
+       });
+       
+       $(window)
+        .scroll(UpdateTableHeaders)
+        .trigger("scroll");
+       
+    });
+  </script>
+  
+  
+  <link href="static_multiple_files/style.css" rel="stylesheet" type="text/css">
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="static_multiple_files/jquery-1.js"></script>
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="static_multiple_files/jquery.js"></script>
+<!--
+  jCarousel skin stylesheets
+-->
+<link rel="stylesheet" type="text/css" href="static_multiple_files/skin.css">
+<link rel="stylesheet" type="text/css" href="static_multiple_files/skin_002.css">
+
+
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    // Initialise the first and second carousel by class selector.
+	// Note that they use both the same configuration options (none in this case).
+	jQuery('.first-and-second-carousel').jcarousel();
+	
+	// If you want to use a caoursel with different configuration options,
+	// you have to initialise it seperately.
+	// We do it by an id selector here.
+	jQuery('#third-carousel').jcarousel({
+        vertical: true
+    });
+});
+
+</script>
+
+<!--dropdown menu-->
+<script type="text/javascript" src="chromejs/chrome.js"></script>
+<link rel="stylesheet" type="text/css" href="css/chromestyle.css" />
+<!--dropdown menu end-->
+
+<!-- stylesheets -->
+<link rel="stylesheet" href="css/style-fresh.css" type="text/css" media="screen" />
+</head>
+
+
+<body>
+<div id="container"><div class="internal-wrapper-top"><div id="logo"><a href="index.html"><img src="images/internal-logo.png" alt="#" border="0" /></a></div>
+
+<div id="search-panel">  <input name="textfield" type="text" class="search-input-internal" value="Search" /> 
+  <a href="review.html"><img src="images/search-icon.png" alt="#" border="0" /></a>
+  <a href="Create-a-review.html"><img src="images/review-icon.png" alt="#" border="0" /></a></div>
+
+<div id="right-panel-user">
+      <div class="chromestyle" id="chromemenu">
+        <ul>
+          <li><a href="#" rel="dropmenu1"><img src="images/fav-icon.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> favorites</a></li>
+          <li><a href="#" title="Offerings"><img src="images/logout-btrn.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> LogOUT</a></li>
+        </ul>
+      </div>
+      <!--1st drop down menu -->
+      <div id="dropmenu1" class="dropmenudiv" style="position:absolute; z-index:2;"> <a href="infowall.html" title="Info Wall">- Info Wall</a>
+<a href="movies-categories.html" title="Movies">- Movies</a>
+<a href="categories.html" title="General">- General</a> </div>
+      <script type="text/javascript">
+
+cssdropdown.startchrome("chromemenu")
+
+</script>
+      <!-- END Menu -->
+
+	
+	
+	
+	
+	
+	</div>
+<div class="views-field topuser-img"><img alt="" src="images/user-pic.png"></div>
+<div class="name-panel top-user-name">Ashlin Burton<br />
+  Yew York</div>
+</div></div>
+
+
+
+
+<div class="internal-wrapper">
+<div style="margin-top:100px;">
+  <img src="images/horror-banner.png" alt="" class="image-border" />
+  <h7 style="padding-left:10px;">Horror</h7>
+			   </div>
+			 
+			 <div style="margin-top:40px; margin-bottom:20px;" ><img src="images/banner/banner-ad2.png" alt="#"  class="image-border"/></div>
+			 
+			 <div class="clear"></div>
+			 
+	<div id="page-wrap">
+	  <section class="some-other-area persist-area">
+      
+        <div  class="persist-header title-div "><div style="margin-left:-8px;"><div id="wrap">
+  <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
+    <li style="float:left; width:92PX;"><a href="#"><img src="images/buttons/animation-btrn.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:84PX;"><a href="#"><img src="images/buttons/action.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:99PX;"><a href="#"><img src="images/buttons/adventure-btrn.png" alt="" border="0" /></a></li>
+     <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/comedy.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/crime.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/horror-hover.png" alt="" border="0" /></a></li>
+     <li style="float:left;width:126PX;"><a href="#"><img src="images/buttons/sciencefiction-btrn.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:59PX;"><a href="#"><img src="images/buttons/art-btrn.png" alt="" border="0" /></a></li>
+     <li style="float:left; width:119PX;"><a href="#"><img src="images/buttons/blackcomedy-btrn.png" alt="" border="0" /></a></li>
+	    <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/thriller-btrn.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/crime.png" alt="" border="0" /></a></li>
+   <li style="float:left; "><a href="#"><img src="images/buttons/thriller-btrn.png" alt="" border="0" /></a></li>
+   
+  </ul>
+  
+</div></div></div>
+      
+        <div><img src="images/red-bar-new.png" alt="#" /></div>
+        <div id="left-panel-subcategoryhorror1stnov">
+<div class="red-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct"><img src="images/sawimg.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Saw 3D</div>
+                 
+				
+				</div>
+				 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-5plus.png" alt="#" /></div>
+				
+		  </div> <div class="rate-panel-right1stnov" align="center"><img src="images/number-1.png"  alt="#" /></div>
+				<div class="clear"></div>
+                
+                 <div class="red-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct"><img src="images/best2.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Hell Raiser</div>
+				
+				</div>
+                 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-5plus.png" alt="#" /></div>
+				 
+				
+				</div> <div class="rate-panel-right1stnov" align="center"><img src="images/number-2.png"alt="#" /></div>
+                
+                
+                <div class="clear"></div>
+                
+                 <div class="red-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct"><img src="images/best3.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Zomboo's House</div>
+				
+				</div>
+				 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-4plus.png" alt="#" /></div>
+				 
+				</div> <div class="rate-panel-right1stnov" align="center"><img src="images/number-3.png"  alt="#" /></div>
+                
+                
+                <div class="clear"></div>
+                 <div class="red-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct"><img src="images/best4.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Pan's Labyrinth</div>
+				
+				</div>
+                <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-4plus.png" alt="#" /></div>
+				 
+				 
+				</div> <div class="rate-panel-right1stnov" align="center"><img src="images/number-4.png"  alt="#" /></div>
+                
+                <div class="clear"></div>
+                <div class="red-border-new-170ct"><div class="views-field subcategoryhorror-new17oct"><img src="images/best5.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Captivating</div>
+				
+				</div>
+				 
+                 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-3plus.png" alt="#" /></div>
+				
+				</div> <div class="rate-panel-right1stnov" align="center"><img src="images/number-5.png"  alt="#" /></div>
+                
+      </div>
+                
+                
+                <!--right-panel-->
+                
+                <div id="right-panel-subcategoryhorror1stnov">
+       <div class="black-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct-black"><img src="images/best6.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Rotten</div>
+				
+				</div>
+                
+                 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-5.png" alt="#" /></div>
+				 
+				
+				</div> <div class="rate-panel-right1stnovnew"><img src="images/n1.png" alt="#" /></div>
+				<div class="clear"></div>
+                
+                 <div class="black-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct-black"><img src="images/best7.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Black Christmas</div>
+				
+				</div>
+                 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-4.png" alt="#" /></div>
+				 
+				
+				</div> <div class="rate-panel-right1stnovnew"><img src="images/n2.png" alt="#" /></div>
+                
+                
+                <div class="clear"></div>
+                
+                 <div class="black-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct-black"><img src="images/best8.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Sleeping with the Fishes</div>
+				
+				</div>
+                
+                 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-4.png" alt="#" /></div>
+				 
+				
+				</div> <div class="rate-panel-right1stnovnew"><img src="images/n3.png" alt="#" /></div>
+                
+                
+                <div class="clear"></div>
+                 <div class="black-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct-black"><img src="images/best9.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> The Demon Withen</div>
+				
+				</div>
+                
+                 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-3.png" alt="#" /></div>
+				 
+			
+				</div><div class="rate-panel-right1stnovnew"><img src="images/n4.png" alt="#" /></div>
+                
+                <div class="clear"></div>
+                <div class="black-border-new-1stnov"><div class="views-field subcategoryhorror-new17oct-black"><img src="images/best10.png" alt="#" />
+				<div class="nametop-heading-box-horror17oct"> Revenge is Sweet</div>
+				
+				</div>
+                
+                 <div class="top-rating-panel1stnov"><img src="images/rate/smallrate-3.png" alt="#" /></div>
+				 
+			
+				</div><div class="rate-panel-right1stnovnew"><img src="images/n5.png" alt="#" /></div>
+                
+                </div>
+                
+                <div class="clear"></div>
+                
+                <div class="red-round-bar-new"><div style="padding:5px;"><div class="sortby-text">Sort By:</div><div class="drop-panel"><div class="dropdown">
+	<a class="account" >
+	<span>Friends</span>
+	</a>
+	<div class="submenu" style="display: none; ">
+
+	  <ul class="root">
+<li >
+	      <a href="#Favorites" >Favorites</a>
+	    </li>
+
+	    
+	    <li >
+	      <a href="#General" >General</a>
+	    </li>
+	  </ul>
+	</div>
+	</div></div>
+    
+    <div class="sortby-text">Date:</div>
+    
+    <div class="drop-panel" ><iframe src="dropdown.html" width="200px; height:250px;" allowtransparency="0" frameborder="0" style="z-index:1500;"></iframe></div>
+     
+    <div style="width:225px; float:right; margin-top:10px;"><img onclick="ShowHide2();" src="images/see-btrn.png" id="btn2" />   <input name="hidden" type="hidden" id="hd2" value='off' /></div>
+   
+    
+    </div></div>
+
+			<div style="width:1005px; float:left;">
+            <div id="trDescription2" style="display: none;  z-index:1"> 
+            <div align="right"><select name=""><option>Neighborhoods</option>
+            <option>Prices</option>
+            <option>Features</option>
+            
+            </select></div>
+			  <div class="grey-round-bar" style="margin-top:20PX;">
+			 <div class="images-left-panel heading-black">Name</div>
+			 <div class="notes-panel heading-black">Notes</div>
+			 <div class="rate-panel heading-black" style="padding-left:10px;">Rate</div>
+			
+			  </div>
+			  
+			    <div class="clear"></div>
+	<!--row 1-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/possession-img.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">The Possession </div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:20px;">
+<div class="panel">
+<p style=" position: relative; top: -50%">Oozing blandness and spattered with unintentional hilarity. The Possession is an amorphous blob of been-there-done- the genre tropes, </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate2.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 1-->
+		<div class="clear"></div>
+		
+		
+		
+			<!--row 2-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/yellow-pic.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Psicose</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:25px;">
+<div class="panel" >
+<p style=" position: relative; top: -50%">Two Words: Hitchcock's Best (...and you know that's no small feat!) </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate4.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 2-->
+		<div class="clear"></div>
+		
+		<!--row 3-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/allien-img.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Alien</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:10px;">
+<div class="panel">
+<p style=" position: relative; top: -50%">The terror isn't just the Alien itself, it's the entire atmosphere which gets so effectively under your skin, that you just can't shrug it off after the end credits like you can with so many other Hollywood horror movies. </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate1plus.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 3-->
+
+<div class="clear"></div>
+
+
+<!--row 4-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/ZombieNation-img.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Zombie Nation</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:15px;">
+<div class="panel">
+<p style=" position: relative; top: -50%">This movie was not the B Horror movie that I had in mind. This was MUCH worse. I wanted a bad movie but what I got, I didn't know that crap like this existed amongst man.</p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate3.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 4-->
+
+<div class="clear"></div>
+
+<!--row 5-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/saw-img.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Saw</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel">
+<div class="panel">
+<p style=" position: relative; top: -50%">From the first minute to last this film twists and turns you till you feel rather poorly. Just like 'Se7en', the all-round Grittiness that director James Wan creates disgusts and enthralls.  </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate2plus.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 5-->
+
+
+<!--row 6-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/Rosemary-Baby.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Rosemary's Baby</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:45px;">
+<div class="panel">
+<p style=" position: relative; top: -50%">Psychological Horror at its very best </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate5-big.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 6-->
+      
+      
+      
+	</div>
+			 </div></section>
+			</div> 	
+				
+		<div class="clear"></div>
+        <div class="internal-wrapper">
+<div class="footer-panel-left-internal">
+<div class="footer-text"><a href="index.html" class="footer-text">Home</a> &nbsp;|&nbsp; <a href="about-us.html" class="footer-text">About Us</a> &nbsp;|&nbsp; <a href="terms-conditions.html" class="footer-text">Terms &amp; Conditions</a> &nbsp;|&nbsp; <a href="login.html" class="footer-text" >Login</a> &nbsp;|&nbsp;     Register</div>
+<div class="footer-text">© 2012 Attakka, All rights reserved.</div>
+
+</div>
+<div class="footer-panel-right"><a href="#"><img src="images/facebook-icon.png" alt="#" border="0" /></a> <a href="#"><img src="images/twitter-icon.png" alt="#" border="0" /></a> <a href="#"><img src="images/gplus-icon.png" alt="#"  border="0"/></a></div>
+		
+			 
+</div>
+
+</div>
+			
+		
+</body>
+</html>

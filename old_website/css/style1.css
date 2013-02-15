@@ -1,0 +1,48 @@
+
+
+
+/*Featured Area*/
+
+#featured{
+border-top:none;
+}
+
+.featured{
+background: #fff url(../images/skin1/preload.gif) no-repeat center center;
+}
+
+.preloading_background{
+background: transparent url(../images/skin1/preload.gif) no-repeat 50% 50%;
+}
+
+#top .fadeout{
+background: transparent url(../images/skin1/overlay.png) repeat-y right top;
+}
+
+.bottom_left_rounded_corner{
+background: transparent url(../images/skin1/rounded.png) no-repeat left bottom;
+}
+.bottom_right_rounded_corner{
+background: transparent url(../images/skin1/rounded.png) no-repeat right bottom;
+}
+
+#top .feature_excerpt{
+
+}
+
+.position_excerpt, #top #featured .feature_excerpt {
+}
+
+#top #featured a{
+color:#444;
+}
+
+#top .slidecontrolls span{
+background:transparent url(../images/skin1/slide_controlls.png) no-repeat top right;
+}
+
+#top .slidecontrolls .active_item, #top .slidecontrolls span:hover{
+background:transparent url(../images/skin1/slide_controlls.png) no-repeat top left;
+}
+
+

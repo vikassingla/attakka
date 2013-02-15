@@ -1,0 +1,85 @@
+
+
+.chromestyle:after{ /*Add margin between menu and rest of content in Firefox*/
+content: "."; 
+display: block; 
+height: 0; 
+clear: both; 
+visibility: hidden;
+}
+
+.chromestyle ul{
+
+width: 88%;
+padding: 4px 0;
+margin: 0;
+ font-family: 'oswaldbook';
+    font-size: 15px;
+	color:#0a0b0c;
+	text-transform:uppercase;
+text-align: center; /*set value to "left", "center", or "right"*/
+}
+
+.chromestyle ul li{
+display: inline;
+}
+
+.chromestyle ul li a{
+	color:#0a0b0c;
+padding: 10px 10px;
+margin: 0;
+ background:url(../images/menu-line-top.png) center right no-repeat;
+text-decoration: none;
+line-height:35px;
+
+}
+
+.chromestyle ul li a:hover, .chromestyle ul li a.selected{ /*script dynamically adds a class of "selected" to the current active menu item*/
+background-image:-moz-linear-gradient(0% 22px 90deg, #222, #999); background-image:-webkit-gradient(linear, 0% 0%, 0% 70%, from(#999), to(#222));
+
+	background-color:#1f1f1f;
+	
+ font-family: 'oswaldbook';
+    font-size: 15px;
+	color:#ffffff;
+	 /*THEME CHANGE HERE*/
+}
+
+/* ######### Style for Drop Down Menu ######### */
+
+.dropmenudiv{
+position:absolute;
+top: 0;
+z-index:100;
+-moz-border-radius: 0px 0px 10px 10px;
+	border-radius:  0px 0px 10px 10px;
+	 -webkit-border-radius:  0px 0px 10px 10px;
+		-moz-box-shadow: 5px 5px 10px #959595; /* Firefox */
+  -webkit-box-shadow: 5px 5px 10px #959595; /* Safari and Chrome */
+  box-shadow: 5px 5px 10px #959595; /* Opera 10.5+, future browsers and IE6+ using IE-CSS3 */
+width: 200px;
+visibility: hidden;
+background-image:-moz-linear-gradient(0% 100px 90deg, #999, #222); background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#222), to(#555));	 background-color:#525252; 
+	color:#FFF;
+}
+
+
+.dropmenudiv a{
+width: auto;
+display: block;
+ font-family: 'oswaldbook';
+    font-size: 15px;
+border-bottom: 1px solid #BBB; /*THEME CHANGE HERE*/
+padding: 10px;
+text-decoration: none;
+ -webkit-border-radius:  0px 0px 10px 10px;
+color: white;
+}
+
+
+.dropmenudiv a:hover{ /*THEME CHANGE HERE*/
+background-image:-moz-linear-gradient(0% 100px 90deg, #999, #222); background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#222), to(#555)); 
+	 background-color:#2b2a2a;
+	 -webkit-border-radius:  0px 0px 10px 10px;
+	color:#FFF;
+}

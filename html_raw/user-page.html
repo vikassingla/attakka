@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://gmpg.org/xfn/11">
+
+
+
+<!-- title -->
+<title>ATTAKKA</title>
+
+<style>
+.chromestyle {
+
+    width: 142%;
+	margin-right:10px;
+}
+
+</style>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+$(document).ready(function(){
+	$("#tabs li").click(function() {
+		//	First remove class "active" from currently active tab
+		$("#tabs li").removeClass('active');
+
+		//	Now add class "active" to the selected/clicked tab
+		$(this).addClass("active");
+
+		//	Hide all tab content
+		$(".tab_content").hide();
+
+		//	Here we get the href value of the selected tab
+		var selected_tab = $(this).find("a").attr("href");
+
+		//	Show the selected tab content
+		$(selected_tab).fadeIn();
+
+		//	At the end, we add return false so that the click on the link is not executed
+		return false;
+	});
+});
+/* ]]> */
+</script>
+<!--dropdown menu-->
+<script type="text/javascript" src="chromejs/chrome.js"></script>
+<link rel="stylesheet" type="text/css" href="css/chromestyle.css" />
+<!--dropdown menu end-->
+
+<!-- stylesheets -->
+<link rel="stylesheet" href="css/style-fresh.css" type="text/css" media="screen" />
+</head>
+
+
+<body>
+<div id="container"><div class="internal-wrapper-top"><div id="logo"><a href="index.html"><img src="images/internal-logo.png" alt="#" border="0" /></a></div>
+
+<div id="search-panel">  <input name="textfield" type="text" class="search-input-internal" value="Search" /> 
+  <a href="review.html"><img src="images/search-icon.png" alt="#" border="0" /></a>
+  <a href="Create-a-review.html"><img src="images/review-icon.png" alt="#" border="0" /></a></div>
+
+<div id="right-panel-user">
+      <div class="chromestyle" id="chromemenu">
+        <ul>
+          <li><a href="#" rel="dropmenu1"><img src="images/fav-icon.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> favorites</a></li>
+          <li><a href="#" title="Offerings"><img src="images/logout-btrn.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> LogOUT</a></li>
+        </ul>
+      </div>
+      <!--1st drop down menu -->
+      <div id="dropmenu1" class="dropmenudiv" style="position:absolute; z-index:2;"> <a href="infowall.html" title="Info Wall">- Info Wall</a>
+<a href="movies-categories.html" title="Movies">- Movies</a>
+<a href="categories.html" title="General">- General</a> </div>
+      <script type="text/javascript">
+
+cssdropdown.startchrome("chromemenu")
+
+</script>
+      <!-- END Menu -->
+
+	
+	
+	
+	
+	
+	</div>
+<div class="views-field topuser-img"><img alt="" src="images/user-pic.png"></div>
+<div class="name-panel top-user-name">Ashlin Burton<br />
+  Yew York</div>
+</div></div>
+
+<div class="internal-wrapper">
+<div style="margin-top:100px;">
+ <div class="userpic-new views-field"><img src="images/user-pic-big.png" alt="#" border="0" /> <h6 style="padding-left:10px; width:235px; margin-top:-79px;">Cassandra</h6>
+ </div>
+ 
+ <div class="panel-user-one"><div class="topheading-text-user">History:</div>
+ <div class="grey-text-new"><strong>18 Reviews</strong><br />
+
+   <strong>First Review :</strong> 4 reviews<br />
+
+   <strong>MOR Review :</strong> 05 reviews<br />
+
+   <strong>Member Since :</strong>  Jan 03 '00</div>
+ </div>
+ <div class="panel-user-two"><div class="topheading-text-user">Average <span class="red-color">grades:</span></div>
+ <div><img src="images/graph.png" alt="#" border="0"/></div>
+ </div>
+ 
+ <div class="panel-user-three"><a href="#"><img src="images/follow-btrn.png" alt="#" style="margin-bottom:10px;" border="0" /></a><br />
+   <a href="#"><img src="images/message-btrn.png" alt="#" style="margin-bottom:10px;" border="0" /></a><br />
+   <a href="#"><img src="images/ignore-btrn.png" alt="#" border="0" /></a></div>
+		
+		<div class="round-back-user"><div style="padding:10px; margin-bottom:5px;"><div class="internal-heading-box">Influence <img src="images/rate/small-four-rate.png" alt="#" style="margin-bottom:-15px; margin-right:35px;" /> Reputation <img src="images/rate/small-three-rate.png" alt="#" style="margin-bottom:-15px; margin-right:35px;" /> Contribition <img src="images/rate/small-five-rate.png" alt="#" style="margin-bottom:-15px;" /></div></div></div>	  
+		<div class="clear"></div>
+		<div><a href="Create-banner.html"><img src="images/createfree-banner.png" alt="#" border="0" /></a></div>
+			  
+  </div>	
+  
+  <div class="clear"></div>
+  
+  <div id="tabs_wrapper">
+	<div id="tabs_container">
+		<ul id="tabs" style="width:450px; float:left;">
+			<li class="active"><a href="#tab1">Críticas</a></li>
+			<li><a href="#tab2">Favoritos</a></li>
+			<li><a href="#tab3">Fans</a></li>
+			
+		</ul>
+		<div style="width:305px; float:right;"><a href="Rentabanner.html"><img src="images/renta-banner-btrn.png" alt="#" style="margin-bottom:-10px;" border="0" /></a> <a href="Banner-Management.html"><img src="images/mange-banner-btrn.png" alt="#" style="margin-bottom:-10px;" border="0" /></a></div>
+	</div>
+	<div id="tabs_content_container">
+		<div id="tab1" class="tab_content" style="display: block;">
+			<div class="grey-round-bar-newnov19" style="margin-top:5px;">
+			 <div class="images-left-panel heading-black">Name</div>
+			 <div class="notes-panel heading-black">Notes</div>
+			 <div class="rate-panel heading-black" style="padding-left:10px;">Rate</div>
+			
+			  </div>
+			  
+			    <div class="clear"></div>
+	
+			<!--row 2-->
+			<a href="movies-categories.html"> <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/thedark.png"  border="0"  alt="#" /><h6 style="padding-left:80px; margin-top:-68px;">Batman: The Dark Knight Rises </h6></div>
+			  <div class="top-image-panel"><img src="images/movie.png" alt="#"  border="0" /></div>
+			  <div class="notes-panelnew20cot middle-text"><div class="internal-panel">
+<div class="panel">
+<p style=" position: relative; top: -50%; margin-top:45px;">Beautiful. Immense. Spectacular. Perfect. </p>
+</div>
+</div> </div>
+<div class="medal-panel"><img src="images/gold-icon.png" alt="#"  border="0"/></div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate5.png" alt="#" class="rate-img" border="0" /></div>
+			  	  
+  </div></a>
+<!--row 2-->
+
+<div class="clear"></div>
+			<!--row 3-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/game-img.png"  alt="#" /><h6 style="padding-left:80px; margin-top:-68px;">Diablo 3 </h6></div>
+			  <div class="top-image-panel"><img src="images/game.png" alt="#" /></div>
+			  <div class="notes-panelnew20cot middle-text"><div class="internal-panel">
+<div class="panel">
+<p style=" position: relative; top: -50%;">The game has it's problems. The main one being that playing through on normal and nightmare are simply too easy to the point of being boring.</p>
+</div>
+</div> </div>
+<div class="medal-panel"><img src="images/sliver-icon.png" alt="#"  border="0"/></div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate2plus.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 3-->
+
+
+<div class="clear"></div>
+			<!--row 4-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/hujan-img.png"  alt="#" /><h6 style="padding-left:80px; margin-top:-68px;">Hujan </h6></div>
+			  <div class="top-image-panel"><img src="images/indie-img.png" alt="#" /></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel">
+<div class="panel">
+<p style=" position: relative; top: -50%;">Forget reality TV music idols or manufactured pop acts. Malaysia’s appetite for homegrown indie bands know no boundaries this year.</p>
+</div>
+</div> </div>
+
+
+<div class="rate-panel" align="right"><img src="images/rate/rate3.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 4-->
+
+
+<div class="clear"></div>
+			<!--row 5-->
+			<a href="movies-categories.html"> <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/pro-img.png"  border="0"  alt="#" /><h6 style="padding-left:80px; margin-top:-68px;">Prometheus </h6></div>
+			  <div class="top-image-panel"><img src="images/movie.png" alt="#" border="0"  /></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel">
+<div class="panel">
+<p style=" position: relative; top: -50%; margin-top:45px;">Muddled, boring and lacking tension. </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate1.png" alt="#" class="rate-img" border="0"  /></div>
+			  	  
+  </div></a>
+<!--row 5-->
+
+<div class="clear"></div>
+			<!--row 6-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/old-img.png"  alt="#" /><h6 style="padding-left:80px; margin-top:-68px;">Old Skool Cafe </h6></div>
+			  <div class="top-image-panel"><img src="images/res-img.png" alt="#" /></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel">
+<div class="panel">
+<p style=" position: relative; top: -50%; margin-top:30px;">Amazing energy, delicious food and great entertainment.  Old Skool cafe is a youth run supper club.</p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate4.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 6-->
+
+<div class="clear"></div>
+			<!--row 7-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/eva.png"  alt="#" /><h6 style="padding-left:80px; margin-top:-68px;">Eva </h6></div>
+			  <div class="top-image-panel"><img src="images/book-img.png" alt="#" /></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel">
+<div class="panel">
+<p style=" position: relative; top: -50%;">The magic is a constant presence, due in large part to the premise itself, the execution and the characters. It is absolutely magical at every turn.</p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate3-plus.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 7-->
+
+<div class="clear"></div>
+<div class="grey-round-bar-user " style="margin-top:15px;"><div class="bottom-text">Exibindo de 1 a 15 Total de Atualizãçoes: <span class="red-color">130</span></div>
+<div><a href="#" class="grey-paging-selected">1</a> <a href="#" class="grey-paging">2</a> <a href="#" class="grey-paging"> 3</a> <a href="#" class="grey-paging">4</a> <a href="#" class="grey-paging">5</a> <a href="#" class="grey-paging">6</a> <a href="#" class="grey-paging">7</a> <a href="#" class="grey-paging">8</a> <a href="#" class="grey-paging"> 9</a> <a href="#" class="grey-paging">10</a> <a href="#" class="grey-paging-long">Proxima >></a></div>
+</div>
+
+			
+			
+		</div>
+		<div id="tab2" class="tab_content">
+			<div class="favorties-new views-field margingright-fav5 margingleft5"><img src="images/shopping-img.png" alt="#" /> <div class="top-heading-box">Shopping</div></div>
+			
+				<div class="favorties-new views-field margingright-fav5"><img src="images/night-img.png" alt="#" /> <div class="top-heading-box">Night Life</div></div>
+					<div class="favorties-new views-field margingright-fav5"><img src="images/beauty-img.png" alt="#" /> <div class="top-heading-box">Beauty & Spa</div></div>
+					
+						<div class="favorties-new views-field"><img src="images/freshidea-img.png" alt="#" /> <div class="top-heading-box">FRESH IDEAS</div></div>
+				
+				
+				<div class="clear"></div>
+				
+				
+				<div class="favorties-new views-field margingright-fav5 margingleft5"><img src="images/consul-img.png" alt="#" /> <div class="top-heading-box">CONSUL</div></div>
+			
+				<div class="favorties-new views-field margingright-fav5"><img src="images/soccer-img-fav.png" alt="#" /> <div class="top-heading-box">SOCCER</div></div>
+					<div class="favorties-new views-field margingright-fav5"><img src="images/resturant-img.png" alt="#" /> <div class="top-heading-box">Restaurant</div></div>
+					
+						<div class="favorties-new views-field"><img src="images/autority-img.png" alt="#" /> <div class="top-heading-box">Autority</div></div>
+						
+						<div class="clear"></div>
+				
+				
+				<div class="favorties-new views-field margingright-fav5 margingleft5"><img src="images/active-img.png" alt="#" /> <div class="top-heading-box">ACTIVE LIFE</div></div>
+			
+				<div class="favorties-new views-field margingright-fav5"><img src="images/general-img.png" alt="#" /> <div class="top-heading-box">General</div></div>
+					<div class="favorties-new views-field margingright-fav5"><img src="images/movie-img-fav.png" alt="#" /> <div class="top-heading-box">MOVIES</div></div>
+					
+						<div class="favorties-new views-field"><img src="images/mosic-img.png" alt="#" /> <div class="top-heading-box">mosaic</div></div>
+						
+						<div class="clear"></div>
+						
+						<div class="favorties-new views-field margingright-fav5 margingleft5"><img src="images/books-img.png" alt="#" /> <div class="top-heading-box">BOOKS</div></div>
+			
+				<div class="favorties-new views-field margingright-fav5"><img src="images/pets-img.png" alt="#" /> <div class="top-heading-box">Pets</div></div>
+					<div class="favorties-new views-field margingright-fav5"><img src="images/indie-img-fav.png" alt="#" /> <div class="top-heading-box">INDIE</div></div>
+				
+			
+			
+		</div>
+		
+		
+		
+		
+		
+		<div id="tab3" class="tab_content">
+				<div class="fanpic-new views-field margingright5 margingleft5"><img src="images/userpic1.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Robert Pattinson</h6>
+				</div>
+				
+				<div class="fanpic-new views-field margingright5"><img src="images/userpic2.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Cameron Diaz</h6>
+				</div>
+				
+				<div class="fanpic-new views-field margingright5"><img src="images/userpic3.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Shawn Johnson</h6>
+				</div>
+				
+				
+				<div class="fanpic-new views-field margingright5"><img src="images/userpic4.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Emmys</h6>
+				</div>
+				
+				<div class="fanpic-new views-field"><img src="images/userpic5.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Selena Gomez's </h6>
+				</div>
+				
+				<div class="clear"></div>
+				
+					<div class="fanpic-new views-field margingright5 margingleft5"><img src="images/userpic6.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Anne Hathaway</h6>
+				</div>
+				
+				<div class="fanpic-new views-field margingright5"><img src="images/userpic7.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">John Albert</h6>
+				</div>
+				
+				<div class="fanpic-new views-field margingright5"><img src="images/userpic8.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Dave </h6>
+				</div>
+				
+				
+				<div class="fanpic-new views-field margingright5"><img src="images/userpic9.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Asline Burton</h6>
+				</div>
+				
+				<div class="fanpic-new views-field"><img src="images/userpic10.png" alt="#" />
+				<h6 style="padding-left:10px; width:185px; margin-top:-53px;">Ryan </h6>
+				</div>
+		</div>
+	</div>
+</div>	  
+			  
+			  <div class="clear"></div>
+<div class="footer-panel-left-internal">
+<div class="footer-text"><a href="index.html" class="footer-text">Home</a> &nbsp;|&nbsp; <a href="about-us.html" class="footer-text">About Us</a> &nbsp;|&nbsp; <a href="terms-conditions.html" class="footer-text">Terms &amp; Conditions</a> &nbsp;|&nbsp; <a href="login.html" class="footer-text" >Login</a> &nbsp;|&nbsp;     Register</div>
+<div class="footer-text">© 2012 Attakka, All rights reserved.</div>
+
+</div>
+<div class="footer-panel-right"><a href="#"><img src="images/facebook-icon.png" alt="#" border="0" /></a> <a href="#"><img src="images/twitter-icon.png" alt="#" border="0" /></a> <a href="#"><img src="images/gplus-icon.png" alt="#"  border="0"/></a></div>
+
+
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+

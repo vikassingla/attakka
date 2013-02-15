@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://gmpg.org/xfn/11">
+
+
+
+<!-- title -->
+<title>ATTAKKA</title>
+
+<style>
+.chromestyle {
+
+    width: 142%;
+	margin-right:10px;
+}
+
+ .floatingHeader {
+      position: fixed;
+      top: 0;
+      visibility: hidden;
+    }
+</style>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>
+    function UpdateTableHeaders() {
+       $(".persist-area").each(function() {
+       
+           var el             = $(this),
+               offset         = el.offset(),
+               scrollTop      = $(window).scrollTop(),
+               floatingHeader = $(".floatingHeader", this)
+           
+           if ((scrollTop > offset.top) && (scrollTop < offset.top + el.height())) {
+               floatingHeader.css({
+                "visibility": "visible"
+               });
+           } else {
+               floatingHeader.css({
+                "visibility": "hidden"
+               });      
+           };
+       });
+    }
+    
+    // DOM Ready      
+    $(function() {
+    
+       var clonedHeaderRow;
+    
+       $(".persist-area").each(function() {
+           clonedHeaderRow = $(".persist-header", this);
+           clonedHeaderRow
+             .before(clonedHeaderRow.clone())
+             .css("width", clonedHeaderRow.width())
+             .addClass("floatingHeader");
+             
+       });
+       
+       $(window)
+        .scroll(UpdateTableHeaders)
+        .trigger("scroll");
+       
+    });
+  </script>
+  
+  
+  <link href="static_multiple_files/style.css" rel="stylesheet" type="text/css">
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="static_multiple_files/jquery-1.js"></script>
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="static_multiple_files/jquery.js"></script>
+<!--
+  jCarousel skin stylesheets
+-->
+<link rel="stylesheet" type="text/css" href="static_multiple_files/skin.css">
+<link rel="stylesheet" type="text/css" href="static_multiple_files/skin_002.css">
+
+
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    // Initialise the first and second carousel by class selector.
+	// Note that they use both the same configuration options (none in this case).
+	jQuery('.first-and-second-carousel').jcarousel();
+	
+	// If you want to use a caoursel with different configuration options,
+	// you have to initialise it seperately.
+	// We do it by an id selector here.
+	jQuery('#third-carousel').jcarousel({
+        vertical: true
+    });
+});
+
+</script>
+
+<!--dropdown menu-->
+<script type="text/javascript" src="chromejs/chrome.js"></script>
+<link rel="stylesheet" type="text/css" href="css/chromestyle.css" />
+<!--dropdown menu end-->
+
+<!-- stylesheets -->
+<link rel="stylesheet" href="css/style-fresh.css" type="text/css" media="screen" />
+</head>
+
+
+<body>
+<div id="container"><div class="internal-wrapper-top"><div id="logo"><a href="index.html"><img src="images/internal-logo.png" alt="#" border="0" /></a></div>
+
+<div id="search-panel">  <input name="textfield" type="text" class="search-input-internal" value="Search" /> 
+  <a href="review.html"><img src="images/search-icon.png" alt="#" border="0" /></a>
+  <a href="Create-a-review.html"><img src="images/review-icon.png" alt="#" border="0" /></a></div>
+
+<div id="right-panel-user">
+      <div class="chromestyle" id="chromemenu">
+        <ul>
+          <li><a href="#" rel="dropmenu1"><img src="images/fav-icon.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> favorites</a></li>
+          <li><a href="#" title="Offerings"><img src="images/logout-btrn.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> LogOUT</a></li>
+        </ul>
+      </div>
+      <!--1st drop down menu -->
+      <div id="dropmenu1" class="dropmenudiv" style="position:absolute; z-index:2;"> <a href="infowall.html" title="Info Wall">- Info Wall</a>
+<a href="movies-categories.html" title="Movies">- Movies</a>
+<a href="categories.html" title="General">- General</a> </div>
+      <script type="text/javascript">
+
+cssdropdown.startchrome("chromemenu")
+
+</script>
+      <!-- END Menu -->
+
+	
+	
+	
+	
+	
+	</div>
+<div class="views-field topuser-img"><img alt="" src="images/user-pic.png"></div>
+<div class="name-panel top-user-name">Ashlin Burton<br />
+  Yew York</div>
+</div></div>
+
+
+
+
+<div class="internal-wrapper">
+<div style="margin-top:100px;">
+  <img src="images/horror-banner.png" alt="" class="image-border" />
+  <h7 style="padding-left:10px;">Horror</h7>
+			   </div>
+			 
+			 <div style="margin-top:40px; margin-bottom:20px;" ><img src="images/banner/banner-ad2.png" alt="#"  class="image-border"/></div>
+			 
+			 <div class="clear"></div>
+			 
+	<div id="page-wrap">
+	  <section class="some-other-area persist-area">
+      
+        <div  class="persist-header title-div "><div style="margin-left:-8px;"><div id="wrap">
+  <ul id="first-carousel" class="first-and-second-carousel jcarousel-skin-tango">
+    <li style="float:left; width:92PX;"><a href="#"><img src="images/buttons/animation-btrn.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:84PX;"><a href="#"><img src="images/buttons/action.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:99PX;"><a href="#"><img src="images/buttons/adventure-btrn.png" alt="" border="0" /></a></li>
+     <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/comedy.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/crime.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/horror-hover.png" alt="" border="0" /></a></li>
+     <li style="float:left;width:126PX;"><a href="#"><img src="images/buttons/sciencefiction-btrn.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:59PX;"><a href="#"><img src="images/buttons/art-btrn.png" alt="" border="0" /></a></li>
+     <li style="float:left; width:119PX;"><a href="#"><img src="images/buttons/blackcomedy-btrn.png" alt="" border="0" /></a></li>
+	    <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/thriller-btrn.png" alt="" border="0" /></a></li>
+   <li style="float:left; width:79PX;"><a href="#"><img src="images/buttons/crime.png" alt="" border="0" /></a></li>
+   <li style="float:left; "><a href="#"><img src="images/buttons/thriller-btrn.png" alt="" border="0" /></a></li>
+   
+  </ul>
+  
+</div></div></div>
+      
+        <div class="grey-round-bar heading-black"><div style="padding-left:10px;">Best to Last :  432 Itens  2.865 Reviews</div> </div>
+       <div class="red-border-new"><div class="views-field subcategoryhorror-new"><img src="images/top-img.png" alt="#" />
+				<div class="nametop-heading-box-horror"> An American Werewolf in London</div>
+				
+				</div>
+				 <div class="top-rating-panel"><img src="images/rate/smallrate-5plus.png" alt="#" /></div>
+				 <div class="number-rating ">1<sup style="font-size:6px;">o</sup></div>
+				</div>
+				<div class="clear"></div>
+		
+		 <div style="margin-top:15px;"><iframe src="images-scroller.html" allowtransparency="0" frameborder="0" height="115px" width="1045px"></iframe></div>
+		 
+		 <div class="clear"></div>
+		 
+		  <div style="margin-top:15px;"><iframe src="right-scroller.html" allowtransparency="0" frameborder="0" height="115px" width="1045px"></iframe></div>
+		  
+		  <div class="clear"></div>
+		  
+		    <div class="black-border-new"><div class="views-field subcategoryhorror-newblack"><img src="images/bigimg.png" alt="#" />
+				<div class="nametop-heading-box-horror"> 13: Game of Death</div>
+				
+				</div>
+				 <div class="top-rating-panel"><img src="images/rate/smallrate-5.png" alt="#" /></div>
+				 <div class="number-rating-black">432</div>
+				</div>
+				<div class="clear"></div>
+			
+			  <div class="grey-round-bar" style="margin-top:20PX;">
+			 <div class="images-left-panel heading-black">Name</div>
+			 <div class="notes-panel heading-black">Notes</div>
+			 <div class="rate-panel heading-black" style="padding-left:10px;">Rate</div>
+			
+			  </div>
+			  
+			    <div class="clear"></div>
+	<!--row 1-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/possession-img.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">The Possession </div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:20px;">
+<div class="panel">
+<p style=" position: relative; top: -50%">Oozing blandness and spattered with unintentional hilarity. The Possession is an amorphous blob of been-there-done- the genre tropes, </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate2.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 1-->
+		<div class="clear"></div>
+		
+		
+		
+			<!--row 2-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/yellow-pic.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Psicose</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:25px;">
+<div class="panel" >
+<p style=" position: relative; top: -50%">Two Words: Hitchcock's Best (...and you know that's no small feat!) </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate4.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 2-->
+		<div class="clear"></div>
+		
+		<!--row 3-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/allien-img.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Alien</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:10px;">
+<div class="panel">
+<p style=" position: relative; top: -50%">The terror isn't just the Alien itself, it's the entire atmosphere which gets so effectively under your skin, that you just can't shrug it off after the end credits like you can with so many other Hollywood horror movies. </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate1plus.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 3-->
+
+<div class="clear"></div>
+
+
+<!--row 4-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/ZombieNation-img.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Zombie Nation</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:15px;">
+<div class="panel">
+<p style=" position: relative; top: -50%">This movie was not the B Horror movie that I had in mind. This was MUCH worse. I wanted a bad movie but what I got, I didn't know that crap like this existed amongst man.</p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate3.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 4-->
+
+<div class="clear"></div>
+
+<!--row 5-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/saw-img.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Saw</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel">
+<div class="panel">
+<p style=" position: relative; top: -50%">From the first minute to last this film twists and turns you till you feel rather poorly. Just like 'Se7en', the all-round Grittiness that director James Wan creates disgusts and enthralls.  </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate2plus.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 5-->
+
+
+<!--row 6-->
+			 <div class="border-round">
+			  <div class="images-left-panel views-field round-img"><img src="images/Rosemary-Baby.png"  alt="#" /><div class="top-shadow-back" style="padding-left:14px; margin-top:-74px;">Rosemary's Baby</div></div>
+			  <div class="notes-panel middle-text"><div class="internal-panel" style="margin-top:45px;">
+<div class="panel">
+<p style=" position: relative; top: -50%">Psychological Horror at its very best </p>
+</div>
+</div> </div>
+
+<div class="rate-panel" align="right"><img src="images/rate/rate5-big.png" alt="#" class="rate-img" /></div>
+			  	  
+  </div>
+<!--row 6-->
+      
+      </section>
+      
+	</div>
+			 
+			 	
+				
+		<div class="clear"></div>
+<div class="footer-panel-left-internal">
+<div class="footer-text"><a href="index.html" class="footer-text">Home</a> &nbsp;|&nbsp; <a href="about-us.html" class="footer-text">About Us</a> &nbsp;|&nbsp; <a href="terms-conditions.html" class="footer-text">Terms &amp; Conditions</a> &nbsp;|&nbsp; <a href="login.html" class="footer-text" >Login</a> &nbsp;|&nbsp;     Register</div>
+<div class="footer-text">© 2012 Attakka, All rights reserved.</div>
+
+</div>
+<div class="footer-panel-right"><a href="#"><img src="images/facebook-icon.png" alt="#" border="0" /></a> <a href="#"><img src="images/twitter-icon.png" alt="#" border="0" /></a> <a href="#"><img src="images/gplus-icon.png" alt="#"  border="0"/></a></div>
+		
+			 
+</div>
+
+
+			
+		
+</body>
+</html>
