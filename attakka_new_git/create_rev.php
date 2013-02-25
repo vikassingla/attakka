@@ -12,10 +12,8 @@ if($exist)
 
 ?>
 
-
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script>
-
+var $=jQuery.noConflict();
 function showAllCat(val,id1)
 {
 	//alert("VALUE IS "+val);return false;
@@ -140,6 +138,7 @@ function addNewReview(txtval,catid)
 				//showAllCat('bytxt',getCatid);
 				//document.getElementById('catinput').value
 				document.getElementById('catnamediv100001').style.display='none';
+				document.getElementById('catlist').style.display='none';
 			},
 			error:function (response)
 			{
@@ -187,6 +186,7 @@ function checkReview()
 					}
 					else
 					{
+						//alert(response);return false;
 						alert('You have already reviewed '+txtVal);
 					}
 				}
@@ -250,7 +250,7 @@ function checkReview()
 							
 						</div>
 						<input type="button" value="Add Review" onclick="checkReview();" class="submit-buttons-rec" style="display:block;float:right;"/>
-						<div id="catlist" style="display:none; border-bottom: 1px solid #E4E2E2;     border-left: 1px solid #E4E2E2;     border-right: 1px solid #E4E2E2;     float: left;     height:auto;     width: 248px;background-color:#fff;z-index:100;margin-top: 33px;     position: absolute;"></div>
+						<div id="catlist" style="display:none; border-bottom: 1px solid #E4E2E2;     border-left: 1px solid #E4E2E2;     border-right: 1px solid #E4E2E2;float: left;height:160px;width: 249px;background-color:#fff;z-index:100;margin-top: 33px;position: absolute;overflow:auto;overflow-x: hidden;"></div>
 						<input type="hidden" name="hidcatid" id="hidcatid" value="<?php if(isset($cat_id)) {echo $cat_id;}?>">
 					</form>
 					</div>

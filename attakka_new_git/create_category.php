@@ -391,7 +391,7 @@ echo "<pre>";
 		<div class="red-color-heading">Create a <span class="black-color-heading">Category</span></div>
 		
 			<div id="left-panelform">
-			<form name="form10" id="form10" action="main.php" method="post" enctype="multipart/form-data">	
+			<form name="form1" id="form1" action="main.php" method="post" enctype="multipart/form-data">	
 			<!--<div id="rightMain" style="float:right;width:430px;height:auto;border:1px solid #000;padding:5px;box-shadow:2px 2px 4px #444;-moz-box-shadow:2px 2px 4px #444;-webkit-box-shadow:2px 2px 4px #444;min-height:342px;">
 			
 			<div class="blog1" style="display:block;">
@@ -435,7 +435,7 @@ echo "<pre>";
 			<div style="float:left;height:50px;">
 				<div class="formpanel-text form-text">Category Name: </div>
 				<div class="inputpanel-rightCategory"><input name="catname" id="catname" type="text" class="input" style="width:263px;" onkeyup="emptyfield('form1_catname_errorloc')" onkeydown="emptyfield('form1_catname_errorloc')"/></div>
-				<div class="error" id="form10_catname_errorloc" style="visibility:hidden;">Please enter valid Password</div>
+				<div class="error" id="form1_catname_errorloc" style="visibility:hidden;">Please enter valid Password</div>
 			</div>
 			<div class="clear"></div>
 			
@@ -500,12 +500,12 @@ echo "<pre>";
 
 			<div id="right-panelform"><div class="formpanel-text-rightCategory form-text">Category Rules:</div>
 			<div class="inputpanel-rightCategory2"> <textarea name="catrules" rows="8" class="textarea" style="width:270px;" onkeyup="emptyfield('form1_catrules_errorloc')" onkeydown="emptyfield('form1_catrules_errorloc')"></textarea> 
-			<div class="error" id="form10_catrules_errorloc" style="visibility:hidden;">Please enter valid Password</div>
+			<div class="error" id="form1_catrules_errorloc" style="visibility:hidden;">Please enter valid Password</div>
 			</div>
 
 			<div id="right-panelform"><div class="formpanel-text-rightCategory form-text"> Category Descripition:</div>
 			<div class="inputpanel-rightCategory2"> <textarea name="catdes" rows="8" class="textarea" style="width:270px;" onkeyup="emptyfield('form1_catdes_errorloc')" onkeydown="emptyfield('form1_catdes_errorloc')"></textarea> 
-			<div class="error" id="form10_catdes_errorloc" style="visibility:hidden;">Please enter valid Password</div>
+			<div class="error" id="form1_catdes_errorloc" style="visibility:hidden;">Please enter valid Password</div>
 			</div>
 			</div>
 			</div>
@@ -818,7 +818,7 @@ function closeDiv()
 
 
 
-var frmvalidator  = new Validator("form10");
+var frmvalidator  = new Validator("form1");
 frmvalidator.EnableOnPageErrorDisplay();
 frmvalidator.EnableMsgsTogether();
 frmvalidator.addValidation("catname","req","Please enter Category name");

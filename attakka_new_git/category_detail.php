@@ -1,6 +1,18 @@
 <?php include("header.php");
 ob_start();
-$cat_id=$_GET['cat_id'];
+
+if(isset($_GET['cat_id']))
+{
+	$cat_id=$_GET['cat_id'];
+}
+else
+{
+	print '
+	<script>
+	window.location.href="all_category.php";
+	</script>
+	';
+}
 $exist=isCreategoryIdExist($cat_id);
 if($exist)
 {
@@ -50,8 +62,99 @@ else
 {
 	$srcfb="images/big_star.png";
 }	
-
-
+$adjacents = 3;
+//echo $query1;
+$total_pages = getAllReviewsOfCategoryTotal($cat_id);
+//echo $total_pages;
+$limit = 3; 								//how many items to show per page
+@$page = $_GET['page'];
+if($page) 
+	$start = ($page - 1) * $limit; 			//first item to display on this page
+else
+	$start = 0;		
+	if ($page == 0) $page = 1;
+	//echo $pageno;					//if no page var is given, default to 1.
+		$prev = $page - 1;							//previous page is page - 1
+		$next = $page + 1;							//next page is page + 1
+		$lastpage = ceil($total_pages/$limit);		//lastpage is = total pages / items per page, rounded up.
+		$lpm1 = $lastpage - 1;	
+		$pagination = "";
+		if($lastpage > 1)
+		{	
+			$pagination .= "<div class=\"pagination\">";
+			//previous button
+			if ($page > 1) 
+				$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$prev\">&laquo; </a>";
+			else
+				$pagination.= "<span class=\"disabled\">&laquo; </span>";	
+			
+			//pages	
+			if ($lastpage < 7 + ($adjacents * 2))	//not enough pages to bother breaking it up
+			{	
+				for ($counter = 1; $counter <= $lastpage; $counter++)
+				{
+					if ($counter == $page)
+						$pagination.= "<span class=\"current\">$counter</span>";
+					else
+						$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$counter\">$counter</a>";					
+				}
+			}
+			elseif($lastpage > 5 + ($adjacents * 2))	//enough pages to hide some
+			{
+				//close to beginning; only hide later pages
+				if($page < 1 + ($adjacents * 2))		
+				{
+					for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$counter\">$counter</a>";					
+					}
+					$pagination .= "<span class=\"elipses\">...</span>";
+					$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$lpm1\">$lpm1</a>";
+					$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$lastpage\">$lastpage</a>";		
+				}
+				//in middle; hide some front and some back
+				elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
+				{
+					$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=1\">1</a>";
+					$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=2\">2</a>";
+					$pagination .= "<span class=\"elipses\">...</span>";
+					for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$counter\">$counter</a>";					
+					}
+					$pagination .= "<span class=\"elipses\">...</span>";
+					$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$lpm1\">$lpm1</a>";
+					$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$lastpage\">$lastpage</a>";		
+				}
+				//close to end; only hide early pages
+				else
+				{
+					$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=1\">1</a>";
+					$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=2\">2</a>";
+					$pagination .= "<span class=\"elipses\">...</span>";
+					for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$counter\">$counter</a>";					
+					}
+				}
+			}
+			
+			//next button
+			if ($page < $counter - 1) 
+				$pagination.= "<a href=\"category_detail.php?cat_id=".$cat_id."&mod=$mod&page=$next\"> &raquo;</a>";
+			else
+				$pagination.= "<span class=\"disabled\"> &raquo;</span>";
+			$pagination.= "</div>\n";		
+		}
 ?> 
 <div class="internal-wrapper">
 <div style="margin-top:100px;position:relative">
@@ -73,56 +176,7 @@ $sql1="select cat_name, cat_banner_img from tbl_category where cat_id=".$cat_id;
 		$src="images/norevimage.jpg";
 	}		
 ?>
-<?php
-$img=explode("php",$_SERVER['REQUEST_URI']);
-//echo $img[1];
-$img4=explode("&",$img[1]);	
-//echo $img4[1];
-if(@$img4[1])
-{
-$img1=explode("=",$img4[1]);
-if($img1[1]=="hot")
-{
-$nav1="black-button";	
-$nav2=$nav3=$nav4="heading-black";
-}	
-else if($img1[1]=="new")
-{
-$nav2="black-button";	
-$nav1=$nav3=$nav4="heading-black";
-}
-else if($img1[1]=="rank")
-{
-$nav3="black-button";	
-$nav1=$nav2=$nav4="heading-black";
-}
-else if($img1[1]=="fan")
-{
-$nav4="black_button";	
-$nav1=$nav2=$nav3="heading-black";
-}
-}
-else
-{
-$nav1="black-button";	
-$nav2=$nav3=$nav4="heading-black";
-}		
-	
-	
-?>
-	<script src="global/scripts/lib/prototype.js" type="text/javascript" charset="utf-8"></script>
-    <script src="http://images.apple.com/global/scripts/lib/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
-	<script src="global/scripts/browserdetect.js" type="text/javascript" charset="utf-8"></script>
-	<script src="global/scripts/apple_core.js" type="text/javascript" charset="utf-8"></script>
-	<link rel="stylesheet" href="global/styles/base.css" type="text/css" />
-    <link rel="stylesheet" href="global/styles/productbrowser-style27-nov.css" type="text/css" />
-	
-	<script type="text/javascript">
-		document.write('<style type="text/css">.productbrowser { opacity:0; }<\/style>');
-		if (AC.Detector.isCSSAvailable('transition')) {
-			document.write('<link rel="stylesheet" href="global/styles/reveal.css" type="text/css" />');
-		}
-	</script>
+
   <a href="infowall.php?cat_id=<?php echo $cat_id;?>"><img src="<?php echo $src?>" alt="" class="image-border" /></a>
   <h7 style="padding-left:10px;bottom:6;"><?php echo $row['cat_name']?></h7>
    
@@ -226,11 +280,11 @@ var s_account="applebrglobal"
 
 <!--
   </div>
-            -->   <!--slider content-->
+       -->  <!--slider content-->
              
            
              <div class="clear"></div>
-             <!--
+          
                <div class="bestfive-panel">
   <h12>Best Five</h12>
 </div>
@@ -244,76 +298,105 @@ var s_account="applebrglobal"
  <div id="left-panel-restaurantcategories"><iframe src="scroller-left-restaurant.php?cat_id=<?php echo $cat_id?>" allowtransparency="0" width="470" height="520" frameborder="0" scrolling="no"></iframe></div>
  
   <div id="right-panel-restaurantcategories"><iframe src="scroller-right-restaurant.php?cat_id=<?php echo $cat_id?>" allowtransparency="0" width="465" height="520" frameborder="0" scrolling="no"></iframe></div> 	
-  <div class="clear"></div>
-  <div class="grey-round-bar heading-black">
-  <div style="padding-left:5px;float:left">
-  <a style="text-decoration:none; padding-right:20px" class="<?php echo $nav1; ?>" href="category_detail.php?cat_id=<?php echo$cat_id?>&mod=hot">HOT</a> 
-  <a style="text-decoration:none; padding-right:20px;" class="<?php echo $nav2; ?>" href="category_detail.php?cat_id=<?php echo $cat_id?>&mod=new">NEW</a> 
-  <a style="text-decoration:none; padding-right:20px;" class="<?php echo $nav3; ?>" href="#">RANK</a> 
-  <a style="text-decoration:none; padding-right:20px;" class="<?php echo $nav4; ?>" href="#">FANS</a>
-  </div> 
-  <div style="padding-right:5px;float:right" class="crev">
-  <a href="create_review.php?cat_id=<?php echo $cat_id?>">CREATE A REVIEW</a>
-  </div>
-  </div>
-                
-        <div class="clear"></div>
-                
-                <div class="heading-nov19">
-  <h8>Name</h8>
-</div>
+  
+ 
+	   <div class="grey-round-bar heading-black">
+	  <div style="padding-left:5px;float:left" id="navdiv">
+	  <a style="text-decoration:none; padding-right:20px" class="<?php if ($_GET['mod']=="hot") {echo "black-button";} else {  echo "heading-black"; } ?>" href="category_detail.php?cat_id=<?php echo$cat_id?>&mod=hot">HOT</a> 
+	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="new") {echo "black-button";} else {  echo "heading-black"; } ?>" href="category_detail.php?cat_id=<?php echo $cat_id?>&mod=new">NEW</a> 
+	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="rank") {echo "black-button";} else {  echo "heading-black"; } ?>" href="#">RANK</a> 
+	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="fan") {echo " black-button";} else {  echo "heading-black"; } ?>" href="#">FANS</a>
+	  </div> 
+	  <div style="padding-right:5px;float:right" class="crev">
+	  <div class="clear"></div>
+		<?php echo $pagination?>
+		  </div>
+		  </div>
+		<div class="heading-nov19">
+		  <h8>Name</h8>
+		</div>
 
-<div class="notes-panelnov19">
-  <h10>Notes</h10>
-</div>
+		<div class="notes-panelnov19">
+		  <h10>Notes</h10>
+		</div>
 
-<div class="rates-panelnov19">
-  <h11>Rates</h11>
-</div>
-                
-                
-                <div class="clear"></div>-->
-                	<?php 
-		?>
- <?php
+		<div class="rates-panelnov19">
+		  <h11>Rates</h11>
+		</div>
+						
+		<div class="clear"></div>
+		<?php 
+		if(isset($cat_id))
+		{
+			$getallReviews=getAllReviewsOfCategory($cat_id,$start,$limit);
+			//echo '<pre>';
+			//print_r($getallReviews);
+		    if(count($getallReviews)>0)
+		    {
+				foreach($getallReviews as $revs)
+				{
+					$reviewImg='review_images/'.$revs['review_img'];
+					//echo $reviewImg."<br>";
+					if(empty($revs['review_img']) || !file_exists($reviewImg))
+					{
+						$imgsrc='images/norevimage.jpg';
+					}
+					else
+					{
+						$imgsrc='review_images/'.$revs['review_img'];
+					}
+					if(empty($revs['review_title']))
+					{
+						$title='No title';
+					}
+					else
+					{
+						$title=$revs['review_title'];
+					}
+					if(empty($revs['review_title']))
+					{
+						$name='bigrate'.$revs['review_rate'].'png';
+						$rateimg='images/rate'.$name;
+					}
+					else
+					{
+						$rateimg='images/rate/no-rate.png';
+					}
+					if(empty($revs['review_opinion']))
+					{
+						$revop='No opinion yet';
+					}
+					else
+					{
+						$revop=$revs['review_opinion'];
+					}
+				?>
+ 
+				<a href="#"><div class="border-round">
+					<div class="images-left-panel views-field round-img<?php echo $color?>-newgeneral">
+					<img src="<?php echo $imgsrc;?>" border="0"  alt="#" style="height:120px;width:300px;"/>
+					<h6 style="padding-left:10px; margin-top:-27px;width:270px;"><?php echo $title;?></h6>
+					</div>
+				   </a> 
+					<div class="notes-panel middle-text">
+					  <div class="internal-panel">
+						<div class="panel">
+						  <p style=" position: relative; top: -50%"><?php echo $revop;?></p>
+						</div>
+					  </div>
+					</div>
+					<div class="rate-panel" align="right"><img src="<?php echo $rateimg;?>" alt="#" class="rate-img" border="0" /></div>
+				  </div>
+				  <div class="clear"></div>
+			 
 
-	/*$sql16="select cat_name, cat_banner_img from tbl_category where cat_id=".$cat_id;
-	echo $sql16;
-	$rs16=mysql_query($sql16);
-	$row16=mysql_fetch_array($rs16);
-		
-	if($row16['cat_banner_img']=="")
-	{
-		$lsrc="images/norevimage.jpg";
-	}
-	else
-	{	
-		$lsrc="review_images/".$row16['cat_banner_img'];
-	}	
-*/
-	
-  ?>
- <!-- <a href="infowall_review.php?cat_id=<?php echo $row15['review_cat_id']?>"><div class="border-round">
-    <div class="images-left-panel views-field round-img<?php echo $color?>-newgeneral">
-    <img src="<?php echo $lsrc?>" border="0"  alt="#" style="height:120px;width:300px;"/>
-    <h6 style="padding-left:10px; margin-top:-27px;width:270px;"><?php echo $row16['cat_name']?></h6>
-    </div>
-   </a> 
-    <div class="notes-panel middle-text">
-      <div class="internal-panel">
-        <div class="panel">
-          <p style=" position: relative; top: -50%"><a href="discuss_review.php?rev_id=<?php echo $row15['review_id']?>"><?php echo $row15['review_opinion']?></a></p>
-        </div>
-      </div>
-    </div>
-    <div class="rate-panel" align="right"><img src="images/rate/bigrate<?php echo $row15['review_rate']?>.png" alt="#" class="rate-img" border="0" /></div>
-  </div>
-  <div class="clear"></div>
-		    
-			-->
-		
-	
-		<?php include ("footer.php")?>
-		</div> 	
+			<?php
+					}
+				}
+			}
+			?>
+					
+<?php include ("footer.php")?>
+</div> 	
 
 

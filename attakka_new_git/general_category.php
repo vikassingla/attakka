@@ -24,6 +24,99 @@ else if($mod=="fan")
 {
 	$mod1="fan";
 }
+$adjacents = 3;
+//echo $query1;
+$total_pages = getAllReviewsOfAllCategoryTotal();
+//echo $total_pages;
+$limit = 5; 								//how many items to show per page
+@$page = $_GET['page'];
+if($page) 
+	$start = ($page - 1) * $limit; 			//first item to display on this page
+else
+	$start = 0;		
+	if ($page == 0) $page = 1;
+	//echo $pageno;					//if no page var is given, default to 1.
+		$prev = $page - 1;							//previous page is page - 1
+		$next = $page + 1;							//next page is page + 1
+		$lastpage = ceil($total_pages/$limit);		//lastpage is = total pages / items per page, rounded up.
+		$lpm1 = $lastpage - 1;	
+		$pagination = "";
+		if($lastpage > 1)
+		{	
+			$pagination .= "<div class=\"pagination\">";
+			//previous button
+			if ($page > 1) 
+				$pagination.= "<a href=\"category_detail.php&mod=$mod&page=$prev\">&laquo; </a>";
+			else
+				$pagination.= "<span class=\"disabled\">&laquo; </span>";	
+			
+			//pages	
+			if ($lastpage < 7 + ($adjacents * 2))	//not enough pages to bother breaking it up
+			{	
+				for ($counter = 1; $counter <= $lastpage; $counter++)
+				{
+					if ($counter == $page)
+						$pagination.= "<span class=\"current\">$counter</span>";
+					else
+						$pagination.= "<a href=\"general_category.php?mod=$mod&page=$counter\">$counter</a>";					
+				}
+			}
+			elseif($lastpage > 5 + ($adjacents * 2))	//enough pages to hide some
+			{
+				//close to beginning; only hide later pages
+				if($page < 1 + ($adjacents * 2))		
+				{
+					for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"general_category.php?mod=$mod&page=$counter\">$counter</a>";					
+					}
+					$pagination .= "<span class=\"elipses\">...</span>";
+					$pagination.= "<a href=\"general_category.php?mod=$mod&page=$lpm1\">$lpm1</a>";
+					$pagination.= "<a href=\"general_category.php?mod=$mod&page=$lastpage\">$lastpage</a>";		
+				}
+				//in middle; hide some front and some back
+				elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
+				{
+					$pagination.= "<a href=\"general_category.php?mod=$mod&page=1\">1</a>";
+					$pagination.= "<a href=\"general_category.php?mod=$mod&page=2\">2</a>";
+					$pagination .= "<span class=\"elipses\">...</span>";
+					for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"general_category.php?mod=$mod&page=$counter\">$counter</a>";					
+					}
+					$pagination .= "<span class=\"elipses\">...</span>";
+					$pagination.= "<a href=\"general_category.php?mod=$mod&page=$lpm1\">$lpm1</a>";
+					$pagination.= "<a href=\"general_category.php?mod=$mod&page=$lastpage\">$lastpage</a>";		
+				}
+				//close to end; only hide early pages
+				else
+				{
+					$pagination.= "<a href=\"general_category.php?mod=$mod&page=1\">1</a>";
+					$pagination.= "<a href=\"general_category.php?mod=$mod&page=2\">2</a>";
+					$pagination .= "<span class=\"elipses\">...</span>";
+					for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"general_category.php?mod=$mod&page=$counter\">$counter</a>";					
+					}
+				}
+			}
+			
+			//next button
+			if ($page < $counter - 1) 
+				$pagination.= "<a href=\"general_category.php?mod=$mod&page=$next\"> &raquo;</a>";
+			else
+				$pagination.= "<span class=\"disabled\"> &raquo;</span>";
+			$pagination.= "</div>\n";		
+		}
 
 ?>
 <div class="internal-wrapper">
@@ -102,11 +195,6 @@ var s_account="applebrglobal"
                 <li class="pb-macosx"><a href="#">Xícara</a></li>
                 
 			</ul>
-
-			
-
-			
-			
 		</div>
 	</div>
 
@@ -142,12 +230,16 @@ var s_account="applebrglobal"
   
   
   <div class="grey-round-bar heading-black">
-  <div style="padding-left:5px;"><a id="hot" style="text-decoration:none;padding-right:20px" class="<?php echo $nav1; ?>" href="general_category.php?mod=hot">HOT</a><a id="new" style="text-decoration:none; padding-right:20px;" class="<?php echo $nav2; ?>" href="general_category.php?mod=new">NEW</a> <a id="rank" style="text-decoration:none; padding-right:20px;" class="<?php echo $nav3; ?>" href="general_category.php?mod=new">RANK</a> <a id="fans" style="text-decoration:none; padding-right:20px;" class="<?php echo $nav4; ?>" href="general_category.php?mod=new">FANS</a></div> 
-  </div>
+	  <div style="padding-left:5px;float:left" id="navdiv">
+	  <a style="text-decoration:none; padding-right:20px" class="<?php if ($_GET['mod']=="hot") {echo "black-button";} else {  echo "heading-black"; } ?>" href="general_category.php?mod=hot">HOT</a> 
+	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="new") {echo "black-button";} else {  echo "heading-black"; } ?>" href="general_category.php?mod=new">NEW</a> 
+	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="rank") {echo "black-button";} else {  echo "heading-black"; } ?>" href="#">RANK</a> 
+	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="fan") {echo " black-button";} else {  echo "heading-black"; } ?>" href="#">FANS</a>
+</div> 
   
   <div class="clear"></div>
-                
-               <div class="heading-nov19">
+	<?php echo $pagination?>
+   <div class="heading-nov19">
   <h8>Name</h8>
 </div>
 
@@ -161,81 +253,80 @@ var s_account="applebrglobal"
       
       <div class="clear"></div>
   <!--row 1-->
-  <?php
-  $sql15="select review_id, review_cat_id, review_opinion, review_rate from tbl_review where review_cat_id in (select cat_id from tbl_category where cat_parent_id!=0 ) order by $mod1 DESC limit 0,9";
-  //echo $sql15;
-  $rs15=mysql_query($sql15);
-  while($row15=mysql_fetch_array($rs15))
-  {
-	$sql16="select cat_name, cat_thumb_img, cat_parent_id from tbl_category where cat_id=".$row15['review_cat_id'];
-	//echo $sql16;
-	$rs16=mysql_query($sql16);
-	$row16=mysql_fetch_array($rs16);
-	if($row15['review_rate']>0)
-	{
-		$color="red";  
-	} 
-	else
-	{
-		$color="black";
-	}	
-	if($row16['cat_thumb_img']=="")
-	{
-		$lsrc="images/norevimage.jpg";
-	}
-	else
-	{	
-		$lsrc="cat_images/".$row16['cat_thumb_img'];
-	}	
-	/*if($row16['cat_thumb_img']=="")
-	{
-		$lsrc="images/norevimage.jpg";
-	}
-	else
-	{	
-		$lsrc="cat_images/".$row16['cat_thumb_img'];
-	}*/	
-	$rate=$row15['review_opinion'];
-	if($rate=="-0")
-	{
-		$rate="0";
-	}	
-	$sql17="select cat_parent_id, cat_img, cat_thumb_img from tbl_category where cat_id=".$row16['cat_parent_id'];
-	//echo $sql17;
-	$rs17=mysql_query($sql17);
-	$row17=mysql_fetch_array($rs17);
-	if($row17['cat_parent_id']=="0")
-	{
-		$ssrc="uploads/".$row17['cat_img'];
-	}
-	else
-	{
-		$ssrc="cat_images/".$row17['cat_img'];
-	}	
-  ?>
-  <a href="infowall_review.php?cat_id=<?php echo $row15['review_cat_id']?>"><div class="border-round">
-    <div class="images-left-panel views-field round-img<?php echo $color?>-newgeneral">
-    <img src="<?php echo $lsrc?>" border="0"  alt="#" style="height:120px;width:300px;"/>
-    <h6 style="padding-left:80px; margin-top:-27px;"><?php echo $row16['cat_name']?></h6>
-    </div>
-    <div class="top-image-panel"><img src="<?php echo $ssrc?>" alt="#"  border="0" style="width:53px;height:53px;background-color:#ffffff"/></div>
-    <div class="notes-panel middle-text">
-      <div class="internal-panel">
-        <div class="panel">
-          <p style=" position: relative; top: -50%"><a href="discuss_review.php?rev_id=<?php echo $row15['review_id']?>"><?php echo $row15['review_opinion']?></a></p>
-        </div>
-      </div>
-    </div>
-    <div class="rate-panel" align="right"><img src="images/rate/bigrate<?php echo $row15['review_rate']?>.png" alt="#" class="rate-img" border="0" /></div>
-  </div></a>
-  <div class="clear"></div>
-		    
-			
-		<?php
-		
-		}
-			
-		?>	
+			  <?php
+			    $getAll=getAllReviewsOfAllCategory($start,$limit,$mod);
+			     //echo '<pre>';
+			     //print_r($getAll);die;
+			     if (count($getAll)>0)
+			     {
+					foreach($getAll as $revs)
+					{
+						$reviewImg='review_images/'.$revs['review_img'];
+						$catImg='review_images/'.$revs['cat_img'];
+						//echo $reviewImg."<br>";
+						if(empty($revs['review_img']) || !file_exists($reviewImg))
+						{
+							$imgsrc='images/norevimage.jpg';
+						}
+						else
+						{
+							$imgsrc='review_images/'.$revs['review_img'];
+						}
+						if(empty($revs['cat_img']) || !file_exists($catImg))
+						{
+							$catsrc='images/norevimage.jpg';
+						}
+						else
+						{
+							$catsrc='review_images/'.$revs['cat_img'];
+						}
+						if(empty($revs['review_title']))
+						{
+							$title='No title';
+						}
+						else
+						{
+							$title=$revs['review_title'];
+						}
+						if(empty($revs['review_title']))
+						{
+							$name='bigrate'.$revs['review_rate'].'png';
+							$rateimg='images/rate'.$name;
+						}
+						else
+						{
+							$rateimg='images/rate/no-rate.png';
+						}
+						if(empty($revs['review_opinion']))
+						{
+							$revop='No opinion yet';
+						}
+						else
+						{
+							$revop=$revs['review_opinion'];
+						}
+					?>
+				  <a href="infowall_review.php?cat_id=<?php echo $revs['review_cat_id']?>"><div class="border-round">
+					<div class="images-left-panel views-field round-img<?php echo $color?>-newgeneral">
+					<img src="<?php echo $imgsrc;?>" border="0"  alt="#" style="height:120px;width:300px;"/>
+					<h6 style="padding-left:80px; margin-top:-27px;"><?php echo $revs['cat_name']?></h6>
+					</div>
+					<div class="top-image-panel"><img src="<?php echo $catsrc;?>" alt="#"  border="0" style="width:53px;height:53px;background-color:#ffffff"/></div>
+					<div class="notes-panel middle-text">
+					  <div class="internal-panel">
+						<div class="panel">
+						  <p style=" position: relative; top: -50%"><a style="color: #383838; font-family: 'CalibriRegular';font-size: 18px;line-height: 28px;text-decoration:none;" href="#"><?php echo $revs['review_opinion']?></a></p>
+						</div>
+					  </div>
+					</div>
+					<div class="rate-panel" align="right"><img src="<?php echo $rateimg;?>" alt="#" class="rate-img" border="0" /></div>
+				  </div></a>
+				  <div class="clear"></div>
+				
+				<?php
+				  }
+				}
+				?>	
 		
 <?php include ("footer.php")?>
 </div> 	

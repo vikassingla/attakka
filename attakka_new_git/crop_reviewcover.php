@@ -65,29 +65,40 @@
       });
       //--><!]]>
       
-function close_popup_cover_corp1()
+function close_popup_cover_corp()
 { 
 	parent.document.getElementById('popup_cover_corp').style.display="none";
 }
       
 function setCoverPhoto()
 {
+	//alert('fdsfsdfsdfdsfdsfdsfds');return false;
+	//var getImageName="<?php if(isset($_GET['file'])) { echo 'new'.$_GET['file'];} ?>";
+	//parent.document.getElementById('b990_image').value=getImageName;
+	parent.document.getElementById('popup_cover_corp').style.display='none';
+	parent.document.getElementById('bgMain').style.display='none';
+	//alert(getImageName);return false;
+	//parent.document.getElementById('review_cover').innerHTML='';
+	//parent.document.getElementById('review_cover').innerHTML='<img  src="review_images/'+getImageName+'" alt="" class="image-border" />';
 	document.getElementById('coverfrm').submit();
+		//alert(parent.document.getElementById('review_cover').innerHTML);
+	//alert(parent.docucloasement.getElementById('review_cover').src='review_images/'+getImageName);
+	
+	
 }      
 function show_options(name)
 {
 	//parent.document.getElementById('popup_cover_corp').style.display="none";
 	//parent.show_other_image(name);
-	//parent.show_other_image(name);
-	parent.document.getElementById('editCoverPicturebodyfrm').src = 'crop_image_view.php?file='+name;
+	parent.show_other_image(name);
+	//parent.document.getElementById('editCoverPicturebodyfrm').src = 'crop_image_view.php?file='+name;
 }   
 
 function upload_file1()
 {
-	alert("i");
-	document.form2.action='image_crop/uploadfile.php';
+	document.form2.action='image_crop/uploadfile_review.php';
 	document.form2.target='editCoverPicturebodyfrm';
-	parent.document.getElementById('editCoverPicturebodyfrm').src = 'image_crop/uploadfile.php';
+	parent.document.getElementById('editCoverPicturebodyfrm').src = 'image_crop/uploadfile_review.php';
 
 	document.form2.submit();
 }
@@ -172,15 +183,9 @@ function upload_file1()
 </head>
 <body>
 
-
 	<div style="margin-bottom:0px;width:1026px;height:30px;">
 	<div style="float:left;width:300px;height:auto;margin-left:250px;">
-	<img src="images/step1.png" style="float:left;margin-right:5px;"><span class="crop_heading_a" style="margin-top:2px;">Select Banner Image</span>
-	</div>
-	<div style="float:left;width:300px;height:auto;">
-	<img src="images/step2.png" style="margin-left:50px; float:left;margin-right:5px;opacity:0.4;"><span class="crop_heading" style="margin-top:5px;width:auto;float:left;">Select Mosaic Image</span>
 	
-	</div>
 	<div class="clear"></div>
 	</div>
 <div class="clear"></div>
@@ -212,13 +217,13 @@ function upload_file1()
 					<div id="zoom_out" style="float:left;width:85px;height:85px;background:url(images/zoom_out.png);background-size:85px 85px;cursor:pointer;"></div>
 				
 					<div id="cancel" style="float:right;width:73px;height:33px;background:url(images/cancel.png);background-size:73px 33px;cursor:pointer;" onclick="close_popup_cover_corp1();"></div>
-					<div class="crop_button" style="float:right;"><a href="#" style="text-decoration:none;" onclick="setCoverPhoto();">Next</a></div>
+					<div class="crop_button" style="float:right;"><a href="#" style="text-decoration:none;" onclick="setCoverPhoto();">Done</a></div>
 				
 				</div>
 			</div>
 
-			<iframe id="cropeimageiframe" frameborder="0" width="0" src="image_crop/uploadfile.php" height="0" src="image_crop/uploadfile.php" name="cropeimageiframe" scrolling="no"></iframe>
-			 <form name="coverfrm" id="coverfrm" method="post" target="cropeimageiframe" action="image_crop/uploadfile.php">
+			<iframe id="cropeimageiframe" frameborder="0" width="0" src="image_crop/uploadfile_review.php" height="0" src="image_crop/uploadfile_review.php" name="cropeimageiframe" scrolling="no"></iframe>
+			 <form name="coverfrm" id="coverfrm" method="post" target="cropeimageiframe" action="image_crop/uploadfile_review.php">
 			  <table class="coords" style="display:none;">
 				<tr><td><input type="text" id="crop_x" name="crop_x" /></td></tr>
 				<tr><td><input type="text" id="crop_y" name="crop_y"/></td></tr>

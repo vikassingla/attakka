@@ -425,26 +425,18 @@ header("Location:create_rev.php?msg=susub");
 /*********************Create from pic review*********************************/
 if(isset($_POST['create_review']))
 {
-	/*echo "<pre>";
-	print_r($_POST);*/
+	//
+	//echo "<pre>";
+	//print_r($_POST);die;
 	extract($_POST);
 	$date=date('Y-m-d');
+	$reviewRating=$_POST['rate'][0];
 	$opintitle1=addslashes($opintitle);
-	$revtitle1=addslashes($revtitle);
-	$sql="INSERT INTO tbl_review (
-review_cat_id,review_title,review_opinion,review_created_by ,review_created_date,review_rate ,review_active
-) values ('$cat_id', '$opintitle', '$revtitle', '$user_id', '$date', '$rate', 1)";
-echo $sql;
-mysql_query($sql);
-header("Location:create_rev.php?cat_id=$cat_id&msg=susub");
-			
-
 	$destitle1=addslashes($destitle);
-	$ins=createRev($review_id,$opintitle1,$destitle1,$user_id,$date,$rate);
-	echo $ins;
+	$ins=createRev($review_id,$opintitle1,$destitle1,$user_id,$date,$reviewRating,$b990_image);
 	if($ins)
 	{
-		header("Location:create_rev.php?cat_id=$cat_id&msg=susub");
+		header("Location:review_detail.php?review_id=$review_id");
 	}		
 
 }
@@ -483,6 +475,7 @@ if(isset($_GET['uid']) && isset($_GET['firstname']) && isset($_GET['lastname']) 
 	$fname=$_GET['firstname'];
 	$lname=$_GET['lastname'];
 	$queryfb='select user_id from tbl_user where user_email ="'.$email.'" or facebook_id	='.$uid.'';
+	
 	$resultfb=mysql_query($queryfb);
 	if(mysql_num_rows($resultfb) > 0)
 	{

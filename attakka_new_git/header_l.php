@@ -1,6 +1,8 @@
 <?php
 require("config.php");
+
 session_start();
+
 require("xajax/xajax_library.php");
 $objXajax= new Xajax();
 $objXajax->registerFunction("friend");
@@ -372,18 +374,21 @@ if(isset($_SESSION['user_id']))
 {
 	$sql="select user_firstname, user_lastname,user_country, account_image, profile_image, facebook_id from tbl_user where user_id=".@$_SESSION['user_id'];
 }
-
-$rs=mysql_query($sql);
-$rown=mysql_fetch_array($rs);
-if($rown['facebook_id']=="")
+else
 {
-	if($rown['account_image']!='')
+	$sql="select user_firstname, user_lastname,user_country, account_image, profile_image, facebook_id from tbl_user where user_id=0";
+}
+$rs=mysql_query($sql);
+$row=mysql_fetch_array($rs);
+if($row['facebook_id']=="")
+{
+	if($row['account_image']!='')
 	{
-		$src="uploads/".$rown['account_image'];
+		$src="uploads/".$row['account_image'];
 		
 		if(file_exists($src))
 		{
-			$src="uploads/".$rown['account_image'];
+			$src="uploads/".$row['account_image'];
 		}
 		else
 		{
@@ -398,35 +403,35 @@ if($rown['facebook_id']=="")
 }
 else
 {
-	if($rown['account_image']!='')
+	if($row['account_image']!='')
 	{
-		$src="uploads/".$rown['account_image'];
+		$src="uploads/".$row['account_image'];
 		if(file_exists($src))
 		{
-			$src="uploads/".$rown['account_image'];
+			$src="uploads/".$row['account_image'];
 		}
 		else
 		{
-			$src="http://graph.facebook.com/".$rown['facebook_id']."/picture?width=60&height=60";
+			$src="http://graph.facebook.com/".$row['facebook_id']."/picture?width=60&height=60";
 		}
 	}
 	else
 	{
-		$src="http://graph.facebook.com/".$rown['facebook_id']."/picture?width=60&height=60";
+		$src="http://graph.facebook.com/".$row['facebook_id']."/picture?width=60&height=60";
 	}	
 }	
 
 $thumb_w='';
 $thumb_h='';
 
-if($rown['facebook_id']=="")
+if($row['facebook_id']=="")
 {
-	if($rown['profile_image']!='')
+	if($row['profile_image']!='')
 	{
-		$src1="uploads/".$rown['profile_image'];
+		$src1="uploads/".$row['profile_image'];
 		if(file_exists($src1))
 		{
-			$src1="uploads/".$rown['profile_image'];
+			$src1="uploads/".$row['profile_image'];
 		}
 		else
 		{
@@ -440,14 +445,14 @@ if($rown['facebook_id']=="")
 }
 else
 {
-	if($rown['profile_image']!='')
+	if($row['account_image']!='')
 	{
-		$src1="uploads/".$rown['profile_image'];
+		$src1="uploads/".$row['profile_image'];
 	}
 	else
 	{
 		//$src1="http://graph.facebook.com/".$row['facebook_id']."/picture?width=60&height=60";
-		$src1="http://graph.facebook.com/".$rown['facebook_id']."/picture?type=large";
+		$src1="http://graph.facebook.com/".$row['facebook_id']."/picture?type=large";
 		
 		list($width, $height, $type, $attr) = @getimagesize($src1);
 															   
@@ -639,8 +644,6 @@ function suggest(inputString){
 	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 	<script type="text/javascript" src="chromejs/chrome.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
-
 <link rel="stylesheet" type="text/css" href="css/chromestyle.css" />
 <!--dropdown menu end-->
 <!--slider-files-->
@@ -669,9 +672,28 @@ span a
 }	
 </style>
 
+
+
 <script type="text/javascript" src="chromejs/chrome.js"></script>
 <link rel="stylesheet" type="text/css" href="css/chromestyle.css" />
-
+<!--dropdown menu end-->
+<!--slider-files-->
+	<script src="global/scripts/lib/prototype.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://images.apple.com/global/scripts/lib/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
+	<script src="global/scripts/browserdetect.js" type="text/javascript" charset="utf-8"></script>
+	<script src="global/scripts/apple_core.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="global/styles/base.css" type="text/css" />
+    <link rel="stylesheet" href="global/styles/productbrowser-style27-nov.css" type="text/css" />
+	
+	<script type="text/javascript">
+		document.write('<style type="text/css">.productbrowser { opacity:0; }<\/style>');
+		if (AC.Detector.isCSSAvailable('transition')) {
+			document.write('<link rel="stylesheet" href="global/styles/reveal.css" type="text/css" />');
+		}
+	</script>
+<!--slider-files-->
+<!-- stylesheets -->
+<link rel="stylesheet" href="css/style-fresh.css" type="text/css" media="screen" />
 </head>
 <body>
 <?php print $objXajax->getjavascript(SITE_URL."xajax",'xajax.js')?>
@@ -694,12 +716,6 @@ span a
       
       <!--1st drop down menu -->
       <div id="dropmenu1" class="dropmenudiv" style="position:absolute; z-index:2;"> 
-		<!--
-		<a href="infowall.php" title="Info Wall">- Info Wall</a>
-		<a href="movies-categories.html" title="Movies">- Movies</a>
-		<a href="general_category.php" title="General">- General</a>
-		-->
-		
 		<?php
 		
 			if(isset($_SESSION['user_id']))
@@ -822,7 +838,7 @@ background-repeat:no-repeat;
 	</style>
 	
 <div class="views-field topuser-img"><a href="user_page.php"><img alt="" src="<?php echo $src;?>" style="width:60px;height:60px;"></a></div>
-<div class="name-panel top-user-name"><a href="user_page.php"><?php echo $rown['user_firstname']." ".$rown['user_lastname']?></a><br />
+<div class="name-panel top-user-name"><a href="user_page.php"><?php echo $row['user_firstname']." ".$row['user_lastname']?></a><br />
  <div class="suggestionsBox" id="suggestions" style="display: none;margin-left:267px"> <img src="images/arrow1.png" style="position: relative; top: -13px; left: 10px;" alt="upArrow" />
  <div class="suggestionList" id="suggestionsList"> &nbsp; </div>
  </div>

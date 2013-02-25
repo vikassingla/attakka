@@ -151,9 +151,9 @@ background-repeat:no-repeat;
 
 <meta name='robots' content='noindex,nofollow' />
 
-<script type='text/javascript' src='jquery/jquery.js?ver=1.7.2'></script>
+<!--<script type='text/javascript' src='jquery/jquery.js?ver=1.7.2'></script>
 <script type='text/javascript' src='jquery/jquery.prettyPhoto.js?ver=3.4'></script>
-<script type='text/javascript' src='jquery/custom.js?ver=3.4'></script>
+<script type='text/javascript' src='jquery/custom.js?ver=3.4'></script>-->
 
 
 
@@ -270,24 +270,24 @@ background-repeat:no-repeat;
  ?>
   </div>
   <div class="clear"></div>
-<div class="logo"><a href="index.php"><img src="images/logo-attakka1.png" alt="#" border="0" style="margin-top:20px;margin-left:-110px;" /></a></div>
+<div class="logo"><a href="index.php"><img src="images/logo-attakka1.png" alt="#" border="0" style="margin-top:32px;margin-left:-110px;" /></a></div>
   <div class="clear"></div>
   <div class="search-back">
   <form action="main.php" method="POST" style="background:none;">
     <input name="search" id="search" onkeyup="suggest(this.value);" onblur="fill();" type="text" class="search-input" placeholder="Search"/>
- <input type="submit" class="search" value="" > <a href="create_rev.php"><img src="images/review-btrn.png" alt="#" style="margin-top:19px;" border="0" /></a></div>
+ <input type="button" class="search" value="" > <a href="create_rev.php"><img src="images/review-btrn.png" alt="#" style="margin-top:19px;" border="0" /></a></div>
 
- <?php
-                if (isset($_GET['msg'])=='veracc')
-                {
-					$msg1="A verification link has been sent to your email. Please click there to login and activate your account.";
-					echo '<div class="white-wrapper-error" style="width:800px;margin-left:300px">'.$msg1.'</div>';
-				}
-				
-				$sql9="select cat_id from tbl_category group by cat_id ORDER BY cat_id DESC limit 0,4";
-//echo $sql;
-$rs9=mysql_query($sql9);
-//echo mysql_num_rows($rs);
+<?php
+			if (isset($_GET['msg'])=='veracc')
+			{
+				$msg1="A verification link has been sent to your email. Please click there to login and activate your account.";
+				echo '<div class="white-wrapper-error" style="width:800px;margin-left:300px">'.$msg1.'</div>';
+			}
+			
+			$sql9="select cat_id from tbl_category group by cat_id ORDER BY cat_id DESC limit 0,4";
+			//echo $sql;
+			$rs9=mysql_query($sql9);
+			//echo mysql_num_rows($rs);
 
 ?>
  
@@ -300,14 +300,21 @@ $rs9=mysql_query($sql9);
 					<div class="leftpanel-content">GENERAL</div>
 					
 					<?php	
-				$sql12="select review_id, review_title from tbl_review ORDER BY review_id DESC limit 0,5";
+				$sql12="select review_id, review_img, review_title from tbl_review ORDER BY review_id DESC limit 0,5";
 				//echo $sql11;
 				$rs12=mysql_query($sql12);
 				
-					print '<div class="content-panel-new">';
+				print '<div class="content-panel-new">';
 				while($row12=mysql_fetch_assoc($rs12))
 				{
-				$src="images/norevimage.jpg";
+					if($row12['review_img']!="" && file_exists('review_images/'.$row12['review_img']))
+					{
+						$src='review_images/'.$row12['review_img'];
+					}
+					else
+					{
+						$src="images/norevimage.jpg";
+					}
 				$sql14="SELECT count(review_rate) as num,SUM(review_rate) as rate FROM tbl_review_map where review_id=".$row12['review_id'];
 				//echo $sql14;
 				$rs14=mysql_query($sql14);
@@ -336,9 +343,9 @@ $rs9=mysql_query($sql9);
 				</div>
 				<div class="homepanel-right"><img src="<?php echo $img10;?>" /></div>
 				<div class="clear"></div>
-						<?php
-					}
-					?>
+				<?php
+				}
+				?>
 				</div>
 				</div>
 				</a>
@@ -347,12 +354,11 @@ $rs9=mysql_query($sql9);
 				while($row9=mysql_fetch_assoc($rs9))
 				{
 				$sql4="select cat_name,cat_banner_img from tbl_category where cat_id=".$row9['cat_id'];
-					//echo $sql4;
 				$rs4=mysql_query($sql4);
 				$row4=mysql_fetch_array($rs4);
-				if(file_exists('review_images/'.$row4['cat_banner_img']))
+				if(file_exists('uploads/'.$row4['cat_banner_img']))
 				{
-					$image='review_images/'.$row4['cat_banner_img'];
+					$image='uploads/'.$row4['cat_banner_img'];
 				}
 				else
 				{
@@ -365,52 +371,63 @@ $rs9=mysql_query($sql9);
 					<span class='sliderheading'>
 				 </span>
 				 </span>				
-					<div style="background:url(uploads/<?php echo $image?>) no-repeat; width:700px; height:370px;">
+					<div style="background:url(<?php echo $image?>) no-repeat; width:700px; height:370px;">
 					<div class="leftpanel-content"><?php echo $row4['cat_name']?></div>
 				 
 				
 				<?php	
-				$sql15="select review_id, review_title from tbl_review where review_cat_id=".$row9['cat_id']." ORDER BY review_id DESC limit 0,5";
+				$sql15="select review_id, review_img, review_title from tbl_review where review_cat_id=".$row9['cat_id']." ORDER BY review_id DESC limit 0,5";
 				//echo $sql11;
 				$rs15=mysql_query($sql15);
 				if(mysql_num_rows($rs15)>0)
 				{
+					
 					print '<div class="content-panel-new">';
-				while($row15=mysql_fetch_assoc($rs15))
-				{
-				$src="images/norevimage.jpg";
-				$sql17="SELECT count(review_rate) as num,SUM(review_rate) as rate FROM tbl_review_map where review_id=".$row15['review_id'];
-				$rs17=mysql_query($sql17);
-				$row17=mysql_fetch_array($rs17);
-				if($row17['num']=="0")
-				{
-					$img11="images/rate/no-rate2.png";
-				}
-				else
-				{	
-					$rate1=$row17['rate'];
-					$no1=$row17['num'];
-					//echo $rate." ".$no;
-					$avg_rate1=ceil($rate1/$no1);
-					if($avg_rate1=="-0")
+					while($row15=mysql_fetch_assoc($rs15))
 					{
-						$avg_rate1="0";
+					if($row15['review_img']!="" && file_exists('review_images/'.$row15['review_img']))
+					{
+						$src1='review_images/'.$row15['review_img'];
 					}
-					//echo $avg_rate;
-					$img11="images/rate/smallrate".$avg_rate1.".png";
-				}	
-				?>
-				
-					<div class="homepanel-left"><img src="<?php echo $src?>" alt="#" />
+					else
+					{
+						$src1="images/norevimage.jpg";
+					}
+					$sql17="SELECT count(review_rate) as num,SUM(review_rate) as rate FROM tbl_review_map where review_id=".$row15['review_id'];
+					$rs17=mysql_query($sql17);
+					if(mysql_num_rows($rs17)>0)
+					{
+						$row17=mysql_fetch_array($rs17);
+					}
+					if($row17['num']=="0")
+					{
+						$img11="images/rate/no-rate2.png";
+					}
+					else
+					{	
+						$rate1=$row17['rate'];
+						$no1=$row17['num'];
+						//echo $rate." ".$no;
+						$avg_rate1=ceil($rate1/$no1);
+						if($avg_rate1=="-0")
+						{
+							$avg_rate1="0";
+						}
+						//echo $avg_rate;
+						$img11="images/rate/smallrate".$avg_rate1.".png";
+					}	
+					?>
+					
+					<div class="homepanel-left"><img src="<?php echo $src1?>" alt="#" />
 					<div class="nametop-heading-box-horror-small1"><?php echo $row15['review_title']?>
-				</div>
-				</div>
-					<div class="homepanel-right"><img src="<?php echo $img11?>" />
-				</div>
-					<div class="clear">
-				</div>
-				<?php
-				}
+					</div>
+					</div>
+						<div class="homepanel-right"><img src="<?php echo $img11?>" />
+					</div>
+						<div class="clear">
+					</div>
+					<?php
+					}
 				}
 				else
 				{
@@ -427,61 +444,63 @@ $rs9=mysql_query($sql9);
 					<a href="all_category.php">
 					<span class='feature_excerpt'>
 					<span class='sliderheading'>
-				</span>
-				</span>				
+					</span>
+					</span>				
 					<div style="background:url(images/black-city.png) no-repeat; width:700px; height:370px;">
 					<div class="leftpanel-content">MOSAIC</div>
-				
-				<div class="content-panel-new">
-				<?php
-				$sql10="select cat_id, cat_name, cat_banner_img from tbl_category group by cat_id ORDER BY cat_id DESC limit 0,5";
-				//echo $sql;
-				$rs10=mysql_query($sql10);
-				
-				while($row10=mysql_fetch_assoc($rs10))
-				{
-				
-					$src="review_images/".$row10['cat_banner_img'];
-					$sql13="select count(b.review_rate) as num, sum(b.review_rate) as sum from tbl_review a, tbl_review_map b where a.review_id=b.review_id and review_cat_id=".$row10['cat_id'];
-					$rs13=mysql_query($sql13);
-					$row13=mysql_fetch_array($rs13);
-					if($row13['num']=="0")
-					{
-						$img12="images/rate/no-rate2.png";
-					}
-					else
-					{	
-						$rate=$row13['sum'];
-						$no=$row13['num'];
-						//echo $rate." ".$no;
-						$avg_rate=ceil($rate/$no);
-						if($avg_rate=="-0")
-						{
-							$avg_rate="0";
-						}
-						//echo $avg_rate;
-						$img12="images/rate/smallrate$avg_rate.png";
-					}
-					//echo $rate;
-					?>
-					<div class="homepanel-left">
-						<img src="<?php echo $src?>" alt="#" />
-						<div class="nametop-heading-box-horror-small1">
-						<?php echo $row10['cat_name']?>
-					</div>
-					</div>
-					<div class="homepanel-right">
-						<img src= <?php echo $img12?> />
-					</div>
-					<div class="clear">
-						</div>
+					
+					<div class="content-panel-new">
 					<?php
-					}
-				?>
-				</div>
-				</div>
-				</a>
-				</li>
+					$sql10="select cat_id, cat_name, cat_banner_img from tbl_category group by cat_id ORDER BY cat_id DESC limit 0,5";
+					//echo $sql;
+					$rs10=mysql_query($sql10);
+					if(mysql_num_rows($rs10)>0)
+					{
+						while($row10=mysql_fetch_assoc($rs10))
+						{
+						
+							$src="review_images/".$row10['cat_banner_img'];
+							$sql13="select count(b.review_rate) as num, sum(b.review_rate) as sum from tbl_review a, tbl_review_map b where a.review_id=b.review_id and review_cat_id=".$row10['cat_id'];
+							$rs13=mysql_query($sql13);
+							$row13=mysql_fetch_array($rs13);
+							if($row13['num']=="0")
+							{
+								$img12="images/rate/no-rate2.png";
+							}
+							else
+							{	
+								$rate=$row13['sum'];
+								$no=$row13['num'];
+								//echo $rate." ".$no;
+								$avg_rate=ceil($rate/$no);
+								if($avg_rate=="-0")
+								{
+									$avg_rate="0";
+								}
+								//echo $avg_rate;
+								$img12="images/rate/smallrate$avg_rate.png";
+							}
+							//echo $rate;
+							?>
+							<div class="homepanel-left">
+								<img src="<?php echo $src?>" alt="#" />
+								<div class="nametop-heading-box-horror-small1">
+								<?php echo $row10['cat_name']?>
+							</div>
+							</div>
+							<div class="homepanel-right">
+								<img src= <?php echo $img12?> />
+							</div>
+							<div class="clear">
+								</div>
+							<?php
+							}
+						}
+					?>
+					</div>
+					</div>
+					</a>
+					</li>
 				</ul>
 				 </div>
 			</div>
