@@ -1,6 +1,7 @@
 <?php
 session_start();
-
+//echo "<pre>";
+//print_r($_POST);
 if(isset($_POST['uploadfile']) && $_POST['uploadfile']=='yes')
 {
 	
@@ -10,13 +11,23 @@ if(isset($_POST['uploadfile']) && $_POST['uploadfile']=='yes')
 	if ((($_FILES["file"]["type"] == "image/gif") 	|| ($_FILES["file"]["type"] == "image/jpeg") 	|| ($_FILES["file"]["type"] == "image/png") 	|| ($_FILES["file"]["type"] == "image/pjpeg")) 	&& in_array($extension, $allowedExts) )
 	{
 
-		$fname = $_FILES["file"]["name"];
+		/*$fname = $_FILES["file"]["name"];
+		$ftype = $_FILES["file"]["type"];
+		$ftname = $_FILES["file"]["tmp_name"];*/
+		$fname =  preg_replace('/\s*[\( \) \_]/', '', $_FILES["file"]["name"]);
+		$lastDot = strrpos($fname, ".");
+		$fname = str_replace(".", "", substr($fname, 0, $lastDot)) . substr($fname, $lastDot);
 		$ftype = $_FILES["file"]["type"];
 		$ftname = $_FILES["file"]["tmp_name"];
-		$fname = date('mdyhis').$fname;
+		
+		
+		
+		//$fname = date('mdyhis').$fname;
 		if(move_uploaded_file($ftname,      "../uploads/" . $fname ))
 		{
 			$_SESSION['upload_file'] = $fname;
+			
+
 			print '<script>parent.show_croper("'.$fname.'");</script>';
 		}
 		
@@ -33,30 +44,39 @@ if(isset($_POST['uploadfilenew']) && $_POST['uploadfilenew']=='newfile')
 	
 	$allowedExts = array("jpg", "jpeg", "gif", "png");
 	$extension = end(explode(".", $_FILES["uploadnewfile"]["name"]));
-	
+
 	if ((($_FILES["uploadnewfile"]["type"] == "image/gif") 	|| ($_FILES["uploadnewfile"]["type"] == "image/jpeg") 	|| ($_FILES["uploadnewfile"]["type"] == "image/png") 	|| ($_FILES["uploadnewfile"]["type"] == "image/pjpeg")) 	&& in_array($extension, $allowedExts) )
 	{
 
 		$fname = $_FILES["uploadnewfile"]["name"];
 		$ftype = $_FILES["uploadnewfile"]["type"];
 		$ftname = $_FILES["uploadnewfile"]["tmp_name"];
-		$fname = date('mdyhis').$fname;
+		
+		$oldfilename = $_POST['oldfilename'];
+		$n=substr($oldfilename,0,3);
+		if($n=="old")
+		{
+			$fname=$oldfilename;
+		}
+		else
+		{	
+			$fname = 'old'.$oldfilename;
+		}	
 		if(move_uploaded_file($ftname,      "../uploads/" . $fname ))
 		{
 			$_SESSION['upload_file'] = $fname;
 			print '<script>parent.show_croper2("'.$fname.'");</script>';
 		}
-		
 	}
 	else
 	{
 		echo "Invalid file";
 	}	
 	  
-	  
 }
 if(isset($_POST['cropefile']) && $_POST['cropefile']='yes')
 {
+	session_start();
 	$upload_path = '../uploads/';
 	$target_path = '../review_images/';
 	$crop_x = $_POST['crop_x'];
@@ -75,6 +95,7 @@ if(isset($_POST['cropefile']) && $_POST['cropefile']='yes')
 	if(isset($_POST['small_image']))
 	{
 		$thumb = 'thumb_';
+		
 	}
 	else
 	{
@@ -84,7 +105,6 @@ if(isset($_POST['cropefile']) && $_POST['cropefile']='yes')
 	
 	$source_image = $upload_path.$name;
 	$target_image = $target_path.$thumb.$name;
-	
 	
 	$crop_area = array('top' => $crop_y, 'left' => $crop_x, 'height' => $crop_height, 'width' => $crop_width);
 	

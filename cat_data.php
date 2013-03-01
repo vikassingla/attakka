@@ -2,56 +2,48 @@
 
 require("config.php");
 session_start();
-$con= mysql_connect(DB_HOST, DB_USER_NAME,DB_PASSWORD); 
-if(!$con)
+if($_GET['type']=='all')
 {
-	die('Could not connect: ' . mysql_error());
-}	
-mysql_select_db(DB_NAME);
-
-if(isset($_GET['type']) && $_GET['type']=='all')
-{
-	$sql="select cat_id, cat_name from tbl_category where cat_active=1 and cat_parent_id=0 order by cat_id desc";
+	$sql="select review_id, review_title from tbl_review where review_cat_id=".$_GET['cat_id']." order by review_id desc";
+	//echo $sql;die;
 	$rs=mysql_query($sql);
 	if(mysql_num_rows($rs)>0)
 	{
 		while($row=mysql_fetch_array($rs))
 		{
-			print '<div id="catnamediv'.$row['cat_id'].'" style="background-color:#fff;color: #515252;    padding-left: 4px; padding-top: 4px;  font-family: \'CalibriRegular\';     font-size: 14px; border-bottom: 1px solid #E4E2E2;  float: left;     height:21px;     width: 244px;cursor:pointer;" onmouseover="setCatColor('.$row['cat_id'].');" onmouseout="hideCatColor('.$row['cat_id'].');" onclick="setCatText(\''.$row['cat_name'].'\','.$row['cat_id'].');">'.$row['cat_name'].'</div>';
+			print '<div id="catnamediv'.$row['review_id'].'" class="rev_div" onmouseover="setCatColor('.$row['review_id'].');" onmouseout="hideCatColor('.$row['review_id'].');" onclick="setCatText(\''.$row['review_title'].'\','.$row['review_id'].');">'.$row['review_title'].'</div>';
 		}
-
 	}
-	else
-	{
-		print '<div style="background-color:#fff;color: #515252;    padding-left: 4px; padding-top: 4px;  font-family: \'CalibriRegular\';     font-size: 14px; border-bottom: 1px solid #E4E2E2;  float: left;     height:21px;     width: 244px;cursor:pointer;" >No data found.</div>';
-		
-	}
+	//die('hereeee');
 }
-else
+else if($_GET['type']=='bytxt')
 {
-	if(isset($_GET['cat']))
-	{
-		$cat = $_GET['cat'];
-		$sql="select cat_id, cat_name from tbl_category where cat_name like '%$cat%' and cat_active=1 and cat_parent_id=0 order by cat_id desc";
-	}
-	else
-	{
-		$sql="select cat_id, cat_name from tbl_category where cat_active=1 and cat_parent_id=0 order by cat_id desc";
-	}
+	//echo 'ddddddd'.$_GET['reviewtitle'];
+	//echo "M IN ELSE".$_GET['type'];die;
+	//echo '<pre>';
+	//print_r($_POST);die;
+	$catid=$_GET['cat_id'];
+	$cat = $_GET['reviewtitle'];
+	$sql="select review_id, review_title from tbl_review where review_title like '%$cat%' and review_cat_id='".$_GET['cat_id']."'  order by review_id desc";
+	//echo $sql;
+	
 	$rs=mysql_query($sql);
 	if(mysql_num_rows($rs)>0)
 	{
 		while($row=mysql_fetch_array($rs))
 		{
-			print '<div id="catnamediv'.$row['cat_id'].'" style="background-color:#fff;color: #515252;    padding-left: 4px; padding-top: 4px;  font-family: \'CalibriRegular\';     font-size: 14px; border-bottom: 1px solid #E4E2E2;  float: left;     height:21px;     width: 244px;cursor:pointer;" onmouseover="setCatColor('.$row['cat_id'].');" onmouseout="hideCatColor('.$row['cat_id'].');" onclick="setCatText(\''.$row['cat_name'].'\','.$row['cat_id'].');">'.$row['cat_name'].'</div>';
+			print '<div id="catnamediv'.$row['review_id'].'" class="rev_div" onmouseover="setCatColor('.$row['review_id'].');" onmouseout="hideCatColor('.$row['review_id'].');" onclick="setCatText(\''.$row['review_title'].'\','.$row['review_id'].');">'.$row['review_title'].'</div>';
 		}
 
 	}
 	else
 	{
-
-		print '<div style="background-color:#fff;color: #515252;    padding-left: 4px; padding-top: 4px;  font-family: \'CalibriRegular\';     font-size: 14px; border-bottom: 1px solid #E4E2E2;  float: left;     height:21px;     width: 244px;cursor:pointer;" >No data found.</div>';
+		//echo 'GET VALUE IS '.$_GET['create_flag'];die;
+		$newId=100001;
+		if(!empty($cat))
+		{
+			print '<div id="catnamediv'.$newId.'" class="rev_div" onmouseover="setCatColor('.$newId.');" onmouseout="hideCatColor('.$newId.');" onclick="addNewReview();">'.$cat.' (Create New) </div>';
+		}
 	}
-	
 }
 ?>

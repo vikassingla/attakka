@@ -1,5 +1,5 @@
 <?php include("header.php");
-$sql="select cat_id, cat_name, cat_img from tbl_category where cat_parent_id=0";
+$sql="select cat_id, cat_name, cat_img from tbl_category";
 //echo $sql;
 $rs=mysql_query($sql);
 ?>
@@ -13,18 +13,21 @@ $rs=mysql_query($sql);
 		
 			  <div class="clear"></div>
 		<?php  
-		    while($row=mysql_fetch_array($rs))
-		    {
-				if($row['cat_img']=="")
+		   if(count($rs)>0)
+		   {
+				while($row=mysql_fetch_array($rs))
 				{
-					$src1="images/no-img.jpg";
+					if($row['cat_img']=="")
+					{
+						$src1="images/no-img.jpg";
+					}
+					else
+					{
+						$src1="review_images/".$row['cat_img'];
+					}	
+					print 
+					'<div class="views-field view-image"><a href="category_detail.php?cat_id='.$row['cat_id'].'"><img alt="" src="'.$src1.'" style="height:214px;width:250px;"><h3 style="margin: -30px 0 0;">'.$row['cat_name'].'</h3></a></div>';
 				}
-				else
-				{
-					$src1="review_images/thumb_".$row['cat_img'];
-				}	
-				print 
-				'<div class="views-field view-image"><a href="category_detail.php?cat_id='.$row['cat_id'].'"><img alt="" src="'.$src1.'" style="height:214px;width:250px;"><h3 style="margin: -30px 0 0;">'.$row['cat_name'].'</h3></a></div>';
 			}
 			include("footer.php");
 		?>

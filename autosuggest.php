@@ -14,10 +14,15 @@ session_start();
 			if(strlen($queryString) >0) {
 
 				$query = $db->query("SELECT cat_name FROM tbl_category WHERE cat_name LIKE '$queryString%' LIMIT 10");
+				$query1 = $db->query("SELECT review_title FROM tbl_review WHERE review_title LIKE '$queryString%' LIMIT 10");
 				if($query) {
 				echo '<ul>';
+				
 					while ($result = $query ->fetch_object()) {
 	         			echo '<li onClick="fill(\''.addslashes($result->cat_name).'\');">'.$result->cat_name.'</li>';
+	         		}
+	         		while ($result = $query1 ->fetch_object()) {
+	         			echo '<li onClick="fill(\''.addslashes($result->review_title).'\');">'.$result->review_title.'</li>';
 	         		}
 				echo '</ul>';
 					

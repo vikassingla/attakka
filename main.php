@@ -168,8 +168,8 @@ if(isset($_POST['signup']))
 /**********************LOGIN*************/
 if(isset($_POST['login']))
 {
-	echo "<pre>";
-	print_r($_POST);
+	/*echo "<pre>";
+	print_r($_POST);*/
 	extract($_POST);
 	//echo $activation_code;
 	if((@$activation_code)=="")
@@ -277,150 +277,160 @@ if(isset($_POST['forgot_password']))
 /**********Create Category*******************/
 if(isset($_POST['create_cat']))
 {
-	//echo "<pre>";
-	//print_r($_POST);
-	//die;
-	//print_r($_FILES);
+	//global $errorForm;
+	 $error=0;
+	if(empty($_POST['catname']))
+	{
+		 $_SESSION['catnameerr']='please enter your category name';
+		 $_SESSION['catnameval']='';
+         $error=1;
+	}
+	else
+	{
+		$_SESSION['catnameval']=$_POST['catname'];
+	}
+	if(empty($_POST['catrules']))
+	{
+		 $_SESSION['catruleserr']='please enter your category rules ';
+		 $_SESSION['catruleval']='';
+		 $error=1;
+	}
+	else
+	{
+		 $_SESSION['catruleval']=$_POST['catrules'];
+	}
+	if(empty($_POST['catdes']))
+	{
+		 $_SESSION['catdeserr']='please enter your category description';
+		 $_SESSION['catdesval']='';
+		 $error=1;
+	}
+	else
+	{
+		 $_SESSION['catdesval']=$_POST['catdes'];
+	}
+	if($error==1)
+	{
+		header('location:create_category.php?msgerror=formerr');
+		die();
+	}
+	
 	extract($_POST);
+	$user_id=$_SESSION['user_id'];
+	$mos_img=substr($p250_image,0,6);
+   if($mos_img=='newold')
+   {
+		 $ban_img=substr($p250_image,6);
+   }
+   else
+   {
+		 $ban_img=substr($p250_image,3);
+   }                
+   //echo "BANnER IMAGE ".$ban_img;
+   $mos='thumb_'.$p250_image;
+   //echo "THUMNAIL ".$mos;
 	$date=date('Y-m-d');
-	$sql3="select cat_name from tbl_category where cat_name='$catname'";
-
-	$rs3=mysql_query($sql3);
-	if(mysql_num_rows($rs3)>0)
+	$categoryExist=isCreategoryExist($catname);
+	if($categoryExist)
 	{
 		header('location:create_category.php?msg=alexist');
 	}
 	else
 	{
-		$uploadDir="review_images/";
-		$catimg1=$p250_image;
-		$catname1=addslashes($catname);
-		$defreview1=addslashes($defreview);
-		$catdes1=addslashes($catdes);
-		$catrules1=addslashes($catrules);
 		
-			if($mod==1)
-			{
-				$sqli="insert into tbl_category(cat_parent_id,cat_name,cat_img,cat_banner_img,cat_ref, cat_def_review, cat_des,cat_rules, cat_created_by,cat_created_date,cat_modified_date, cat_mod_status,cat_active) values (0, '$catname1', '$catimg1','','$cat_referance','$defreview1','$catdes1', '$catrules1', '$user_id', '$date', '$date', '1', 1)";
-			}
-			else 
-			{
-				$sqli="insert into tbl_category(cat_parent_id,cat_name,cat_img,cat_banner_img,cat_ref, cat_def_review, cat_des,cat_rules, cat_created_by,cat_created_date,cat_modified_date, cat_mod_status,cat_active) values (0, '$catname1', '$catimg1','','$cat_referance','$defreview1' , '$catdes1', '$catrules1', '$user_id', '$date', '$date', '0', 1)";
-			}	
-			
-		//echo $sqli;
-		mysql_query($sqli);
-		$last_insert_id=mysql_insert_id();
-		//echo $last_insert_id;	
-		if($mod==1)
+		$catname=addslashes($catname);
+		$catdes1=addslashes($catdes);
+        $catrules1=addslashes($catrules);
+        $cat_referance=addslashes($cat_referance);
+		if(!empty($cat_referance) && $cat_referance=='Regional')
 		{
-			$sqlj="insert into tbl_moderator (moderator_cat_id, moderator_user_id ) values ('$last_insert_id', '$user_id')";
-			mysql_query($sqlj);
-		}	
-		//echo $last_insert_id;
-		/*for($i=1;$i<6;$i++)
-		{		
-			if($_FILES['reviewimg'.$i]['error']==0)
+			$flag_neigh=1;
+		}
+		else
+		{
+			$flag_neigh=0;
+		}
+		if(count($neigh_input)>0)
+		{
+			foreach($neigh_input as $neg_in)
 			{
-				$fpath=$_FILES['reviewimg'.$i]['name'];
-				$randomstring=rand(00000,99999);
-				$newname=$randomstring.'-'.$fpath;
-				$fileTempName=$_FILES['reviewimg'.$i]['tmp_name'];
-				$result = move_uploaded_file($_FILES['reviewimg'.$i]['tmp_name'], $uploadDir . $newname);
-				$src2=$uploadDir . $newname;
-				$destpath1="review_images/";
-				$dst2=$destpath1.'tmb_'.$newname;
-				$img1='tmb_'.$newname;
-				//$pic_error = image_resize($src2, $dst2, 980, 272, 1);
-				$pic_error = image_resize_new($src2, $dst2, 980, 272, 0);
-				$image = $dst2;
-				$maxHeight = 123; $maxWidth = 290;
-				//include 'thumb_save.php';
-				$tmb_name1=@substr(@$tmb_name,14);
-				$tmb_name1 ='';
-				if($pic_error)
+				if(!empty( $neg_in))
 				{
-					$sqlr="insert into tbl_review_image (rev_img, rev_cat_id, rev_tmb_img, rev_rank) values ('$img1', $last_insert_id, '$tmb_name1',$i)";
-					echo $sqlr;
-					mysql_query($sqlr);
+					$neighbourr.=$neg_in.',';
 				}
 				
 			}
-		}	*/
-		
-		$tmb_name1 = '';
-		$img1 = $b990_image;
-		$sqlr="insert into tbl_review_image (rev_img, rev_cat_id, rev_tmb_img, rev_rank) values ('$img1', $last_insert_id, '$tmb_name1',1)";
-		//echo $sqlr;
-		mysql_query($sqlr);
-		
-		//die('here');
-		header("Location:create_review.php?cat_id=$last_insert_id");
-		//die();
-	}
-}
-/*************************Create Sub Category*************************/
-if(isset($_POST['createsubcat']))
-{
-	echo "<pre>";
-	print_r($_POST);
-	print_r($_FILES);
-	extract($_POST);
-	$date=date('Y-m-d');
-	$subcatname1=addslashes($subcatname);
-	$subcatdes1=addslashes($subcatdes);
-	$subcatrules1=addslashes($subcatrules);
-	$sql12="select cat_id, cat_name from tbl_category where cat_name='".$subcatname1."'";
-	echo @$sql12;
-	$rs12=mysql_query($sql12);
-	if(mysql_num_rows($rs12)==0)
-	{
-		
-		$fpath1=$_FILES['subcatimg']['name'];
-		$uploadDir1 ="cat_images/";
-		$randomstring=rand(00000,99999);
-		$newname1=$randomstring.'-'.$fpath1;
-		$pic_type = strtolower(strrchr($newname1,"."));
-		$result1 = move_uploaded_file($_FILES['subcatimg']['tmp_name'], $uploadDir1 . $newname1);
-		$src1=$uploadDir1 . $newname1;
-		$destpath="cat_images/";
-		$dst1=$destpath.'tmb_'.$newname1;
-		$img='tmb_'.$newname1;
-		$pic_error = @image_resize($src1, $dst1, 990, 274, 1);
-		$image = $dst1;
-		$maxHeight = 120; $maxWidth = 325;
-		include 'thumb_save.php';
-		$tmb_name1=substr($tmb_name,11);
-		echo $tmb_name1;
-		
-		echo $pic_error;
-		if($pic_error)
-		{
-			if($mod==1)
-			{
-				$sqli="insert into tbl_category(cat_parent_id,cat_name,cat_img,cat_thumb_img,cat_created_by,cat_des,cat_rules,cat_created_date,cat_modified_date, cat_mod_status, cat_active) values ('$cat_id', '$subcatname1', '$img', '$tmb_name1','$user_id', '$subcatdes','$subcatrules','$date', '$date', '1', 1)";
-			}
-			else
-			{
-				$sqli="insert into tbl_category(cat_parent_id,cat_name,cat_img,cat_thumb_img,cat_created_by,cat_des,cat_rules,cat_created_date,cat_modified_date, cat_mod_status, cat_active) values ('$cat_id', '$subcatname1', '$img', '$tmb_name1','$user_id', '$subcatdes','$subcatrules','$date', '$date', '0', 1)";
-			}		
-		}	
-		echo $sqli;
-		mysql_query($sqli);
-		$last_insert_id1=mysql_insert_id();
-		if($mod==1)
-		{
-			$sqlj="insert into tbl_moderator (moderator_cat_id, moderator_user_id ) values ('$last_insert_id1', '$user_id')";
-			mysql_query($sqlj);
+			$neighbourr=trim($neighbourr,',');
 		}
-		header("Location:create_review.php?cat_id=".$last_insert_id1);
-	}
-	
-	else
-	{	
-		header("Location:sub_cat.php?cat_id=".$cat_id."&msg=alexst");		
+		else
+		{
+			$neighbourr=$neigh_input;
+		}
+		print_r($neighbourr);
+		//echo "NEIGHBOUR ".$flag_neigh;
+		echo '<pre>';print_r($_POST);
+        /********images name start*********/
+		$ban_img=addslashes($ban_img);
+		$mos=addslashes($mos);
+        /********images name end*********/
+        $cat_ins_id=createCategory($catname,$mos,$ban_img,$catrules1, $catdes1,$cat_referance,$user_id,$date,$date,0,1,$flag_neigh,$neighbourr);
+        $filaray=array();
+		/*if(count($filter_input)==1)
+        {
+			foreach($custom_filter0 as $cf)
+			{
+				if(!empty($cf))
+				{
+					$cf_val.=$cf.',';
+				}
+			}
+			$cf_val=trim($cf_val,',');
+			
+			$fil_ins=createFilter($cat_ins_id, $filter_input[0], $cf_val,1);
+			//echo $cf_val;die;
+		}
+		else
+		{
+			if(count($filter_input)>1)
+			{
+				$fc=0;
+				$fill_array=array();
+				foreach($filter_input as $fi)
+				{
+					//
+					foreach($_POST['custom_filter'.$fc] as $cf)
+					{
+						//print_r($_POST['custom_filter'.$fc]);
+						$cf_val.=$cf.',';
+						$fill_array[$fi]=$cf_val;
+					}
+					$cf_val='';
+					//echo count($_POST['custom_filter'.$fc]);
+					$fc++;
+				}
+			
+				 	foreach($fill_array as $key=>$value)
+					{	
+						$value=substr($value, 0,strlen($value)-1);
+						$fil_ins=createFilter($cat_ins_id, $key, $value,1);
+					}
+				
+				//die;
+			}
+		}
+		if($fil_ins=="true")
+		{
+			header("Location:category_detail.php?cat_id=".$cat_ins_id);
+		}	
+		else
+		{
+			header("Location:create_category.php?msg1=servererr");
+		}
+		*/
+		header("Location:category_detail.php?cat_id=".$cat_ins_id);
 	}
 }
+
 /*************************Create a Review*************************/
 if(isset($_POST['review']))
 {
@@ -452,22 +462,23 @@ header("Location:create_rev.php?msg=susub");
 /*********************Create from pic review*********************************/
 if(isset($_POST['create_review']))
 {
+	//
+	//echo "<pre>";
+	//print_r($_POST);die;
 	extract($_POST);
 	$date=date('Y-m-d');
+	$reviewRating=$_POST['rate'][0];
 	$opintitle1=addslashes($opintitle);
-	$revtitle1=addslashes($revtitle);
-	$sql="INSERT INTO tbl_review (
-review_cat_id,review_title,review_opinion,review_created_by ,review_created_date,review_rate ,review_active
-) values ('$cat_id', '$opintitle', '$revtitle', '$user_id', '$date', '$rate', 1)";
-echo $sql;
-mysql_query($sql);
-header("Location:create_review.php?cat_id=$cat_id&msg=susub");
-			
+	$destitle1=addslashes($destitle);
+	$ins=createRev($review_id,$opintitle1,$destitle1,$user_id,$date,$reviewRating,$b990_image);
+	if($ins)
+	{
+		header("Location:review_detail.php?review_id=$review_id");
+	}		
+
 }
 if(isset($_POST['edit']))
 {
-	echo "<pre>";
-	print_r($_POST);
 	extract($_POST);
 	$date=date('Y-m-d');
 	$user_id=$_SESSION['user_id'];
@@ -495,27 +506,32 @@ header("Location:user_page.php?msg=susub");
 /********fb Login********/
 if(isset($_GET['uid']) && isset($_GET['firstname']) && isset($_GET['lastname']) && isset($_GET['uemail']))
 {
-	echo "<pre>"; 
-print_r($_GET);
-
-$date=date('Y-m-d');
+	$date=date('Y-m-d');
 	$uid=$_GET['uid'];
 	$email=$_GET['uemail'];
 	$fname=$_GET['firstname'];
 	$lname=$_GET['lastname'];
 	$queryfb='select user_id from tbl_user where user_email ="'.$email.'" or facebook_id	='.$uid.'';
-	echo $queryfb;
+	
 	$resultfb=mysql_query($queryfb);
 	if(mysql_num_rows($resultfb) > 0)
 	{
 		$fbrow = mysql_fetch_assoc($resultfb);
 		$_SESSION['user_id']=$fbrow['user_id'];
-		header('Location:user_page.php');
+		if(isset($_GET['rpage']) && !empty($_GET['rpage']))
+		{
+			$rapge=$_GET['rpage'];
+		}
+		else
+		{
+			$rapge='user_page.php';
+		}
+		
+		header('Location:'.$rapge.'');
 	}
 	else
 	{	
 		$insertFBquery="insert into tbl_user (user_firstname, user_lastname,user_email,facebook_id, user_status, user_created, user_modified )values('".htmlentities($fname, ENT_QUOTES, 'utf-8')."', '".htmlentities($lname, ENT_QUOTES, 'utf-8')."','$email',$uid, 1, '$date', '$date')";
-		echo $insertFBquery;
 		$resultfb=mysql_query($insertFBquery);
 		$last_insert_id=mysql_insert_id();
 		if($last_insert_id)
@@ -526,15 +542,22 @@ $date=date('Y-m-d');
 			{
 				$_SESSION['user_id'] = $last_insert_id;
 			}
-			header('Location:user_page.php');
+			if(isset($_GET['rpage']) && !empty($_GET['rpage']))
+			{
+				$rapge=$_GET['rpage'];
+			}
+			else
+			{
+				$rapge='user_page.php';
+			}
+			header('Location:'.$rapge.'');
 		}
 	}
 }
 /******Image of Reviews*********/
 if(isset($_POST['review_image']))
 {
-	/*echo "<pre>";
-	print_r($_POST);*/
+
 	extract($_POST);
 	$n=count($pos);
 	$user_id=$_SESSION['user_id'];
@@ -593,7 +616,11 @@ mysql_query($sql62);
 $sql63="truncate table tbl_review_image";
 mysql_query($sql63);	
 $sql64="truncate table tbl_vote";
-mysql_query($sql64);	
+mysql_query($sql64);
+$sql65="truncate table tbl_category_filters";
+mysql_query($sql65);
+$sql66="truncate table tbl_review_filters";
+mysql_query($sql65);		
 header("Location:reset.php?msg=sudel");
 }	
 ?>

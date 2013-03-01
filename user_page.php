@@ -10,6 +10,14 @@ if (isset($_GET['msg'])=='susub')
 	$msg='Information is updated Sussessfully.';
 	echo '<div class="white-wrapper-error" style="margin-left:65px;width:80%">'.$msg.'  X</div>';
 }
+if(isset($_GET['user_id']))
+	{
+		$user_id=$_GET['user_id'];
+	}
+	else
+	{
+		$user_id=$_SESSION['user_id'];
+	}
 ?>
 <div>
  <div class="userpic-new views-field" style="overflow:hidden;height:200px;width:200px;">
@@ -17,12 +25,12 @@ if (isset($_GET['msg'])=='susub')
 	 <tr>
 		 <td align="center" valign="center" style="padding:0px;background-color:#fff;">
 		 <a href="edit_user_profile.php" title='Edit user profile'>
-			 <img src="<?php echo $src1?>" alt="#" border="0" style="<?php print $thumb_w;?><?php print $thumb_h;?>"/> 
+			 <img src="<?php echo $src1?>" alt="#" border="0" style="height:200px;width:200px;"/> 
 		</a>
 		 </td>
 	 </tr>
  </table>
-	<h6 style="padding-left:10px; width:190px; margin-top:-23px;text-align:center;border-radius: 0 0 5px 5px;"><?php echo $row['user_firstname']." ".$row['user_lastname']?></h6>
+	<h6 style="padding-left:10px; width:190px; margin-top:-25px;text-align:center;border-radius: 0 0 5px 5px;"><?php echo $rown['user_firstname']." ".$rown['user_lastname']?></h6>
  </div>
  
  <div class="panel-user-one"><div class="topheading-text-user">History:</div>
@@ -49,97 +57,347 @@ if (isset($_GET['msg'])=='susub')
   </div>	
   
   <div class="clear"></div>
+  <?php $string=htmlentities('Críticas',ENT_QUOTES, 'UTF-8');?>
   
   <div id="tabs_wrapper">
 	<div id="tabs_container">
 		<ul id="tabs" style="width:450px; float:left;padding: 7px 0 4px 0;">
-			<li class="active"><a href="#tab1">Críticas</a></li>
-			<li><a href="#tab2">Favoritos</a></li>
-			<li><a href="#tab3">Fans</a></li>
+			<li class="active" onclick="document.getElementById('tab2').style.display='none';document.getElementById('tab1').style.display='block'"><a href="javascript:void(0);"><?php echo $string;?></a></li>
+			<li><a href="javascript:void(0);" onclick="document.getElementById('tab2').style.display='block';document.getElementById('tab1').style.display='none';">Favoritos</a></li>
+			<li><a href="javascript:void(0);">Fans</a></li>
 			
 		</ul>
 		<div style="width:305px; float:right;"><a href="Rentabanner.html"><img src="images/renta-banner-btrn.png" alt="#" style="margin-bottom:-4px;" border="0" /></a> <a href="Banner-Management.html"><img src="images/mange-banner-btrn.png" alt="#" style="margin-bottom:-4px;" border="0" /></a></div>
 	</div>
 	<div id="tabs_content_container">
+	<div class="grey-round-bar-newnov19" style="margin-top:5px;">
+			 <div class="images-left-panel heading-black">Name</div>
+			 <div class="notes-panel heading-black">Notes</div>
+			 <div class="rate-panel heading-black" style="padding-left:10px;">Rate</div>
+			
+			  </div>
 		<div id="tab1" class="tab_content" style="display: block;">
-			<?php
-  $sql59="select review_id, review_cat_id, review_opinion, review_rate from tbl_review where review_cat_id in (select cat_id from tbl_category where cat_parent_id!=0 and cat_created_by=$user_id) order by review_id DESC limit 0,9";
-  //echo $sql59;
-  $rs59=mysql_query($sql59);
-  while($row59=mysql_fetch_array($rs59))
-  {
-	$sql60="select cat_name, cat_thumb_img, cat_parent_id from tbl_category where cat_id=".$row59['review_cat_id'];
-	//echo $sql60;
-	$rs60=mysql_query($sql60);
-	$row60=mysql_fetch_array($rs60);
-	if($row59['review_rate']>0)
-	{
-		$color="red";  
-	} 
+		
+	<?php
+	$allReviews=getReviewOfUserTotal();
+	//echo '<pre>';
+	//print_r($allReviews);die;
+	$count=$allReviews;
+	$adjacents = 3;
+	$total_pages = $count;
+	//echo $total_pages;
+	$limit = 3; 								//how many items to show per page
+	@$page = $_GET['page'];
+	if($page) 
+	$start = ($page - 1) * $limit; 			//first item to display on this page
 	else
+		$start = 0;	
+			
+		if ($page == 0) $page = 1;
+	//echo $pageno;					//if no page var is given, default to 1.
+		$prev = $page - 1;							//previous page is page - 1
+		$next = $page + 1;							//next page is page + 1
+		$lastpage = ceil($total_pages/$limit);		//lastpage is = total pages / items per page, rounded up.
+		$lpm1 = $lastpage - 1;	
+		$pagination = "";
+		if($lastpage > 1)
+		{	
+			$pagination .= "<div class=\"pagination\">";
+			//previous button
+			if ($page > 1) 
+				$pagination.= "<a href=\"user_page.php?page=$prev\">&laquo; </a>";
+			else
+				$pagination.= "<span class=\"disabled\">&laquo; </span>";	
+			
+			//pages	
+			if ($lastpage < 7 + ($adjacents * 2))	//not enough pages to bother breaking it up
+			{	
+				for ($counter = 1; $counter <= $lastpage; $counter++)
+				{
+					if ($counter == $page)
+						$pagination.= "<span class=\"current\">$counter</span>";
+					else
+						$pagination.= "<a href=\"user_page.php?page=$counter\">$counter</a>";					
+				}
+			}
+			elseif($lastpage > 5 + ($adjacents * 2))	//enough pages to hide some
+			{
+				//close to beginning; only hide later pages
+				if($page < 1 + ($adjacents * 2))		
+				{
+					for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"user_page.php?page=$counter\">$counter</a>";					
+					}
+					$pagination .= "<span class=\"elipses\">...</span>";
+					$pagination.= "<a href=\"user_page.php?page=$lpm1\">$lpm1</a>";
+					$pagination.= "<a href=\"user_page.php?page=$lastpage\">$lastpage</a>";		
+				}
+				//in middle; hide some front and some back
+				elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
+				{
+					$pagination.= "<a href=\"user_page.php?page=1\">1</a>";
+					$pagination.= "<a href=\"user_page.php?page=2\">2</a>";
+					$pagination .= "<span class=\"elipses\">...</span>";
+					for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"category_detail.php?page=$counter\">$counter</a>";					
+					}
+					$pagination .= "<span class=\"elipses\">...</span>";
+					$pagination.= "<a href=\"user_page.php?page=$lpm1\">$lpm1</a>";
+					$pagination.= "<a href=\"user_page.php?page=$lastpage\">$lastpage</a>";		
+				}
+				//close to end; only hide early pages
+				else
+				{
+					$pagination.= "<a href=\"user_page.php?page=1\">1</a>";
+					$pagination.= "<a href=\"user_page.php?page=2\">2</a>";
+					$pagination .= "<span class=\"elipses\">...</span>";
+					for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"user_page.php?page=$counter\">$counter</a>";					
+					}
+				}
+			}
+			
+			//next button
+			if ($page < $counter - 1) 
+				$pagination.= "<a href=\"user_page.php?page=$next\"> &raquo;</a>";
+			else
+				$pagination.= "<span class=\"disabled\"> &raquo;</span>";
+			$pagination.= "</div>\n";		
+		}
+	
+	
+	//echo '<pre>';
+	//print_r($allReview);die;
+	
+	
+	$allReview=getReviewOfUser($start,$limit,$user_id);
+	if(count($allReview)>0)
 	{
-		$color="black";
-	}	
-	if($row60['cat_thumb_img']=="")
-	{
-		$lsrc="images/norevimage.jpg";
-	}
-	else
-	{	
-		$lsrc="cat_images/".$row60['cat_thumb_img'];
-	}	
-	/*if($row16['cat_thumb_img']=="")
-	{
-		$lsrc="images/norevimage.jpg";
-	}
-	else
-	{	
-		$lsrc="cat_images/".$row16['cat_thumb_img'];
-	}*/	
-	$rate=$row59['review_opinion'];
-	if($rate=="-0")
-	{
-		$rate="0";
-	}	
-	$sql61="select cat_parent_id, cat_img, cat_thumb_img from tbl_category where cat_id=".$row60['cat_parent_id'];
-	//echo $sql17;
-	$rs61=mysql_query($sql61);
-	$row61=mysql_fetch_array($rs61);
-	if($row61['cat_parent_id']=="0")
-	{
-		$ssrc="uploads/".$row61['cat_img'];
-	}
-	else
-	{
-		$ssrc="cat_images/".$row61['cat_img'];
-	}	
-  ?>
-  <a href="infowall_review.php?cat_id=<?php echo $row59['review_cat_id']?>"><div class="border-round">
+		foreach($allReview as $rev)
+		{
+		 $thumnail='review_images/'.$rev['cat_img'];
+		 $reviewImg='review_images/'.$rev['review_img'];
+		 /***********thumnail image check***************/
+			if(empty($rev['cat_img']))
+			 {
+				 
+				 $thumnail='images/new.png';
+			 }
+			 else
+			 {
+				 if(!file_exists($thumnail))
+				 {
+					$thumnail='images/new.png';
+				 }
+				 else
+				 {
+					 $thumnail='review_images/'.$rev['cat_img'];
+				 }
+				 
+			 }
+			 /***********thumnail image check***************/
+			
+			/************review image check*****************/
+			 if(empty($rev['review_img']))
+			 {
+				$reviewImg='images/red-blank.jpeg';
+			 }
+			 else
+			 {
+				 if(!file_exists($reviewImg))
+				 {
+					$reviewImg='images/red-blank.jpeg';
+				 }
+				 else
+				 {
+					$reviewImg='review_images/'.$rev['review_img'];
+				 }
+			 }
+			 /************review image check*****************/
+   ?>
+    <a href="review_detail.php?review_id=<?php echo $rev['review_id']?>"><div class="border-round">
     <div class="images-left-panel views-field round-img<?php echo $color?>-newgeneral">
-    <img src="<?php echo $lsrc?>" border="0"  alt="#" style="height:120px;width:300px;"/>
-    <h6 style="padding-left:80px; margin-top:-27px;"><?php echo $row60['cat_name']?></h6>
+    <?php
+     if(empty($rev['review_img']) || !file_exists($reviewImg))
+     {
+	 ?>
+     <img src="<?php echo $reviewImg;?>" border="0"  alt="#" style="height:120px;width:300px;"/>
+     <h6 style="padding-left:80px; margin-top:-31px;"><?php echo $rev['cat_name']?></h6>
+     <h6 style="padding-left:48px; margin-top:-73px;background:none;text-align:center;"><?php echo $rev['review_title']?></h6>
+    <?php
+     }
+     else
+     {
+      ?>
+       <img src="<?php echo $reviewImg;?>" border="0"  alt="#" style="height:120px;width:300px;"/>
+       <h6 style="padding-left:80px; margin-top:-31px;"><?php echo $rev['cat_name']?></h6>
+      <?php
+	  }
+	  ?>
+   
+     
     </div>
-    <div class="top-image-panel"><img src="<?php echo $ssrc?>" alt="#"  border="0" style="width:53px;height:53px;background-color:#ffffff"/></div>
+    <div class="top-image-panel"><img src="<?php echo $thumnail;?>" alt="#"  border="0" style="width:53px;height:53px;background-color:#ffffff"/></div>
     <div class="notes-panel middle-text">
       <div class="internal-panel">
         <div class="panel">
-          <p style=" position: relative; top: -50%"><a href="discuss_review.php?rev_id=<?php echo $row59['review_id']?>"><?php echo $row59['review_opinion']?></a></p>
+          <p style=" position: relative; top: -50%"><a style="color: #383838;font-family: 'CalibriRegular'; font-size: 18px;line-height: 28px;text-decoration:none;cursor:pointer;" href="review_detail.php?review_id=<?php echo $rev['review_id']?>"><?php echo $rev['review_opinion']?></a></p>
         </div>
       </div>
     </div>
-    <div class="rate-panel" align="right"><img src="images/rate/bigrate<?php echo $row59['review_rate']?>.png" alt="#" class="rate-img" border="0" /></div>
+    <div class="rate-panel" align="right"><img src="images/rate/bigrate<?php echo $rev['review_rate']?>.png" alt="#" class="rate-img" border="0" /></div>
   </div></a>
   <div class="clear"></div>
-		    
-			
 		<?php
-		
-		}
-			
-		?>	
-			
-			
+		 }
+	    }
+	    else
+	    {
+			echo 'No Record Found.';
+		}	
+		?>
+		<div class="clear"></div>
+			<div class="grey-round-bar-user " style="margin-top:15px; text-align: center;">
+			<div><?php echo $pagination;?></div>
+			</div>	
 		</div>
+		
+	<div id="tab2" class="tab_content" style="display: none;">
+	<?php
+
+	
+	
+	$favCategory=getFavouriteCategoryOfUser($user_id);
+	if(count($favCategory)>0)
+	{
+		    $cnt=0;
+			foreach($favCategory as $fav)
+			{
+			  $cat_id=$fav['cat_id'];
+			  // echo '<pre>';
+			  //print_r( $cat_id);
+			  $favR=getFavouriteReviewOfUser($user_id,$cat_id);
+			  if(count($favR)>0)
+			  {
+				  foreach($favR as $fv)
+				  {
+						 $banner='review_images/'.$fv['cat_banner_img'];
+						 $catname=$fv['cat_name'];
+						 $catidd=$fv['cat_id'];
+						 //echo $banner."<br>";
+						 /***********banner image check***************/
+						 if(empty($fv['cat_banner_img']))
+						 {
+							 
+							 $banner='images/norevimage.jpg';
+						 }
+						 else
+						 {
+							 if(!file_exists($banner))
+							 {
+								$banner='images/norevimage.jpg';
+							 }
+							 else
+							 {
+								 $banner='review_images/'.$fv['cat_banner_img'];
+							 }
+							 
+						 }
+						 if(empty($fv['rat']))
+						 {
+							 $rating=0;
+						 }
+						 else
+						 {
+							 $rating=ceil($fv['rat']);
+						 }
+					}
+				}
+				else
+				{
+					$getCatdata=getCategoryFromId($cat_id);
+					if(count($getCatdata)>0)
+					{
+						foreach($getCatdata as $catData)
+						{
+							$banner='review_images/'.$catData['cat_banner_img'];
+							$rating=0;
+							$catname=$catData['cat_name'];
+							$catidd=$catData['cat_id'];
+							if(empty($catData['cat_banner_img']))
+							 {
+								 
+								 $banner='images/norevimage.jpg';
+							 }
+							 else
+							 {
+								 if(!file_exists($banner))
+								 {
+									$banner='images/norevimage.jpg';
+								 }
+								 else
+								 {
+									 $banner='review_images/'.$catData['cat_banner_img'];
+								 }
+								 
+							 }
+						}
+					}
+				}
+				//echo '<pre>';
+				//print_r($fv);
+			
+		/***********banner image check***************/
+   ?>
+    <?php 
+     if(isset($fv['review_cat_id']))
+     {
+	     ?>
+	    <a href="review_detail.php?review_id=<?php  if(isset($fv['review_id'])) { echo $fv['review_id']; }?>"><div class="border-round">
+	    <?php
+	 }
+	 else
+	 {
+	 ?>
+	  <a href="javascript:void(0);"><div class="border-round">
+	  <?php
+     }
+     ?>
+    <div class="images-left-panel views-field round-img<?php if(isset($color)) { echo $color;}?>-newgeneral">
+    <img src="<?php if(isset($banner)) { echo $banner;};?>" border="0"  alt="" style="height:120px;width:300px;"/>
+    <h6 style="padding-left:80px; margin-top:-27px;"><?php if(isset($catname)) {echo $catname;}; ?></h6>
+    </div>
+    <div class="notes-panel middle-text">
+      <div class="internal-panel">
+        <div class="panel">
+          <p style=" position: relative; top: -50%"><a style="color: #383838;font-family: 'CalibriRegular'; font-size: 18px;line-height: 28px;text-decoration:none;cursor:pointer;" href="category_detail.php.php?cat_id=<?php if(isset( $catidd)) { echo $catidd; }?>"><?php if(isset($catname)) { echo $catname;}?></a></p>
+        </div>
+      </div>
+    </div>
+    <div class="rate-panel" align="right"><img src="images/rate/bigrate<?php echo $rating?>.png" alt="" class="rate-img" border="0" /></div>
+  </div></a>
+  <div class="clear"></div>
+		<?php
+		}
+		}
+		else
+		{
+			echo 'No Record Found';
+		}	
+		?>
+		
 		<!--<div id="tab2" class="tab_content">
 			<div class="favorties-new views-field margingright-fav5 margingleft5"><img src="images/shopping-img.png" alt="#" /> <div class="top-heading-box">Shopping</div></div>
 			
@@ -230,6 +488,16 @@ if (isset($_GET['msg'])=='susub')
 				</div>
 		</div>-->
 	</div>
+	
+	
 </div>	  
 </div>
-			  <?php include("footer.php");?>
+<script type="text/javascript">
+	$(document).ready(function(){
+	$('ul li a').click(function() {
+		 $(this).parent().addClass('active').siblings().removeClass('active');
+	});
+	});
+
+</script>
+ <?php include("footer.php");?>

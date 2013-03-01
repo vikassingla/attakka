@@ -128,11 +128,7 @@ margin-bottom:10px;
 }
 </style>
 </head>
-<?php
-$sql="select review_cat_id, sum(review_rate) as total,count(review_cat_id) as count from tbl_review where review_cat_id in (select cat_id from tbl_category where cat_parent_id!=0) group by review_cat_id ORDER BY avg(review_rate) DESC limit 0,5";
-$rs=mysql_query($sql);
-$i=1;
-?>
+
 <body>
 
 	
@@ -141,58 +137,74 @@ $i=1;
 		<div class="ca-item ca-item-1">
 			<div class="ca-item-main">
 			<?php	
-			while($row=mysql_fetch_array($rs))
-			{
-				$rate=ceil($row['total']/$row['count']);
-				if($rate=="-0")
-				{
-					$rate="0";
-				}	
-				$sql2="select cat_name, cat_img, cat_thumb_img, cat_parent_id from tbl_category where cat_id=".$row['review_cat_id'];
-				//echo $sql2;
-				$rs2=mysql_query($sql2);
-				$row2=mysql_fetch_array($rs2);
-				if($row2['cat_thumb_img']=="")
-				{
-					$lsrc="images/norevimage.jpg";
-				}
-				else
-				{
-					$lsrc="cat_images/".$row2['cat_thumb_img'];
-				}
-				$sql3="select cat_img, cat_parent_id from tbl_category where cat_id=".$row2['cat_parent_id'];
-				$rs3=mysql_query($sql3);
-				$row3=mysql_fetch_array($rs3);
-				if($row3['cat_img']=="")
-				{
-					$ssrc="images/no-image.jpg";
-				}
-				else
-				{	
-					if($row3['cat_parent_id']==0)
+	         $getBest=getBestOfAllCategory('desc');
+	        // echo '<pre>';
+	         //print_r($getBest);die;
+	         if(count($getBest)>0)
+	         {
+				 $i=0;
+				 foreach($getBest as $gb)
+				 {
+					$reviewImg='review_images/'.$gb['review_img'];
+					$catImg='review_images/'.$gb['cat_img'];
+					$catName=$gb['cat_name'];
+					$rate=ceil($gb['avg']);
+					if(empty($gb['review_img']) || !file_exists($reviewImg))
 					{
-						$ssrc="uploads/".$row3['cat_img'];
+						//$reviewImgsrc='images/norevimage.jpg';
+						$reviewImgsrc='images/red-blank.jpeg';
 					}
 					else
 					{
-						$ssrc="cat_images/".$row3['cat_img'];
-					}	
-				}		
-			?>			
-			<div class="numbertext-new-general"><?php echo $i?><sup style="font-size:16px;">0</sup></div> 
-			<div class="red-border-new-170ct">
-				<div class="views-field subcategoryhorror-new17oct">
-					<img alt="#" src="<?php echo $lsrc?>" style="width:300px;height:83px;">
-					<div class="nametop-heading-box-horror8thnov"><?php echo $row2['cat_name']?></div>
-					<div class="top-image-panel-general"><img src="<?php echo $ssrc?>" alt="#" style="width:53px;height:53px;" /></div>
-				</div>
-			</div>	
-			<div class="rate-panel-right"><img alt="#" src="images/rate/middlerate<?php echo$rate?>.png"></div>
-			<div class="clear"></div>
-			<?php
-			$i++;
-			}
-		?>
+						$reviewImgsrc='review_images/'.$gb['review_img'];
+					}
+					if(empty($gb['cat_img']) || !file_exists($catImg))
+					{
+						//$catImgsrc='images/norevimage.jpg
+						$catImgsrc='images/new.png';
+					}
+					else
+					{
+						$catImgsrc='review_images/'.$gb['cat_img'];
+					}
+					if(empty($rate))
+					{
+						$rate=0;
+					}
+					$i++;
+			        
+				?>			
+				<div class="numbertext-new-general"><?php echo $i;?><sup style="font-size:16px;">0</sup></div> 
+				<div class="red-border-new-170ct">
+				<a href="review_detail.php?review_id=<?php echo $gb['review_id']?>">
+					<div class="views-field subcategoryhorror-new17oct">
+						<img alt="#" src="<?php echo $reviewImgsrc;?>" style="width:300px;height:83px;">
+						<?php
+						if(empty($gb['review_img']) || !file_exists($reviewImg))
+						{
+						?>
+						<div class="nametop-heading-box-horror8thnov"><?php echo $catName;?></div>
+						<div class="nametop-heading-box-horror8thnov" style="background:none;margin-top:-55px;text-align:center;padding-left:40px;"><?php echo $gb['review_title'];?></div>
+						<?php
+					    }
+					    else
+					    {
+					    ?>
+					    <div class="nametop-heading-box-horror8thnov"><?php echo $catName;?></div>
+					    <?php
+					    }
+					     ?>
+						<div class="top-image-panel-general"><img src="<?php echo $catImgsrc?>" alt="#" style="width:53px;height:53px;" /></div>
+					</div>
+					</a>
+				</div>	
+				<div class="rate-panel-right"><img alt="#" src="images/rate/middlerate<?php echo$rate?>.png"></div>
+				<div class="clear"></div>
+				<?php
+				}
+			 }
+		   //closing loop
+			?>
 		</div>
 		</div>
 	</div>

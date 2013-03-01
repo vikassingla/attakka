@@ -1,12 +1,6 @@
 <?php
 require("config.php");
 session_start();
-$con= mysql_connect(DB_HOST, DB_USER_NAME,DB_PASSWORD); 
-if(!$con)
-{
-	die('Could not connect: ' . mysql_error());
-}	
-mysql_select_db(DB_NAME);
 require("xajax/xajax_library.php");
 $objXajax= new Xajax();
 $objXajax->registerFunction("friend");
@@ -329,7 +323,7 @@ function moderator_refresh()
 		$row54=mysql_fetch_array($rs54);
 		if($row54['facebook_id']=="")
 		{
-			if($row54['account_image']!='')
+			if($row54['account_image']!='' && file_exists("uploads/".$row54['account_image']))
 			{
 				$srcg="uploads/".$row54['account_image'];
 			}
@@ -340,7 +334,7 @@ function moderator_refresh()
 		}
 		else
 		{
-			if($row54['account_image']!='')
+			if($row54['account_image']!='' && file_exists("uploads/".$row54['account_image']))
 			{
 				$srcg="uploads/".$row54['account_image'];
 			}
@@ -348,7 +342,8 @@ function moderator_refresh()
 			{
 				$srcg="http://graph.facebook.com/".$row54['facebook_id']."/picture?width=112&height=80";
 			}	
-		}  
+		}	
+
 		
 		$data1.='<div class="user-image-left views-field"><img src="'.$srcg.'" alt="#" style="height:80px;width:112px;"/></div>';
 		$data1.='<div class="name-text">'.$row54['user_firstname'].' '.$row54['user_lastname'].'</div>';
@@ -378,17 +373,24 @@ if(isset($_SESSION['user_id']))
 {
 	$sql="select user_firstname, user_lastname,user_country, account_image, profile_image, facebook_id from tbl_user where user_id=".@$_SESSION['user_id'];
 }
-else
-{
-	$sql="select user_firstname, user_lastname,user_country, account_image, profile_image, facebook_id from tbl_user where user_id=0";
-}
+
 $rs=mysql_query($sql);
-$row=mysql_fetch_array($rs);
-if($row['facebook_id']=="")
+$rown=mysql_fetch_array($rs);
+if($rown['facebook_id']=="")
 {
-	if($row['account_image']!='')
+	if($rown['account_image']!='')
 	{
-		$src="uploads/".$row['account_image'];
+		$src="uploads/".$rown['account_image'];
+		
+		if(file_exists($src))
+		{
+			$src="uploads/".$rown['account_image'];
+		}
+		else
+		{
+			$src="images/red_img.png";
+		}
+		
 	}
 	else
 	{
@@ -397,24 +399,40 @@ if($row['facebook_id']=="")
 }
 else
 {
-	if($row['account_image']!='')
+	if($rown['account_image']!='')
 	{
-		$src="uploads/".$row['account_image'];
+		$src="uploads/".$rown['account_image'];
+		if(file_exists($src))
+		{
+			$src="uploads/".$rown['account_image'];
+		}
+		else
+		{
+			$src="http://graph.facebook.com/".$rown['facebook_id']."/picture?width=60&height=60";
+		}
 	}
 	else
 	{
-		$src="http://graph.facebook.com/".$row['facebook_id']."/picture?width=60&height=60";
+		$src="http://graph.facebook.com/".$rown['facebook_id']."/picture?width=60&height=60";
 	}	
 }	
 
 $thumb_w='';
 $thumb_h='';
 
-if($row['facebook_id']=="")
+if($rown['facebook_id']=="")
 {
-	if($row['profile_image']!='')
+	if($rown['profile_image']!='')
 	{
-		$src1="uploads/".$row['profile_image'];
+		$src1="uploads/".$rown['profile_image'];
+		if(file_exists($src1))
+		{
+			$src1="uploads/".$rown['profile_image'];
+		}
+		else
+		{
+			$src1="images/no_img.png";
+		}
 	}
 	else
 	{
@@ -423,14 +441,14 @@ if($row['facebook_id']=="")
 }
 else
 {
-	if($row['account_image']!='')
+	if($rown['profile_image']!='')
 	{
-		$src1="uploads/".$row['profile_image'];
+		$src1="uploads/".$rown['profile_image'];
 	}
 	else
 	{
 		//$src1="http://graph.facebook.com/".$row['facebook_id']."/picture?width=60&height=60";
-		$src1="http://graph.facebook.com/".$row['facebook_id']."/picture?type=large";
+		$src1="http://graph.facebook.com/".$rown['facebook_id']."/picture?type=large";
 		
 		list($width, $height, $type, $attr) = @getimagesize($src1);
 															   
@@ -478,9 +496,9 @@ if($_SERVER['HTTP_HOST'] == "localhost")
 	$name=explode("/", $_SERVER['REQUEST_URI']);
 	if($_SESSION['user_id']=="")
 	{
-		header('Location:login.php?rpage='.$name[4]);
+		header('Location:login.php?rpage='.$name[2]);
 	}
-	$pname=explode(".",$name[4]);
+	$pname=explode(".",$name[2]);
 }
 else
 {
@@ -622,6 +640,8 @@ function suggest(inputString){
 	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 	<script type="text/javascript" src="chromejs/chrome.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="css/chromestyle.css" />
 <!--dropdown menu end-->
 <!--slider-files-->
@@ -649,6 +669,10 @@ span a
 	font:15px 'CalibriRegular';
 }	
 </style>
+
+<script type="text/javascript" src="chromejs/chrome.js"></script>
+<link rel="stylesheet" type="text/css" href="css/chromestyle.css" />
+
 </head>
 <body>
 <?php print $objXajax->getjavascript(SITE_URL."xajax",'xajax.js')?>
@@ -689,8 +713,7 @@ span a
 			}
 		
 			$sql="select a.* from tbl_category a, tbl_favorites b 
-				where a.cat_active=1 and
-				a.cat_parent_id=0 and 
+				where a.cat_active=1 and 
 				a.`cat_id`=b.`cat_id` and 
 				b.user_id = $user_id
 				order by a.cat_id desc";
@@ -799,8 +822,8 @@ background-repeat:no-repeat;
 }	
 	</style>
 	
-<div class="views-field topuser-img"><a href="user_page.php"><img alt="" src="<?php echo $src?>" style="width:60px;height:60px;"></a></div>
-<div class="name-panel top-user-name"><a href="user_page.php"><?php echo $row['user_firstname']." ".$row['user_lastname']?></a><br />
+<div class="views-field topuser-img"><a href="user_page.php"><img alt="" src="<?php echo $src;?>" style="width:60px;height:60px;"></a></div>
+<div class="name-panel top-user-name"><a href="user_page.php"><?php echo $rown['user_firstname']." ".$rown['user_lastname']?></a><br />
  <div class="suggestionsBox" id="suggestions" style="display: none;margin-left:267px"> <img src="images/arrow1.png" style="position: relative; top: -13px; left: 10px;" alt="upArrow" />
  <div class="suggestionList" id="suggestionsList"> &nbsp; </div>
  </div>

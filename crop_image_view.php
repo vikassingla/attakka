@@ -68,8 +68,9 @@
 function close_popup_cover_corp1()
 { 
 
+parent.document.getElementById('popup_cover_corp').style.display="none";
 	
-	parent.document.getElementById('tbox_overlay').style.display="none";
+	/*parent.document.getElementById('tbox_overlay').style.display="none";
 	parent.document.getElementById('popup_cover_corp').style.display="none";
 	parent.document.getElementById('bigloaderimg_cover').style.display="none";
 	parent.document.getElementById('editCoverBodyHolder').style.display="block";
@@ -80,18 +81,26 @@ function close_popup_cover_corp1()
 	var  divUfc = parent.document.getElementById("crop_core_body");
 	var  frm = parent.document.getElementById("editCoverPicturebodyfrm");
 	
-	divUfc.removeChild(frm);	
+	divUfc.removeChild(frm);*/	
 }
       
 function setProfilePhoto()
 {
-	document.getElementById('profilefrm').submit();
+	 document.getElementById('profilefrm').submit();
+	 parent.document.getElementById('bgMain').style.display='none';
 }      
 function show_options(name)
 {
 	parent.document.getElementById('popup_cover_corp').style.display="none";
 	parent.show_other_image2(name);
-}       
+} 
+function upload_file1()
+{
+	document.form2.action='image_crop/uploadfile.php';
+	document.form2.target='editCoverPicturebodyfrm';
+	parent.document.getElementById('editCoverPicturebodyfrm').src = 'image_crop/uploadfile.php';
+	document.form2.submit();
+} 
  
  </script>
 <style>
@@ -127,13 +136,21 @@ function show_options(name)
 	width:890px;
 	height:auto;
 	
-	font-size: 16px;
+	font-size: 12px;
 	font-family: Tahoma, Geneva, sans-serif;
-	color:#FAB01F;
-	font-weight:bold;
-	margin-bottom:10px;
+	color:#585858;
+	margin-bottom:5px;
 	}
-
+.crop_heading_a{
+	width:890px;
+	height:auto;
+	
+	font-size: 12px;
+	font-family: Tahoma, Geneva, sans-serif;
+	color:#00000;
+	margin-bottom:5px;
+	}
+	
 .crop_detail{
 	font-size: 12px;
 	font-family: Tahoma, Geneva, sans-serif;
@@ -164,14 +181,34 @@ function show_options(name)
 </head>
 <body>
 
-	<div style="margin-bottom:15px;" class="crop_heading">
-	     Upload your banner picture
+	<div style="margin-bottom:0px;width:1026px;height:30px;">
+	<div style="float:left;width:300px;height:auto;margin-left:250px;">
+	<img src="images/step1.png" style="float:left;margin-right:5px;;opacity:0.4">
+
+        	
+	<span class="crop_heading" style="margin-top:2px;">Select Banner Image</span>
+	</div>
+	<div style="float:left;width:300px;height:auto;">
+	<img src="images/step2.png" style="margin-left:50px; float:left;margin-right:5px;"><span class="crop_heading_a" style="margin-top:5px;width:auto;float:left;">Select Mosaic Image</span>
+	
+	</div>
+	<div class="clear"></div>
 	</div>
     <div class="pane clearfix">
       <img  src="uploads/<?php print @$_GET['file'];?>" alt="Loulou form Sos Chats Geneva" />
 
+     <div class="new_button" style="float:left;">
+     <form name="form2" id="form2" action="image_crop/uploadfile.php" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="uploadfilenew" id="uploadfilenew" value="newfile">
+			  <input type="hidden" name="oldfilename" id="oldfilename" value="<?php print @$_GET['file']; ?>">    
 
-	<iframe id="cropeimageiframe" frameborder="0" width="0" src="image_crop/uploadfile.php" height="0" src="image_crop/uploadfile.php" name="cropeimageiframe" ></iframe>
+     <a href="#" style="text-decoration:none;cursor:pointer; background: url('images/blank_btn.png') no-repeat scroll 0 0 transparent;
+    color: #FFFFFF;float: left;font: bold 12px Tahoma,Geneva,sans-serif; height: 15px;padding: 8px 0;text-align: center;width: 176px;cursor:pointer;" >Choose another image</a>
+		<input onchange="upload_file1();" type="file" multiple="multiple" name="uploadnewfile" style="float: left;     height: 26px;     margin-left: -269px;     margin-top: 3px;     opacity: 0;     position: absolute;     width: 128px">
+     </form>
+     </div> 
+
+	<iframe id="cropeimageiframe" frameborder="0" width="0" src="image_crop/uploadfile.php" height="0" src="image_crop/uploadfile.php" name="cropeimageiframe" scrolling="no"></iframe>
 
      <form name="profilefrm" id="profilefrm" target="cropeimageiframe" method="post" action="image_crop/uploadfile.php">
       <table class="coords" style="display:none;">
@@ -192,7 +229,7 @@ function show_options(name)
      
 	<div style="float:left;width:920px;margin-top:10px;">
 		<div  class="crop_detail">
-			To crop this image, drag the region below and then click "Set as profile photo".
+			To crop this image, drag the region below and then click "Set as Mosaic image".
 		</div>
 		<div style="float:left;width:464px;">
 		
@@ -200,7 +237,7 @@ function show_options(name)
 			<div id="zoom_out" style="float:left;width:85px;height:85px;background:url(images/zoom_out.png);background-size:85px 85px;cursor:pointer;"></div>
 		
 			<div id="cancel" style="float:right;width:73px;height:33px;background:url(images/cancel.png);background-size:73px 33px;cursor:pointer;" onclick="close_popup_cover_corp1();"></div>
-			<div class="crop_button" style="float:right;"><a href="#" style="text-decoration:none;" onclick="setProfilePhoto();">Crop</a></div>
+			<div class="crop_button" style="float:right;"><a href="#" style="text-decoration:none;" onclick="setProfilePhoto();">Done</a></div>
 		
 		</div>
 	</div>

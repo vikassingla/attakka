@@ -2,7 +2,7 @@
 <?php
 $cat_id=$_GET['cat_id'];
 $user_id=$_SESSION['user_id'];
-$sql2="select cat_name, cat_img, cat_parent_id, cat_des, cat_rules, cat_created_by from tbl_category where cat_id=".$cat_id;
+$sql2="select cat_name, cat_img, cat_des, cat_rules, cat_created_by,cat_banner_img from tbl_category where cat_id=".$cat_id;
 //echo $sql2;
 $rs2=mysql_query($sql2);
 $row2=mysql_fetch_array($rs2);
@@ -23,7 +23,7 @@ else
 }
 else
 {
-	$src="cat_images/".$row2['cat_img'];
+	$src="review_images/".$row2['cat_banner_img'];
 }	
 $sql20="select user_firstname, user_lastname, account_image, user_id, facebook_id from tbl_user where user_id=".$row2['cat_created_by'];
 //echo $sql20;
@@ -143,24 +143,24 @@ echo '<div class="white-wrapper-error" style="margin-left:15%;width:554px;margin
 			  
 			  
 			  <?php
-			  $sql18="select rev_id, rev_img from tbl_review_image where rev_cat_id=".$cat_id." order by rev_rank";
+			  $sql18="select review_id,review_img from  tbl_review where review_cat_id	=".$cat_id." order by review_created_date	";
 			 // echo $sql18;
 			  $rs18=mysql_query($sql18);
 			  $n=mysql_num_rows($rs18);
 			  $i=1;
 			  
 			  while($row18=mysql_fetch_array($rs18))
-			{
+			 {
 			  
 			  ?>
-			  <div class="info-image-left views-field"><img src="review_images/<?php echo $row18['rev_img']?>" style="height:113px;width:276px;" alt="#" /></div>
+			  <div class="info-image-left views-field"><img src="review_images/<?php echo $row18['review_img']?>" style="height:113px;width:276px;" alt="#" /></div>
 			  <div class="box-rating" style="margin-top:6px"><?php echo $i?><sup style="font-size:6px;">o</sup></div>
 			 
 			  <div class="arrow-up">
 			   <?php if($i>1)
 			   {
 				   ?>
-			  <a href="javascript:void(0);" onclick="xajax_uporder(<?php echo $row18['rev_id']?>,<?php echo $i?>)">
+			  <a href="javascript:void(0);" onclick="xajax_uporder(<?php echo $row18['review_id	']?>,<?php echo $i?>)">
 			  <img src="images/arrow-up.png" alt="#" style="margin-bottom:20px;" />
 			  <input type="hidden" name="pos[]" value=<?php echo $row18['rev_id']?>>
 			  </a>

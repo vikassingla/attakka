@@ -206,8 +206,9 @@ nav {
   width: 957px;
   overflow: hidden;
   float:left;
-  padding: 15px 0 15px 0;
-  margin-left:44px;
+  padding: 0px 0 15px 0;
+  margin-top:-10px;
+ /* margin-left:44px;*/
 } 
 
 #sidebar_container { 

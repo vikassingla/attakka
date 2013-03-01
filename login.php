@@ -26,6 +26,7 @@ oauth: true});
 function updateButton(response) 
 {
 	var button = document.getElementById('fb-auth');
+	var rpage_val=document.getElementById('rpage').value;
 	//user is not connected to your app or logged out
 	button.onclick = function() {
 	FB.login(function(response) {
@@ -37,7 +38,8 @@ function updateButton(response)
 		var lname=response.last_name;
 		var email=response.email;
 		
-		var formdata="uid="+uid+"&firstname="+fname+"&lastname="+lname+"&uemail="+email;
+		var formdata="uid="+uid+"&firstname="+fname+"&lastname="+lname+"&uemail="+email+"&rpage="+rpage_val;
+		//alert(formdata);return false;
 		window.location="main.php?"+formdata;
 		});	
 	} 
@@ -134,7 +136,7 @@ document.getElementById(divid).innerHTML = '';
 			<div class="red-color-heading"><span>LOGIN</span></div>
 			<div class="clear"></div>
 			<form name="form1" id="form1" action="main.php" method="POST">
-				<input type="hidden" name="rpage" value="<?php echo @$rpage?>">
+				<input type="hidden" name="rpage" id="rpage" value="<?php echo @$rpage?>">
 				<input type="hidden" name="activation_code" value="<?php echo @$activation_code?>">
 				<div style="float:left;height:50px;">
 					<div  class="form-panel form-text">Email Id :</div>

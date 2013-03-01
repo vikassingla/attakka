@@ -10,7 +10,7 @@ $total_pages = mysql_fetch_array(mysql_query($query1));
 $total_pages = $total_pages['num'];
 //echo $total_pages;
 $limit = 5; 								//how many items to show per page
-$page = $_GET['page'];
+@$page = $_GET['page'];
 if($page) 
 	$start = ($page - 1) * $limit; 			//first item to display on this page
 else

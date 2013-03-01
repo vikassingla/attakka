@@ -104,45 +104,54 @@ background: url("images/black-bordernew.png") no-repeat;
 </style>
 </head>
 <body class="loading">
-<?php
-$sql15="select review_cat_id, sum(review_rate) as total,count(review_cat_id) as count from tbl_review where review_cat_id in (select cat_id from tbl_category where cat_parent_id=$cat_id) group by review_cat_id ORDER BY avg(review_rate) ASC limit 0,5";
-//echo $sql15;
-$rs15=mysql_query($sql15);
-?>
 <div id="ca-container" class="ca-container">
 	<div class="ca-wrapper">
 		<div class="ca-item ca-item-1">
 			<div class="ca-item-main">	
-			<?php while($row15=mysql_fetch_array($rs15))
-			{
-				$sql16="select cat_name, cat_img, cat_thumb_img from tbl_category where cat_id=".$row15['review_cat_id'];
-				$rs16=mysql_query($sql16);
-				$row16=mysql_fetch_array($rs16);
-				$rate=ceil($row15['total']/$row15['count']);
-				if($rate=="-0")
-				{
-					$rate="0";
-				}	
-				if($row16['cat_thumb_img']=="")
-				{
-					$src="images/norevimage.jpg";
-				}
-				else
-				{
-					$src="cat_images/".$row16['cat_thumb_img'];
-				}	
-				?>
+			
+<?php
+$best1=getBest($cat_id, 'asc');
+if(count($best1)>0)
+{
+	foreach($best1 as $best)
+	{
+	if($best['reviews']==0)
+	{
+		$rateimg="images/rate/no-rate.png";
+	}	
+	else
+	{
+		$rate=ceil($best['total']/$best['reviews']);
+		if($rate=="-0")
+		{
+			$rate="0";
+		}
+		$rateimg="images/rate/middlerate$rate.png";
+	}	
+	if($best['review_img']!="" && file_exists('review_images/'.$best['review_img']))
+	{
+		$src="review_images/".$best['review_img'];
+	}
+	else
+	{
+		$src="images/norevimage.jpg";
+	}
+?>
+
 				<div class="black-border-new-170ct">
 					<div class="views-field subcategoryhorror-new17oct-black">
 					<img alt="#" src="<?php echo $src?>" style="width:300px;height:84px;">
-						<div class="nametop-heading-box-horror1stnov"><?php echo $row16['cat_name']?></div>
+						<div class="nametop-heading-box-horror1stnov"><?php echo $best['review_title']?></div>
 					</div>
 				</div>
-				<div class="rate-panel-right"><img alt="#" src="images/rate/middlerate<?php echo $rate?>.png"></div>
+				<div class="rate-panel-right"><img alt="#" src="<?php echo $rateimg?>"></div>
 				<div class="clear"></div>
+			
 			<?php
 			}
-			?>	
+		}
+		
+			?>
 			</div>
 		</div>
 		
@@ -151,7 +160,6 @@ $rs15=mysql_query($sql15);
 </div>
    
 
-</div>
 
 </body>
 </html>

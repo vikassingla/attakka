@@ -1,127 +1,22 @@
-<?php include("header.php");?>
-<script>
-function showCat(str)
-{	
-document.getElementById('loading').style.display="block";
-if (str=="")
-  {
-  document.getElementById("subcat").innerHTML="";
-  return;
-  }
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-		document.getElementById('loading').style.display="none";
-    document.getElementById("subcat").innerHTML=xmlhttp.responseText;
-    }
-  }
-xmlhttp.open("GET","getcat.php?cat="+str,true);
-xmlhttp.send();
-}
-</script>
-<script>
-function showAdd()
+<?php include("header.php");
+$cat_id=$_GET['cat_id'];
+$exist=isCreategoryIdExist($cat_id);
+if($exist)
 {
-	window.location="create_category.php";
-}
-function showSubAdd(pid)
-{
-	document.getElementById("wrapper1").style.display="block";
-	document.getElementById("cat_name").value=pid;
+	print '
+	<script>
+	window.location.href="all_category.php";
+	</script>
+	';
 }
 
-</script>
-<script>
-function addRecord()
-{
-	
-	var term_name = document.getElementById("catname").value;	
-	//alert(term_name);
-	if(term_name == '')						
-	{
-		document.getElementById('propspectDiv').innerHTML='Enter a valid Name';	
-		document.getElementById('propspectDiv').className="error";					
-		return;
-	}
-	else
-	{
-		document.getElementById('propspectDiv').removeClass="error";			
-		if (window.XMLHttpRequest)
-		{// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp=new XMLHttpRequest();
-		}
-		else
-		{// code for IE6, IE5
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				document.getElementById('propspectDiv').innerHTML=xmlhttp.responseText;
-				document.getElementById("catname").value="";
-				document.getElementById("wrapper").style.display="none";
-				location.reload(); 
-				
-			}
-		}
-		xmlhttp.open("GET","data.php?cat="+term_name,true);
-		xmlhttp.send();
-	}
-}
+?>
 
-</script>
 <script>
-function addSubRecord()
+var $=jQuery.noConflict();
+function showAllCat(val,id1)
 {
-	
-	var subcatname = document.getElementById("subcatname").value;	
-	var catname = document.getElementById("cat_name").value;
-	//alert(subcatname+","+catname);
-	if(subcatname == '')						
-	{
-		document.getElementById('propspectDiv1').innerHTML='Enter a valid Name';	
-		document.getElementById('propspectDiv1').className="error";					
-		return;
-	}
-	else
-	{
-		document.getElementById('propspectDiv1').removeClass="error";			
-		if (window.XMLHttpRequest)
-		{// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp=new XMLHttpRequest();
-		}
-		else
-		{// code for IE6, IE5
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				document.getElementById('propspectDiv1').innerHTML=xmlhttp.responseText;
-				document.getElementById("subcatname").value="";
-				document.getElementById("wrapper1").style.display="none";
-				location.reload(); 
-				
-			}
-		}
-		xmlhttp.open("GET","subdata.php?catname="+catname+"&subcatname="+subcatname,true);
-		xmlhttp.send();
-	}
-}
-
-function showAllCat(val)
-{
+	//alert("VALUE IS "+val);return false;
 	//document.getElementById('catlist').style.display='none';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -135,15 +30,19 @@ function showAllCat(val)
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
-			document.getElementById('catlist').innerHTML=xmlhttp.responseText;
+			if(xmlhttp.responseText!="")
+			{
 			
-			if(document.getElementById('catlist').style.display=='none')
-			{
-				document.getElementById('catlist').style.display='block';
-			}
-			else
-			{
-				document.getElementById('catlist').style.display='none';
+				document.getElementById('catlist').innerHTML=xmlhttp.responseText;
+				
+				if(document.getElementById('catlist').style.display=='none')
+				{
+					document.getElementById('catlist').style.display='block';
+				}
+				else
+				{
+					document.getElementById('catlist').style.display='none';
+				}
 			}		
 		}
 	}
@@ -155,14 +54,15 @@ function showAllCat(val)
 		}
 	}
 	
-	xmlhttp.open("GET","cat_data.php?type="+val,true);
+	xmlhttp.open("GET","cat_data.php?cat_id="+id1+"&type=all",true);
 
 	xmlhttp.send();
 	
 }
 
-function showCatbytxt(val)
+function showCatbytxt(val,id1)
 {
+	//alert('sdssd'+val);return false;
 	document.getElementById('catlist').style.display='none';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -174,6 +74,7 @@ function showCatbytxt(val)
 	}
 	xmlhttp.onreadystatechange=function()
 	{
+		//alert(xmlhttp.responseText);return false;
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
 			document.getElementById('catlist').innerHTML=xmlhttp.responseText;
@@ -182,7 +83,7 @@ function showCatbytxt(val)
 		}
 	}
 	
-	xmlhttp.open("GET","cat_data.php?type=bytxt&cat="+val,true);
+	xmlhttp.open("GET","cat_data.php?cat_id="+id1+"&type=bytxt&reviewtitle="+val,true);
 
 	xmlhttp.send();
 	
@@ -199,7 +100,107 @@ function setCatText(val,id)
 {
 	document.getElementById('catlist').style.display='none';
 	document.getElementById('catinput').value=val;
-	showCat(id);
+	//showCat(id);
+}
+
+function setCatTextNew(val)
+{
+	document.getElementById('catlist').style.display='none';
+	document.getElementById('catinput').value=val;
+}
+function addReview()
+{
+	
+	
+	if(document.getElementById('catinput').value=="" || document.getElementById('catinput').value=='--select--')
+	{
+		alert('Plese Select the '+catname+' you want to review'); 
+	}
+	var rname=document.getElementById('catinput').value;
+	rname=rname.toLowerCase();
+	window.location.href="create_review.php?cat_id="+<?php echo $cat_id;?>+"&rname="+rname;
+}
+function addNewReview(txtval,catid)
+{
+	var txtVal=$('#catinput').val();
+	var autoval=$('#form1').serialize();
+	var autoval_url="create_newreview.php?create_flag=1";
+	var getCatid=$('#hidcatid').val();
+	//var autoval_url="get_alloptions.php?get_all_option=1&current_id="+getId;
+	//$('#filter_srdiv').toggle();
+	//alert(autoval);return false;
+	if(autoval!="")
+	{
+		 $.ajax({
+			type:"GET",
+			url: autoval_url,
+			data:autoval,
+			dataType:'html',
+			success:function(response)
+			{
+				//showAllCat('bytxt',getCatid);
+				//document.getElementById('catinput').value
+				document.getElementById('catnamediv100001').style.display='none';
+				document.getElementById('catlist').style.display='none';
+			},
+			error:function (response)
+			{
+				//alert('error');
+			}
+		});	
+	}	
+	
+}
+
+function checkReview()
+{
+	var catname='';
+	var catname="<?php if(isset($cat_id)) { $catName=getCategoryDetail($cat_id); echo  $catName['cat_name'];}?>";
+	
+	var txtVal=$('#catinput').val();
+	$.trim(txtVal);
+	if(txtVal=="" || txtVal=='--select--')
+	{
+		alert('Plese Select the '+catname+' you want to review'); 
+		return false;
+	}
+	else
+	{
+		var autoval=$('#form1').serialize();
+		var autoval_url="check_review.php?check_flag=1";
+		var getCatid=$('#hidcatid').val();
+		 $.ajax({
+			type:"GET",
+			url: autoval_url,
+			data:autoval,
+			dataType:'html',
+			success:function(response)
+			{
+				//alert(response);return false;
+				if(response=='review not exist')
+				{
+					
+				}
+				else
+				{
+					if(response==0)
+					{
+						document.form1.submit();
+					}
+					else
+					{
+						//alert(response);return false;
+						alert('You have already reviewed '+txtVal);
+					}
+				}
+			},
+			error:function (response)
+			{
+				//alert('error');
+			}
+		});	
+	}	
+	
 }
 
 </script>
@@ -215,23 +216,24 @@ function setCatText(val,id)
 	?>
 		<div class="white-wrapper" style="padding-bottom:15px;">
 			<div class="red-color-heading"><span>Create a REVIEW</span></div> 
-			<div style="margin-top:35px;margin-left:100px;">   
+			<div style="margin-top:35px;margin-left:30px;">   
 			
 			<div id="img" name="img" style="display:none">
 			<?
 			{
 				$sql="select cat_img from tbl_category where cat_id=".$_GET['cat'];
-				echo $sql;
+				//echo $sql;
 			?>
 			<img src="">
 			<?
 			}
 			?>
 			</div>
-				<form name="form1" id="form1" action="main.php" method="POST">
+				<form name="form1" id="form1" action="create_review.php" method="POST">
 					<div style="float:left;height:50px;">
-					<div class="formpanel-text form-text">Select a category:</div>
-					<div class="inputpanel-rightCategory">
+					<?php if(isset($cat_id)) { $catName=getCategoryDetail($cat_id);}?>
+					<div class="formpanel-text form-text" style="width:250px;">Which <?php echo $catName['cat_name'];?> would you like to review</div>
+					<div class="inputpanel-rightCategory" style="width:400px;">
 					<?php 
 					/*
 					$sql="select cat_id, cat_name from tbl_category where cat_active=1 and cat_parent_id=0 order by cat_id desc";
@@ -246,29 +248,24 @@ function setCatText(val,id)
 					print'</select>';
 					*/
 					?>
-					
 						<div id="catCantainer" style="border:solid 1px #E4E2E2;width:248px;height:31px;float:left;">
-							<input onclick="showAllCat('bytxt');" onkeyup="showCatbytxt(this.value);" type="text" name="catinput" id="catinput" value="--select--" style=" border: medium none;     float: left;     height: 30px;     width: 218px;padding-left:4px;">
-							<img src="images/select.png" style="float:right;margin-right:2px;margin-top:5px;" onclick="showAllCat('all');">
+							<input onclick="showAllCat('bytxt','<?php echo $cat_id?>');" onkeyup="showCatbytxt(this.value, '<?php echo $cat_id?>');" type="text" name="catinput" id="catinput" value="--select--" style=" border: medium none;     float: left;     height: 30px;     width: 218px;padding-left:4px;">
+							
 						</div>
-						<div id="catlist" style="display:none; border-bottom: 1px solid #E4E2E2;     border-left: 1px solid #E4E2E2;     border-right: 1px solid #E4E2E2;     float: left;     height:auto;     width: 248px;background-color:#fff;z-index:100;margin-top: 33px;     position: absolute;"></div>
-					
+						<input type="button" value="Add Review" onclick="checkReview();" class="submit-buttons-rec" style="display:block;float:right;"/>
+						<div id="catlist" style="display:none; border-bottom: 1px solid #E4E2E2;     border-left: 1px solid #E4E2E2;     border-right: 1px solid #E4E2E2;float: left;height:auto;width: 249px;background-color:#fff;z-index:100;margin-top: 33px;position: absolute;overflow:auto;overflow-x: hidden;max-height:160px;"></div>
+						<input type="hidden" name="hidcatid" id="hidcatid" value="<?php if(isset($cat_id)) {echo $cat_id;}?>">
+					</form>
 					</div>
 					<div id="loading" style="display:none"><img src="images/ajax.gif"></div>
 				</div>
-				<div><input type="button" name="add" id="add" onclick="showAdd()" value="Add Category" class="submit-buttons-rec"></div>
+				
 			</div>
-			<div id="wrapper" style="margin-top:35px;margin-left:100px;display:none;">
-				<div class="formpanel-text form-text">Category Name:</div>
-				<input type="text" id="catname" value="" class="input" style="width:237px;margin-right:30px;" >
-				<input type="button" value="Submit" onclick="addRecord()" class="submit-buttons-rec" />
-				<div id="propspectDiv"></div>
-			</div>
-			<div style="float:left;height:auto;margin-left:100px;margin-top:10px" name="subcat" id="subcat"></div>
+			
 			<div class="clear"></div>
 		</div>
 	</div>	
 
 
 <?php include "footer.php"?>
-</div>
+
