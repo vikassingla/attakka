@@ -85,7 +85,7 @@ function show_options(name)
 
 function upload_file1()
 {
-	alert("i");
+	//alert("i");
 	document.form2.action='image_crop/uploadfile.php';
 	document.form2.target='editCoverPicturebodyfrm';
 	parent.document.getElementById('editCoverPicturebodyfrm').src = 'image_crop/uploadfile.php';

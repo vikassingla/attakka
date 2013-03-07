@@ -42,7 +42,7 @@ if(isset($hidcatid))
 	else
 	{
 		//$src="images/norevimage.jpg";
-		$src="images/red-blank.jpeg";
+		$src="images/red-blank1.jpeg";
 	}	
 }
 else
@@ -150,7 +150,7 @@ function close_popup_cover_corp()
 		      {
 				  $display='style="background-color:black; color:#fff; font:14px arial; padding:5px 10px; border-radius:10px;margin-top:3px;display:block;"';
 			  ?>
-		      <h4 style="text-align:center;padding-left:10px;width:968px;top:234px;background:none;margin-top:-117px;"> REVIEW : <?php echo $rinfo['review_title']?></h4></div>
+		      <h4 style="text-align:center;padding-left:10px;width:968px;top:234px;background:none;margin-top:-117px;color:#000000; font:30px castrella;"> REVIEW : <?php echo $rinfo['review_title']?></h4></div>
 		      <?php
 		      }
 		      else
@@ -263,6 +263,7 @@ function close_popup_cover_corp()
 function validateFileds()
 {	
 	//alert('fsdfdsfsdfsdfsd');return false;
+	var opin=document.getElementById('opintitle').value;
 	var checkboxs=document.getElementsByName("rate[]");
     var is_checked=false;
     for(var i=0;i<checkboxs.length;i++)
@@ -274,7 +275,7 @@ function validateFileds()
     }
 	if(document.getElementById('opintitle').value=="")
 	{
-		alert('please enter your review tile');
+		alert('please enter your opinion title');
 		document.getElementById('opintitle').focus();
 		return false;
 	}
@@ -287,6 +288,12 @@ function validateFileds()
 	else if(!is_checked)
 	{
 		alert('please check the rating for review');
+		return false;
+	}
+	else if(opin.length>150)
+	{
+		alert('You can enter only maximum of 150 words.');
+		document.getElementById('opintitle').focus();
 		return false;
 	}
 	else

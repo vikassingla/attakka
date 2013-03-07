@@ -71,6 +71,15 @@ function emptyfield(divid)
 document.getElementById(divid).innerHTML = '';
 }
 	</script>
+		<script>
+function closepopup(id)
+{
+	document.getElementById(id).style.display="none";
+}	
+</script>
+<script type="text/javascript"> 
+     
+    </script>
 	<style type="text/css">
 	.form-text a
 	{
@@ -88,7 +97,7 @@ document.getElementById(divid).innerHTML = '';
 <div id="login-wrapper">
 <div align="center"><a href="index.php"><img src="images/logo-big.png" alt="" /></a></div>
 <?php
-					function rand_str($len = 6, $chars = 'abcdefghijklmnopqrstuvwxyz0123456789')
+				function rand_str($len = 6, $chars = 'abcdefghijklmnopqrstuvwxyz0123456789')
 				{
 				   $num_chars = strlen($chars);
 				   $ret = '';
@@ -98,7 +107,7 @@ document.getElementById(divid).innerHTML = '';
 				   }
 				   return $ret;
 				}
-					if (isset($_GET['email']))
+				if (isset($_GET['email']))
 					{
 						$email=$_GET['email'];
 					}
@@ -106,28 +115,35 @@ document.getElementById(divid).innerHTML = '';
 					{	
 						$msg='Currently your account is not active. Check your email for the activation link or<br/>
 						<a href="main.php?email='.$email.'&ac='.rand_str().'">Resend activation link</a>';
-						echo '<div class="white-wrapper-error" style="margin-left:15px;width:554px">'.$msg.'</div>';
+						echo '<div class="white-wrapper-error" style="margin-left:15px;width:554px" id="closemsg">'.$msg.'</div>
+						';
+						echo '<script>setTimeout("document.getElementById(\'closemsg\').style.display=\'none\';",4000);</script>';
 					}
 					else if (isset($_GET['msg2'])=='loginFail')
 					{	
-						$msg="Either email or password is wrong.";
-						echo '<div class="white-wrapper-error">'.$msg.'</div>';
+						$msg='Either email or password is wrong.<a href="javascript:void(0)" onclick=closepopup("closemsg1")><img src="images/cancel1.png" style=" float: right; margin-right: 8px; margin-top: 3px;"></a>';
+						echo '<div class="white-wrapper-error" id="closemsg1">'.$msg.'</div>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg1\').style.display=\'none\';",4000);</script>';
 					}
 					else if (isset($_GET['msg3'])=='plzlogin')
 					{	
-						$msg="Please login to continue.";
-						echo '<div class="white-wrapper-error">'.$msg.'</div>';
+						$msg='Please login to continue.<a href="javascript:void(0)" onclick=closepopup("closemsg2")><img src="images/cancel1.png" style=" float: right; margin-right: 8px; margin-top: 3px;"></a>';
+						echo '<div class="white-wrapper-error" id="closemsg2" >'.$msg.'</div>
+						';
+						echo '<script>setTimeout("document.getElementById(\'closemsg2\').style.display=\'none\';",4000);</script>';
 					}
 					else if (isset($_GET['msg'])=='chkacl')
 					{	
-						$msg="Please click on activation link in your email for Login.";
-						echo '<div class="white-wrapper-error">'.$msg.'</div>';
+						$msg='Please click on activation link in your email for Login.<a href="javascript:void(0)" onclick=closepopup("closemsg3")><img src="images/cancel1.png" style=" float: right; margin-right: 8px; margin-top: 3px;"></a>';
+						echo '<div class="white-wrapper-error" id="closemsg3">'.$msg.'</div>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg3\').style.display=\'none\';",4000);</script>';
 					}
 					if (isset($_GET['actc']))
 					{
 						$activation_code=$_GET['actc'];
-						$msg="Please login to activate your account.";
-						echo '<div class="white-wrapper-error">'.$msg.'</div>';
+						$msg='Please login to activate your account. <a href="javascript:void(0)" onclick=closepopup("closemsg4")><img src="images/cancel1.png"></a>';
+						echo '<div class="white-wrapper-error" id="closemsg4">'.$msg.'</div>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg4\').style.display=\'none\';",4000);</script>';
 					}
 					
 				?>	

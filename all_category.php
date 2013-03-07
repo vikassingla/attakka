@@ -26,7 +26,7 @@ $rs=mysql_query($sql);
 						$src1="review_images/".$row['cat_img'];
 					}	
 					print 
-					'<div class="views-field view-image"><a href="category_detail.php?cat_id='.$row['cat_id'].'"><img alt="" src="'.$src1.'" style="height:214px;width:250px;"><h3 style="margin: -30px 0 0;">'.$row['cat_name'].'</h3></a></div>';
+					'<div class="views-field view-image"><a href="category_detail.php?cat_id='.$row['cat_id'].'"><img alt="" src="'.$src1.'" style="height:214px;width:250px;"><h3 style="margin: -33px 0 0;">'.$row['cat_name'].'</h3></a></div>';
 				}
 			}
 			include("footer.php");

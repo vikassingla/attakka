@@ -36,7 +36,7 @@ mysql_select_db(DB_NAME);
     <link rel="stylesheet" type="text/css" href="css/style3.css" />
   <!-- modernizr enables HTML5 elements and feature detects -->
   <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
 <script>
 function suggest(inputString){
 		if(inputString.length == 0) {
@@ -69,8 +69,12 @@ function checkIsChrome()
 	  document.getElementById("imgLogo").style.marginTop="0px";
 	} 
 }
-
 </script>
+<script type="text/javascript"> 
+      $(document).ready( function() {
+        $('#msgacc').delay(4000).fadeOut();
+      });
+    </script>
 <style>
 #result {
 	height:20px;
@@ -209,6 +213,12 @@ background-repeat:no-repeat;
         }
     });
 </script>
+<script>
+function closepopup(id)
+{
+	document.getElementById(id).style.display="none";
+}	
+</script>
 </head>
 
 
@@ -263,7 +273,7 @@ background-repeat:no-repeat;
 			 }	
 		  }	  
 	?>
-  <a href="logout.php" title="Offerings" class="top-links"><img src="images/logout-btrn.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> Logout</a>
+  <a href="logout.php" title="Logout" class="top-links"><img src="images/logout-btrn.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> Logout</a>
   <div class="views-field topuser-img" style="margin:0px 0px 0px 0px;"><a href="user_page.php"><img alt="" src="<?php echo $src?>" style="width:60px;height:60px;"></a></div>
 	<div class="name-panel top-user-name" style="margin-top:0px;"><a href="user_page.php"><?php echo $getUserDetail['user_firstname']." ".$getUserDetail['user_lastname']?></a><br /></div>
   <?php
@@ -299,8 +309,9 @@ background-repeat:no-repeat;
 	<?php
 			if (isset($_GET['msg'])=='veracc')
 			{
-				$msg1="A verification link has been sent to your email. Please click there to login and activate your account.";
-				echo '<div class="white-wrapper-error" style="width:800px;margin-left:300px">'.$msg1.'</div>';
+				$msg1='A verification link has been sent to your email. Please click there to login and activate your account.<a href="javascript:void(0)" onclick=closepopup("msgacc")><img src="images/cancel1.png" style=" float: right;
+   margin-right: 8px; margin-top: 3px;"></a>';
+				echo '<div id="msgacc" class="white-wrapper-error" style="width:800px;margin-left:80px;margin-bottom:17px;">'.$msg1.'</div>';
 			}
 			
 			$sql9="select cat_id from tbl_category group by cat_id ORDER BY cat_id DESC limit 0,4";
@@ -310,7 +321,7 @@ background-repeat:no-repeat;
 
 ?>
  
-  <div id="site_content">
+  <div id="site_content" style="margin-top:0px;padding-left:15px;">
       <ul id="images" style="margin:auto;">
         <li><a href="general_category.php">
 						<span class='feature_excerpt'>
@@ -332,7 +343,7 @@ background-repeat:no-repeat;
 					}
 					else
 					{
-						$src="images/red-blank.jpeg";
+						$src="images/red-blank1.jpeg";
 					}
 				$sql14="SELECT count(review_rate) as num,SUM(review_rate) as rate FROM tbl_review_map where review_id=".$row12['review_id'];
 				//echo $sql14;
@@ -394,7 +405,7 @@ background-repeat:no-repeat;
 				}
 				else
 				{
-					$image="images/red-blank.jpeg";
+					$image="images/red-blank1.jpeg";
 				}		
 				?>
 				<li>
@@ -403,13 +414,13 @@ background-repeat:no-repeat;
 					<span class='sliderheading'>
 				 </span>
 				 </span>				
-					<div style="background:url(<?php echo $image?>) no-repeat; width:700px; height:370px;">
-					<div class="leftpanel-content"><?php echo $row4['cat_name']?></div>
+					<div style="background:url(<?php echo $image?>) no-repeat; width:700px; height:370px;position:relative">
+					<div class="leftpanel-content" style="position:absolute;z-index:10;top:330px;width:100%;margin-top:0px;width:100%;"><?php echo $row4['cat_name']?></div>
 				 
 				
 				<?php	
 				$sql15="select review_id, review_img, review_title from tbl_review where review_cat_id=".$row9['cat_id']." ORDER BY review_id DESC limit 0,5";
-				//echo $sql11;
+				//echo $sql15;
 				$rs15=mysql_query($sql15);
 				if(mysql_num_rows($rs15)>0)
 				{
@@ -423,7 +434,7 @@ background-repeat:no-repeat;
 					}
 					else
 					{
-						$src1="images/red-blank.jpeg";
+						$src1="images/red-blank1.jpeg";
 					}
 					$sql17="SELECT count(review_rate) as num,SUM(review_rate) as rate FROM tbl_review_map where review_id=".$row15['review_id'];
 					$rs17=mysql_query($sql17);

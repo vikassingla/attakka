@@ -609,7 +609,7 @@ td {
       visibility: hidden;
     }
 	</style>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
 <script>
 function suggest(inputString){
 		if(inputString.length == 0) {
@@ -656,12 +656,14 @@ function suggest(inputString){
 document.getElementById(divid).innerHTML = '';
 }
 	</script>
-	
+
+
 <!--slider-files-->
 <!-- stylesheets -->
 <link rel="stylesheet" href="css/style-fresh.css" type="text/css" media="screen" />
 <link rel="shortcut icon" href="front-end/images/favicon.ico" type="image/x-icon">
 <script type="text/javascript" src="js/gen_validatorv4.js" language="JavaScript"></script>
+
 <style>
 span a
 {
@@ -689,7 +691,7 @@ span a
       <div class="chromestyle" id="chromemenu">
         <ul>
           <li><a href="#" rel="dropmenu1"><img src="images/fav-icon.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> favorites</a></li>
-          <li><a href="logout.php" title="Offerings"><img src="images/logout-btrn.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> LogOUT</a></li>
+          <li><a href="logout.php" title="Logout"><img src="images/logout-btrn.png" alt="#" style="margin-top:3px; margin-right:5px;" border="0"/> LogOUT</a></li>
         </ul>
       </div>
       

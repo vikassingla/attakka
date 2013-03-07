@@ -613,7 +613,7 @@ td {
       visibility: hidden;
     }
 	</style>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
 <script>
 function suggest(inputString){
 		if(inputString.length == 0) {

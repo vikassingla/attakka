@@ -1,6 +1,12 @@
 <?php include("header.php");
 $user_id=$_SESSION['user_id'];
 ?>
+		<script>
+function closepopup(id)
+{
+	document.getElementById(id).style.display="none";
+}	
+</script>
 <div class="internal-wrapper">
 
 <div style="margin-top:100px;">
@@ -8,7 +14,8 @@ $user_id=$_SESSION['user_id'];
 if (isset($_GET['msg'])=='susub')
 {	
 	$msg='Information is updated Sussessfully.';
-	echo '<div class="white-wrapper-error" style="margin-left:65px;width:80%">'.$msg.'  X</div>';
+	echo '<div class="white-wrapper-error" style="margin-left:65px;width:80%;margin-bottom:10px;" id="closemsg">'.$msg.' <a href="javascript:void(0)" onclick=closepopup("closemsg")><img src="images/cancel1.png"></a></div>';
+	echo '<script>setTimeout("document.getElementById(\'closemsg\').style.display=\'none\';",4000);</script>';
 }
 if(isset($_GET['user_id']))
 	{
@@ -30,7 +37,7 @@ if(isset($_GET['user_id']))
 		 </td>
 	 </tr>
  </table>
-	<h6 style="padding-left:10px; width:190px; margin-top:-25px;text-align:center;border-radius: 0 0 5px 5px;"><?php echo $rown['user_firstname']." ".$rown['user_lastname']?></h6>
+	<h6 style="padding-left:10px; width:190px; margin-top:-30px;text-align:center;border-radius: 0 0 5px 5px;"><?php echo $rown['user_firstname']." ".$rown['user_lastname']?></h6>
  </div>
  
  <div class="panel-user-one"><div class="topheading-text-user">History:</div>
@@ -212,13 +219,13 @@ if(isset($_GET['user_id']))
 			/************review image check*****************/
 			 if(empty($rev['review_img']))
 			 {
-				$reviewImg='images/red-blank.jpeg';
+				$reviewImg='images/red-blank1.jpeg';
 			 }
 			 else
 			 {
 				 if(!file_exists($reviewImg))
 				 {
-					$reviewImg='images/red-blank.jpeg';
+					$reviewImg='images/red-blank1.jpeg';
 				 }
 				 else
 				 {

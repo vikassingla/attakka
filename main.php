@@ -137,27 +137,19 @@ if(isset($_POST['signup']))
 			$sendMail2=mysql_fetch_array($rsl);
 			$user_email=$sendMail2['user_email'];
 			$to=$user_email;
-			$subject = "Your account information";
-			$headers  = 'MIME-Version: 1.0' . "\r\n";
+			$subject = "Your Account Information";
+			$headers = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 			$headers .= 'From: '.$from.' <'.$from.'>' . "\r\n";
 			$headers .= 'Reply-To: '.$to. "\r\n" . 'X-Mailer: PHP/' . phpversion();
-			$message=strip_tags(html_entity_decode($rowe['email_msg']), '<p><span><h3><a><br />');	
+			$message=strip_tags(html_entity_decode($rowe['email_msg']), '<br/><p>');	
 			$link=SITE_URL.'login.php?actc='.$activation_code;
 			$search = array('{user_firstname}','{user_lastname}', '{link}');
-			$replace = array($sendMail2['user_firstname'], $sendMail2['user_lastname'], $link) ;
+			$replace = array($sendMail2['user_firstname'],$sendMail2['user_lastname'], $link) ;
 			$body =str_replace($search,$replace,$message);
 			echo $search;
 			echo $body;
 			$sent = mail($to,$subject,$body, $headers);	
-			if($sent)
-			{
-				echo "true";
-			}	
-			else
-			{
-				echo "false";
-			}
 		}
 		if(mysql_insert_id())
 		{
@@ -491,7 +483,14 @@ if(isset($_POST['edit']))
 		$img=explode(",", $account_image);
 		$img1=$img[0];
 		$img2=$img[1];
-		$sql="update tbl_user set user_firstname='$userfirstname1', user_lastname='$userlastname1', user_pass='$userpassword1', user_email='$useremail', user_country='$country', user_region='$region', user_created='$date', user_modified='$date', profile_image='$img1', account_image='$img2' where user_id=".$user_id;
+		if($img2)
+		{
+			$sql="update tbl_user set user_firstname='$userfirstname1', user_lastname='$userlastname1', user_pass='$userpassword1', user_email='$useremail', user_country='$country', user_region='$region', user_created='$date', user_modified='$date', profile_image='$img1', account_image='$img2' where user_id=".$user_id;
+		}
+		else
+		{
+			$sql="update tbl_user set user_firstname='$userfirstname1', user_lastname='$userlastname1', user_pass='$userpassword1', user_email='$useremail', user_country='$country', user_region='$region', user_created='$date', user_modified='$date', profile_image='$img1', account_image='$img1' where user_id=".$user_id;
+		}	
 	}
 	else
 	{	

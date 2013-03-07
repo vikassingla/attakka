@@ -334,7 +334,7 @@ function rate($rev_id)
 function firstopinion($revid,$userid)
 {
 	$row3=array();
-	$sql3="select review_opinion, review_description, review_rate from tbl_review_map where review_id=".$revid." and created_by=".$userid;
+	$sql3="select review_map_id,review_opinion, review_description, review_rate from tbl_review_map where review_id=".$revid." and created_by=".$userid;
 	//echo $sql3;
 	$result3=mysql_query($sql3);
 	if(mysql_num_rows($result3)>0)
@@ -346,7 +346,7 @@ function firstopinion($revid,$userid)
 function allRecOp($revid, $userid)
 {
 	$res=array();
-	$sql5="select review_opinion, review_rate,review_description, created_by from tbl_review_map where review_id=".$revid." and created_by!=".$userid;
+	$sql5="select review_map_id, review_opinion, review_rate,review_description, created_by from tbl_review_map where review_id=".$revid." and created_by!=".$userid;
     $rs5=mysql_query($sql5);
     if(mysql_num_rows($rs5)>0)
 	{
@@ -467,7 +467,7 @@ function getCategoryFromId($catid)
 		return $res;
 	}
 }
-function getAllReviewsOfCategory($cat_id,$start,$limit)
+/*function getAllReviewsOfCategory($cat_id,$start,$limit)
 {
 	if(isset($_GET['mod']))
 	{
@@ -502,10 +502,45 @@ function getAllReviewsOfCategory($cat_id,$start,$limit)
 		}	
 		return $res;
 	}
+}*/
+function getAllReviewsOfCategory($cat_id,$start,$limit)
+{
+	if(isset($_GET['mod']))
+	{
+		$mod=$_GET['mod'];
+		if($mod=='hot')
+		{
+			$sortby='avg(trm.review_rate)';
+		}
+		else if($mod=='new')
+		{
+			$sortby='trm.created_date';
+		}
+	}
+	else
+	{
+		$sortby='avg(trm.review_rate)';
+	}
+	$res=array();
+	$sql="SELECT  distinct(trm.review_id), avg(trm.review_rate) as avg, trm.review_opinion, tbr.review_img, tbr.review_title 
+	from tbl_review_map trm, tbl_review tbr 
+	where tbr.review_id=trm.review_id and tbr.review_cat_id=$cat_id  
+	group by trm.review_id 
+	order by $sortby desc
+	limit $start,$limit";
+	//echo $sql;
+	$rs=mysql_query($sql);
+    if(mysql_num_rows($rs)>0)
+	{
+		while($row=mysql_fetch_assoc($rs))
+		{
+			$res[]=$row;
+		}	
+		return $res;
+	}
 }
 
-
-function getAllReviewsOfCategoryTotal($cat_id)
+/*function getAllReviewsOfCategoryTotal($cat_id)
 {
 	$row_array=array();
 	$sql="select trm.*,tbr.*	
@@ -525,7 +560,26 @@ function getAllReviewsOfCategoryTotal($cat_id)
 	return count($row_array);
 	
 }
-
+*/
+function getAllReviewsOfCategoryTotal($cat_id)
+{
+	$row_array=array();
+	$sql="SELECT  distinct(trm.review_id), avg(trm.review_rate) as avg, trm.review_opinion, tbr.review_img, tbr.review_title 
+	from tbl_review_map trm, tbl_review tbr 
+	where tbr.review_id=trm.review_id and tbr.review_cat_id=$cat_id";
+	//echo $sql;die;
+	$result=mysql_query($sql);
+	if(mysql_num_rows($result)>0)
+	{
+		//return mysql_num_rows($result);
+		while($row=mysql_fetch_assoc($result))
+		{
+			$row_array[]=$row;
+	    }
+	}
+	return count($row_array);
+	
+}
 function getBestOfAllCategory($mode)	
 {
 	$rs=array();

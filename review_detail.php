@@ -1,4 +1,142 @@
+  
 <?php include("header.php");?>
+    <style>
+    .black_overlay{
+        display: none;
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        z-index:1001;
+        -moz-opacity: 0.8;
+        opacity:.80;
+        overflow:auto;
+        filter: alpha(opacity=80);
+    }
+    .white_content {
+        display: none;
+        position: fixed;
+        top: 25%;
+        left: 25%;
+        width: 50%;
+        height: 300px;
+        padding: 16px;
+        border: 10px solid #DD7356;
+        background-color: white;
+        z-index:1002;
+        overflow: scroll;
+        color: #727272;
+		font-family: 'CalibriRegular';
+		font-size: 16px;
+		line-height: 23px;
+    }
+    #cross
+    {
+		display: none;
+        position: fixed;
+        top: 20%;
+        left: 76%;
+        z-index:1002;
+        overflow: auto;
+	}	
+</style>
+<script>
+
+
+function upload_file()
+{
+    document.getElementById('bgMain').style.display='block';
+    //document.getElementById('popup_cover_corp').style.display='block';
+	document.form_rev.action='image_crop/uploadfile_review.php';
+	document.form_rev.target='frmiframe';
+	document.getElementById('uploadfile').value='yes';
+	document.form_rev.submit();
+}
+
+function show_croper(name)
+{
+	document.getElementById('popup_cover_corp').style.display='block';
+	document.getElementById('b990_image').value='new'+name;
+	document.getElementById('editCoverPicturebodyfrm').src = 'crop_reviewcover.php?file='+name;
+}
+
+function show_other_image(name)
+{
+	document.getElementById('review_cover').innerHTML = '<img src="review_images/'+name+'">';
+
+}
+
+function close_popup_cover_corp()
+{ 
+	document.getElementById('popup_cover_corp').style.display="none";
+	document.getElementById('bgMain').style.display="none";
+}
+    
+
+
+
+</script>
+<script>
+function showfulltext(id)
+{
+	{
+
+//alert(scores);
+//alert(date2);
+//$("#dvLoading").show();
+if(id!='')
+{
+$.ajax({
+url: 'review_full.php?review_id='+id,
+success: function(data) {
+//alert(data);
+$("#light").css("display","block");
+$("#cross").css("display","block");
+//$("#dvLoading").hide();
+$("#fade").css("display","block");
+$('#light').html(data);
+}
+
+});
+}
+}
+			
+}	
+function showfullopinion(id)
+{
+	{
+
+//alert(scores);
+//alert(date2);
+//$("#dvLoading").show();
+if(id!='')
+{
+$.ajax({
+url: 'review_opin_full.php?review_id='+id,
+success: function(data) {
+//alert(data);
+$("#light").css("display","block");
+$("#cross").css("display","block");
+//$("#dvLoading").hide();
+$("#fade").css("display","block");
+$('#light').html(data);
+}
+
+});
+}
+}
+			
+}	
+function cross()
+{
+//alert(data);
+$("#light").css("display","none");
+$("#cross").css("display","none");
+$("#fade").css("display","none");		
+}	
+</script>
 <?php 
 if(empty($_GET))
 {
@@ -26,11 +164,13 @@ else
 	if($detail['review_img']!="" && file_exists('review_images/'.$detail['review_img']))
 	{
 		$ban_img='review_images/'.$detail['review_img'];
+		$display='style="background-color:black; color:#fff; font:14px arial; padding:5px 10px; border-radius:10px;margin-top:3px;display:none;"';
 	}	
 	else
 	{
 		//$ban_img='images/norevimage.jpg';
-		$ban_img='images/red-blank.jpeg';
+		$ban_img='images/red-blank1.jpeg';
+		 $display='style="background-color:black; color:#fff; font:14px arial; padding:5px 10px; border-radius:10px;margin-top:3px;display:block;"';
 	}	
 	$rate=rate($rev_id);
 	}	
@@ -43,44 +183,32 @@ $thumb_h='';
 
 if($owner['facebook_id']=="")
 {
-	if($owner['profile_image']!='')
+	if($owner['profile_image']!='' && file_exists("uploads/".$owner['profile_image']))
 	{
-		if(file_exists("uploads/".$owner['profile_image']))
-		{
-			$src3="uploads/".$owner['profile_image'];
-		}
-		else
-		{
-			$src3="images/no_img.png";
-		}
+		$src3="uploads/".$owner['profile_image'];
+		$src3width=190;
 	}
 	else
 	{
 		$src3="images/no_img.png";
+		$src3width=190;
 	}		
 }
 else
 {
-	if($owner['profile_image']!='')
+	if($owner['profile_image']!='' && file_exists("uploads/".$owner['profile_image']))
 	{
-		if(file_exists("uploads/".$owner['profile_image']))
-		{
-			$src3="uploads/".$owner['profile_image'];
-		}
-		else
-		{
-			$src3="http://graph.facebook.com/".$owner['facebook_id']."/picture?type=large";
-		}
-		
+		$src3="uploads/".$owner['profile_image'];
+		$src3width=190;
 	}
 	else
 	{
 		//$src3="http://graph.facebook.com/".$row['facebook_id']."/picture?width=60&height=60";
-		$src3="http://graph.facebook.com/".$owner['facebook_id']."/picture?type=large";
+		$src3="http://graph.facebook.com/".$owner['facebook_id']."/picture?width=200&height=130";
 		
 		list($width, $height, $type, $attr) = @getimagesize($src3);
-															   
-		$newheight = 127;
+		$src3width=($width-10);															   
+		/*$newheight = 127;
 		$newwidth = 219;        
 													   
 		if ($width>$newwidth || $height>$newheight)
@@ -104,7 +232,7 @@ else
 		}  		
 		
 		$thumb_w='width:'.$thumb_w.'px;';
-		$thumb_h='height:'.$thumb_h.'px;';		
+		$thumb_h='height:'.$thumb_h.'px;';	*/	
 	}	
 }
 $freview=firstopinion($rev_id, $owner['user_id']);
@@ -126,6 +254,7 @@ else
 	$freview['review_description']="No description by owner";
 }	
 ?>
+
 <script type="text/javascript">
 function giveReview()
 {
@@ -161,16 +290,27 @@ function giveReview()
 		});	
 	}
 }
-</script>  	
+</script>
+		
 <div class="internal-wrapper">
+
 <div style="margin-top:100px;position:relative;">
- <a href="Infowall-Review.html"> <img style="width:980px;height:260px;" src="<?php echo $ban_img?>" alt="" class="image-border"  border="0"/></a>
- <a onclick="giveReview();" style="float:right;cursor:pointer;"><img src="images/review-btrn.png" alt="" style="float:right;padding:5px 30px 0px 0px;" /></a>
+	 <a onclick="giveReview();" style="float:left;cursor:pointer;position:absolute;top:5px;margin-left:10px;z-index:10"><img src="images/review-btrn.png" alt="" style="float:right;padding:5px 30px 0px 0px;" /></a>
+  <div id="review_cover">
+	          <img  src="<?php echo $ban_img?>" alt="" class="image-border" style="width:980px;height:260px;"/>
+	          </div>
+<div style="float:right;display:block" id="cover" >
+			  
+			  <div class="inputWrapper" style="margin-top:-270px;margin-right:35px;background:none;">
+				<div <?php echo $display;?>>Upload</div>
+					<input class="fileInput" onchange="upload_file();" type="file" multiple="multiple" name="file" >
+				</div>
+			   </div>
  <?php
  if($detail['review_img']=="" || !file_exists('review_images/'.$detail['review_img']))
  {
  ?>
- <h7 style="text-align:center;margin-top:-100px;color: #FFFFFF; position: absolute; top: 231px; z-index: 10;width:970px;background:none;"><?php echo $detail['review_title']?></h7>
+ <h7 style="text-align:center;margin-top:-100px;color: #000000; position: absolute; top: 231px; z-index: 10;width:970px;background:none;font-family:Castellar;font-size:50px;text-decoration:underline;"><?php echo $detail['review_title']?></h7>
  <?php
   }
   else
@@ -196,7 +336,7 @@ function giveReview()
 				<input type="hidden" name="hidcatid" id="hidcatid" value="<?php echo $detail['review_cat_id'];?>">
 				<input type="hidden" name="catinput" id="catinput" value="<?php echo $detail['review_title'];?>">
              </form>
-             <div class="views-field round-imgred13-2012" style="marlgin-bottom:10px; margin-left:10px;"><img src="<?php echo $src3?>"  alt=""/><div class="nametop-heading-box-review" style="width:auto;margin-top:-24px;min-width:170px;max-width:220px;"><?php echo $owner['user_firstname']." ". substr($owner['user_lastname'],0,1)."."?> </div></div>
+             <div class="views-field round-imgred13-2012" style="marlgin-bottom:10px; margin-left:10px;"><img src="<?php echo $src3?>"  alt="" style="width:200px;height:130px"/><div class="nametop-heading-box-review" style="margin-top: -24px;width: <?php echo $src3width?>px"><?php echo $owner['user_firstname']." ". substr($owner['user_lastname'],0,1)."."?> </div></div>
              
              <div class="message-box-back">
              <div style="padding:15px;">
@@ -212,7 +352,16 @@ function giveReview()
              <div class="clear"></div>
              
              <div class="middle-text-review-small" style="padding:15px;">
-              <?php echo $freview['review_description']?>
+              <?php if(strlen($freview['review_description'])>350)
+              {
+				  echo substr($freview['review_description'],0,350)."...<a href='javascript:void(0)' onclick='showfulltext(".$freview['review_map_id'].")'>Read More</a> ";
+				}
+				else
+				{
+					echo $freview['review_description'];
+				}	
+              ?>
+              
              <!--<img src="images/arrow-down-grey.png" alt="#" style="margin-bottom:-5px;" />--></div>
 
 			<div class="clear"></div>
@@ -257,8 +406,8 @@ function giveReview()
 			$crate=0;
 		}	
 		$cimg="images/rate/bigrate$crate.png";
+		//echo $cmt['created_by'];
 		$cuser=user_detail($cmt['created_by']);
-		//print_r($cuser);
 		if($cuser['facebook_id']=="")
 		{
 			if($cuser['profile_image']!='')
@@ -290,7 +439,7 @@ function giveReview()
 				$srcc="http://graph.facebook.com/".$cuser['facebook_id']."/picture?type=large";
 				
 				list($width, $height, $type, $attr) = @getimagesize($src3);
-																	   
+															   
 				$newheight = 127;
 				$newwidth = 219;        
 															   
@@ -336,7 +485,15 @@ function giveReview()
              <div class="clear"></div>
              
              <div class="middle-text-review-small" style="padding:15px;">
-              <?php echo $cmt['review_description']?>
+             <?php if(strlen($cmt['review_description'])>350)
+              {
+				  echo substr($cmt['review_description'],0,350)."...<a href='javascript:void(0)' onclick='showfulltext(".$cmt['review_map_id'].")'>Read More</a> ";
+				}
+				else
+				{
+					echo $cmt['review_description'];
+				}	
+              ?>
              <!--<img src="images/arrow-down-grey.png" alt="#" style="margin-bottom:-5px;" />--></div>
 
 			<div class="clear"></div>
@@ -372,6 +529,25 @@ function giveReview()
 		echo "No review till";
 	}	
     ?>
-        
+   
    </div>
+   
  <?php include("footer.php")?>
+ <iframe id="frmiframe" frameborder="0" width="0" height="0" src="image_crop/uploadfile_review.php" name="frmiframe" scrolling="no"></iframe>
+<div class="popup_bg" id="bgMain" style="display:none;"></div>
+<div id="popup_cover_corp" class="popup" style="display: none; width: 1024px; height:auto; margin: 0px auto; position: absolute; top: 50px; z-index: 99999; left:180px;">
+	<div class="popup-header">
+	<div class="formpanel-text-rightCategory form-text" style="float:left;margin-top: 10px;width: 350px; font-family: 'CalibriRegular';margin-left:350px;font-size: 30px;">Review Image Selection</div>
+		<a class="close pull-right" style="float:right;" onclick="close_popup_cover_corp();"> </a>
+	</div>
+	<div id="crop_core_body" class="bodycontent" style="min-height:350px;">
+		<iframe id="editCoverPicturebodyfrm" frameborder="0" name="editCoverPicturebodyfrm" style="  height: 500px;     margin-left: -9px;     width: 1101px;overflow:hidden;"></iframe>
+	</div>
+</div>
+<div id="light" class="white_content"> 
+
+</div>
+<div style="display:none" id="cross">
+	<a href="javascript:void(0)" onclick="cross()"><img src="images/cross-icon.png"></a>
+</div>
+    <div id="fade" class="black_overlay"></div>

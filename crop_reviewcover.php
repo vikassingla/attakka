@@ -65,9 +65,10 @@
       });
       //--><!]]>
       
-function close_popup_cover_corp()
+function close_popup_cover_corp1()
 { 
 	parent.document.getElementById('popup_cover_corp').style.display="none";
+	parent.document.getElementById('bgMain').style.display="none";
 }
       
 function setCoverPhoto()

@@ -66,7 +66,7 @@ $adjacents = 3;
 //echo $query1;
 $total_pages = getAllReviewsOfCategoryTotal($cat_id);
 //echo $total_pages;
-$limit = 3; 								//how many items to show per page
+$limit = 10; 								//how many items to show per page
 @$page = $_GET['page'];
 if($page) 
 	$start = ($page - 1) * $limit; 			//first item to display on this page
@@ -159,9 +159,13 @@ else
 <div class="internal-wrapper">
 <div style="margin-top:100px;position:relative">
 
-
- <img onclick="xajax_bannerFavorites(<?php echo $cat_id?>)" id="bannerfav" src="<?php print $srcfb;?>" style="  cursor:pointer; float: right;     margin-left: 943px;     margin-top: 10px;     position: absolute;">
-
+<div style="width:100%;left:0px;top:0px;position:absolute;">
+ <img onclick="xajax_bannerFavorites(<?php echo $cat_id?>)" id="bannerfav" src="<?php print $srcfb;?>" style="  cursor:pointer; float: left;     margin-left: 13px;     margin-top: 10px;">
+  <div style="float:right;margin-right:40px;margin-top:10px;">
+	<a href="create_rev.php?cat_id=<?php echo $cat_id;?>"><img src="images/review-btrn.png" alt="" style="" /></a>		 
+	</div>
+</div>
+	
 
 <?php
 $sql1="select cat_name, cat_banner_img from tbl_category where cat_id=".$cat_id;
@@ -178,12 +182,12 @@ $sql1="select cat_name, cat_banner_img from tbl_category where cat_id=".$cat_id;
 ?>
 
   <a href="infowall.php?cat_id=<?php echo $cat_id;?>"><img src="<?php echo $src?>" alt="" class="image-border" /></a>
-  <h7 style="padding-left:10px;bottom:6;"><?php echo $row['cat_name']?></h7>
+  
+
+  <h7 style="padding-left:10px;bottom:9px;width:979px;"><?php echo $row['cat_name']?></h7>
    
   </div>
-  <div style="float:right;margin-right:40px;">
-	<a href="create_rev.php?cat_id=<?php echo $cat_id;?>"><img src="images/review-btrn.png" alt="" style="" /></a>		 
-	</div>
+
 			 <div style="margin-top:40px; margin-bottom:20px;" ><img src="images/banner/banner-ad2.png" alt="#"  class="image-border"/></div>
 			 
 			 <div class="clear"></div>
@@ -385,6 +389,7 @@ background: url("images/black-bordernew.png") no-repeat;
 		$best1=getBest($cat_id, 'desc');
 		if(count($best1)>0)
 		{
+			$cntt=0;
 			foreach($best1 as $best)
 			{
 			if($best['reviews']==0)
@@ -407,10 +412,11 @@ background: url("images/black-bordernew.png") no-repeat;
 			else
 			{
 				//$src="images/norevimage.jpg";
-				$src="images/red-blank.jpeg";
+				$src="images/red-blank1.jpeg";
 			}
+			$cntt++;
 		?>
-			
+		<div class="numbertext-new-general"><?php echo $cntt;?></div>	
 		<div class="red-border-new-170ct">
 			<div class="views-field subcategoryhorror-new17oct-black">
 			<a href="review_detail.php?review_id=<?php echo $best['review_id'];?>">
@@ -420,7 +426,7 @@ background: url("images/black-bordernew.png") no-repeat;
 			 if(empty($best['review_img']) || !file_exists('review_images/'.$best['review_img']))
 			 {
 			  ?>
-			  <a href="review_detail.php?review_id=<?php echo $best['review_id'];?>"><h6 style="padding-left:45px; margin-top:-59px;background:none;text-align:center;"><?php echo $best['review_title']?></h6></a>
+			  <a href="review_detail.php?review_id=<?php echo $best['review_id'];?>"><h6 style="padding-left:45px; margin-top:-59px;background:none;text-align:center;font:14px Castrella;color:#000000"><?php echo $best['review_title']?></h6></a>
 			  <?php
 			 }
 			  else
@@ -469,6 +475,7 @@ background: url("images/black-bordernew.png") no-repeat;
 				$best1=getBest($cat_id, 'asc');
 				if(count($best1)>0)
 				{
+					$ct=count($best1);
 					foreach($best1 as $best)
 					{
 					if($best['reviews']==0)
@@ -491,10 +498,11 @@ background: url("images/black-bordernew.png") no-repeat;
 					else
 					{
 						//$src="images/norevimage.jpg";
-						$src="images/red-blank.jpeg";
+						$src="images/red-blank1.jpeg";
 					}
+					
 				?>
-
+                <div class="numbertext-new-general" style="color:black"><?php echo $ct;?></div>
 				<div class="black-border-new-170ct">
 					<div class="views-field subcategoryhorror-new17oct-black">
 					<a href="review_detail.php?review_id=<?php echo $best['review_id'];?>">
@@ -504,7 +512,7 @@ background: url("images/black-bordernew.png") no-repeat;
 					 if(empty($best['review_img']) || !file_exists('review_images/'.$best['review_img']))
 					 {
 					  ?>
-					 <a href="review_detail.php?review_id=<?php echo $best['review_id'];?>"> <h6 style="padding-left:45px; margin-top:-59px;background:none;text-align:center;cursor:pointer"><?php echo $best['review_title']?></h6></a>
+					 <a href="review_detail.php?review_id=<?php echo $best['review_id'];?>"> <h6 style="padding-left:45px; margin-top:-59px;background:none;text-align:center;cursor:pointer;font:14px Castrella;color:#000000"><?php echo $best['review_title']?></h6></a>
 					  <?php
 					  }
 					  else
@@ -520,7 +528,9 @@ background: url("images/black-bordernew.png") no-repeat;
 				<div class="clear"></div>
 			
 			<?php
+			$ct--;
 				}
+				
 			}
 		
 			?>
@@ -538,7 +548,7 @@ background: url("images/black-bordernew.png") no-repeat;
  
 	   <div class="grey-round-bar heading-black">
 	  <div style="padding-left:5px;float:left" id="navdiv">
-	  <a style="text-decoration:none; padding-right:20px" class="<?php if ($_GET['mod']=="hot") {echo "black-button";} else {  echo "heading-black"; } ?>" href="category_detail.php?cat_id=<?php echo$cat_id?>&mod=hot">HOT</a> 
+	  <a style="text-decoration:none; padding-right:20px" class="<?php if ($_GET['mod']=="hot" || $mod='hot') {echo "black-button";} else {  echo "heading-black"; } ?>" href="category_detail.php?cat_id=<?php echo$cat_id?>&mod=hot">HOT</a> 
 	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="new") {echo "black-button";} else {  echo "heading-black"; } ?>" href="category_detail.php?cat_id=<?php echo $cat_id?>&mod=new">NEW</a> 
 	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="rank") {echo "black-button";} else {  echo "heading-black"; } ?>" href="#">RANK</a> 
 	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="fan") {echo " black-button";} else {  echo "heading-black"; } ?>" href="#">FANS</a>
@@ -565,24 +575,27 @@ background: url("images/black-bordernew.png") no-repeat;
 		if(isset($cat_id))
 		{
 			$getallReviews=getAllReviewsOfCategory($cat_id,$start,$limit);
-			//echo '<pre>';
-			//print_r($getallReviews);
+			/*echo '<pre>';
+			print_r($getallReviews);*/
 		    if(count($getallReviews)>0)
 		    {
 				foreach($getallReviews as $revs)
 				{
-					//echo '<pre>';
-					//print_r($revs);
+					/*echo '<pre>';
+					print_r($revs);
+					*/
 					$reviewImg='review_images/'.$revs['review_img'];
 					//echo $reviewImg."<br>";
 					if(empty($revs['review_img']) || !file_exists($reviewImg))
 					{
 						//$imgsrc='images/norevimage.jpg';
-						$imgsrc='images/red-blank.jpeg';
+						$imgsrc='images/red-blank1.jpeg';
+						$style1="height:120px;width:283px;border: 1px solid #CCCCCC;";
 					}
 					else
 					{
 						$imgsrc='review_images/'.$revs['review_img'];
+						$style1="height:120px;width:283px;";
 					}
 					if(empty($revs['review_title']))
 					{
@@ -592,9 +605,10 @@ background: url("images/black-bordernew.png") no-repeat;
 					{
 						$title=$revs['review_title'];
 					}
-					if(!empty($revs['review_rate']))
+					if(!empty($revs['avg']))
 					{
-						$name='bigrate'.$revs['review_rate'].'.png';
+						$rate=round($revs['avg']);
+						$name='bigrate'.$rate.'.png';
 						$rateimg='images/rate/'.$name;
 					}
 					else
@@ -613,18 +627,18 @@ background: url("images/black-bordernew.png") no-repeat;
  
 				<a href="review_detail.php?review_id=<?php echo $revs['review_id'];?>"><div class="border-round">
 					<div class="images-left-panel views-field round-img<?php echo $color?>-newgeneral">
-					<img src="<?php echo $imgsrc;?>" border="0"  alt="#" style="height:120px;width:300px;"/>
+					<img src="<?php echo $imgsrc;?>"  style="<?php echo $style1?>"/>
 					<?php
 					if(empty($revs['review_img']) || !file_exists($reviewImg))
 					{
 					 ?>
-					<h6 style="padding-left:10px; margin-top:-76px;width:270px;background:none;text-align:center;"><?php echo $title;?></h6>
+					<h6 style="padding-left:10px; margin-top:-76px;width:270px;background:none;text-align:center;font:19px castrella;color:#000000"><?php echo $title;?></h6>
 					<?php
 				    }
 				    else
 				    {
 					 ?>
-					 <h6 style="padding-left:10px; margin-top:-27px;width:270px;"><?php echo $title;?></h6>
+					 <h6 style="padding-left:10px; margin-top:-30px;width:270px;"><?php echo $title;?></h6>
 					 <?php
 				    }
 				    ?>
@@ -633,7 +647,7 @@ background: url("images/black-bordernew.png") no-repeat;
 					<div class="notes-panel middle-text">
 					  <div class="internal-panel">
 						<div class="panel">
-						  <p style=" position: relative; top: -50%"><?php echo $revop;?></p>
+						  <p style=" position: relative; top: 50%;padding-top:40px;"><?php echo $revop;?></p>
 						</div>
 					  </div>
 					</div>

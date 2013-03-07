@@ -374,7 +374,7 @@ h3 {
  
 .image-border{
 border:solid 5px #FFFFFF;
-    box-shadow: 4px 3px 4px 1px #CCCCCC;
+    box-shadow: 1px 3px 4px 4px #CCCCCC;
 }
 
 	
@@ -576,7 +576,8 @@ border:solid 5px #FFFFFF;
 	.white-wrapper-error  
 	{
 		background: url(../images/login-white-back.png) repeat;
-		border-radius: 10px;
+		border:2px solid #D5D5D5;
+		border-radius: 3px 3px 3px 3px ;
 		-moz-box-shadow:    0px 0px 5px #ccc;
 		-webkit-box-shadow: 0px 0px 5px #ccc;
 		box-shadow:         0px 0px 5px #ccc;
@@ -588,9 +589,10 @@ border:solid 5px #FFFFFF;
 		width:420px;
 		text-align:center;
 		color:#CB0505;
-		font:14px Verdana,Arial,Helvetica,sans-serif;
-		padding-top:5px;
-		padding-bottom:5px;
+		font:12px/22px Verdana,Arial,Helvetica,sans-serif;
+		padding-top:3px;
+		padding-bottom:4px;
+		padding-left:13px;
 	}
 	
 	.red-color-heading{
@@ -1935,7 +1937,7 @@ h5 {
 
 h7{ 
 	position: absolute; 
-	bottom: 4px; 
+	bottom: 9px; 
 	line-height:34px; 
 	left: 5px; 
 	width:980px; 
@@ -2498,7 +2500,7 @@ margin-top:25px;
     font-size: 16px;
     font-weight:normal;
     line-height: 24px;
-    margin-top: -30px;
+    margin-top: -24px;
     padding-left: 11px;
     position: absolute;
     text-shadow: 1px 2px 1px #000000;

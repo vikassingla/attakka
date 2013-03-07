@@ -144,7 +144,7 @@ clear:both;
 					if(empty($gb['review_img']) || !file_exists($reviewImg))
 					{
 						//$reviewImgsrc='images/norevimage.jpg';
-						$reviewImgsrc='images/red-blank.jpeg';
+						$reviewImgsrc='images/red-blank1.jpeg';
 					}
 					else
 					{
