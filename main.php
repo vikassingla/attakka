@@ -76,6 +76,8 @@ case 'png': imagepng($new, $dst); break;
 }
 return true;
 }	
+echo "<pre>";
+print_r($_GET);
 /****************RESEND ACTIVATION COODE*********/
 if(isset($_GET['email']))
 {
@@ -85,8 +87,11 @@ if(isset($_GET['email']))
 	$rs=mysql_query($sql);
 	$row=mysql_fetch_array($rs);
 	$sql1="update tbl_user set activation_code='$ac' where user_id=".$row['user_id'];
-	mysql_query($sql);
+	mysql_query($sql1);
 	$link=SITE_URL.'login.php?actc='.$ac;
+	$sqle="select email_msg from tbl_email_templates where email_id=1";
+	$rsle=mysql_query($sqle);
+	$rowe=mysql_fetch_array($rsle);
 	$sentTo = $email;
 	$subject = "Your New Activation Link";
 	$headers = 'MIME-Version: 1.0' . "\r\n";
@@ -94,12 +99,13 @@ if(isset($_GET['email']))
 	$headers .= 'From: '.$from.' <'.$from.'>' . "\r\n";
 	$headers .= 'Reply-To: '.$check. "\r\n" . 'X-Mailer: PHP/' . phpversion();
 	$message = '';
-	$message .="Dear ".$row['user_firstname']." ".$row['user_lastname']."<br><br/>";
-	$message.="<b>Email:</b> ".$email."<br>";
-	$message.="<b>Activation Link:</b>".$link."<br><br/>";
-	$message.="Regards,<br>";
-	$message.="www.attaka.com";
-	$sentmail=mail($sentTo,$subject,$message,$headers);
+	$message=strip_tags(html_entity_decode($rowe['email_msg']), '<br/><p>');	
+	$search = array('{user_firstname}','{user_lastname}', '{link}');
+	$replace = array($row['user_firstname'],$row['user_lastname'], $link) ;
+	$body =str_replace($search,$replace,$message);
+	echo $search;
+	echo $body;	
+	$sentmail=mail($sentTo,$subject,$body,$headers);
 	header('location:login.php?msg=chkacl');
 }	
 
@@ -198,16 +204,21 @@ if(isset($_POST['login']))
 	}	
 	else
 	{
-		$sqll="select user_id, user_status from tbl_user where user_email='$useremail' limit 0, 1";
+		$sqll="select user_id, user_status,activation_code from tbl_user where user_email='$useremail' limit 0, 1";
 		$rss=mysql_query($sqll);
+		$rowss=mysql_fetch_array($rss);
 		if(mysql_num_rows($rss)>0)
 		{
-			if($rss['user_status']==1)
+			if($rowss['user_status']==1)
 			{
 				header('Location:login.php?msg1=aexist');
 				die();					
 			}
-			else
+			else if($rowss['user_status']==1 && $rowss['user_email']==$useremail && $rowss['user_pass']=$userpassword && $rowss['activation']=="")
+			{
+				header('Location:login.php?msg1=alexist');
+			}	
+			else 
 			{	
 				header('Location:login.php?msg1=accexist&email='.$useremail);
 				die();	
@@ -593,6 +604,15 @@ if(isset($_POST['review_image']))
 	header("Location:infowall.php?cat_id=$cat_id&msg=susub");
 			
 }
+/******************For Review Image************************/
+if($_GET['review_id'] && $_GET['review_img'])
+{
+	extract($_GET);
+	$sql_rev="update tbl_review set review_img='$review_img' where review_id='$review_id'";
+	//echo $sql_rev;
+	mysql_query($sql_rev);
+	header("Location:review_detail.php?review_id=$review_id");
+}	
 /******************Reset the Site***********************/
 if(isset($_POST['reset']))
 {

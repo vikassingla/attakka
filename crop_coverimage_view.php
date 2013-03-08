@@ -193,9 +193,9 @@ function upload_file1()
 		<input type="hidden" name="uploadfile" id="uploadfile" value="yes">
 		<input type="hidden" name="anotherimage" id="anotherimage" value="yes">
 
-     <a href="#" style="text-decoration:none;cursor:pointer; background: url('images/blank_btn.png') no-repeat scroll 0 0 transparent;
+     <a href="javascript:void(0)" style="text-decoration:none;cursor:pointer; background: url('images/blank_btn.png') no-repeat scroll 0 0 transparent;
     color: #FFFFFF;float: left;font: bold 12px Tahoma,Geneva,sans-serif; height: 15px;padding: 8px 0;text-align: center;width: 176px;cursor:pointer;">Choose another image</a>
-		<input onchange="upload_file1();" type="file" multiple="multiple" name="file" style="float: left;     height: 26px;     margin-left: -200px;     margin-top: 3px;      position: absolute;  opacity:0;   width: 176px">
+		<input onchange="upload_file1();" type="file" multiple="multiple" name="file" style="float: left;     height: 26px;     margin-left: -186px;     margin-top: 3px;      position: absolute;  opacity:0;   width: 176px">
 
 		
      </form>

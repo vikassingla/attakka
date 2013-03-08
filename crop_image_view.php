@@ -69,7 +69,7 @@ function close_popup_cover_corp1()
 { 
 
 parent.document.getElementById('popup_cover_corp').style.display="none";
-	
+	 parent.document.getElementById('bgMain').style.display='none';
 	/*parent.document.getElementById('tbox_overlay').style.display="none";
 	parent.document.getElementById('popup_cover_corp').style.display="none";
 	parent.document.getElementById('bigloaderimg_cover').style.display="none";
@@ -202,9 +202,9 @@ function upload_file1()
 		<input type="hidden" name="uploadfilenew" id="uploadfilenew" value="newfile">
 			  <input type="hidden" name="oldfilename" id="oldfilename" value="<?php print @$_GET['file']; ?>">    
 
-     <a href="#" style="text-decoration:none;cursor:pointer; background: url('images/blank_btn.png') no-repeat scroll 0 0 transparent;
+     <a href="javascript:void(0)" style="text-decoration:none;cursor:pointer; background: url('images/blank_btn.png') no-repeat scroll 0 0 transparent;
     color: #FFFFFF;float: left;font: bold 12px Tahoma,Geneva,sans-serif; height: 15px;padding: 8px 0;text-align: center;width: 176px;cursor:pointer;" >Choose another image</a>
-		<input onchange="upload_file1();" type="file" multiple="multiple" name="uploadnewfile" style="float: left;     height: 26px;     margin-left: -269px;     margin-top: 3px;     opacity: 0;     position: absolute;     width: 128px">
+		<input onchange="upload_file1();" type="file" multiple="multiple" name="uploadnewfile" style="float: left;     height: 26px;     margin-left: -174px;     margin-top: 3px;     opacity: 0;     position: absolute;     width: 172px">
      </form>
      </div> 
 

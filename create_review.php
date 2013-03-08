@@ -164,7 +164,7 @@ function close_popup_cover_corp()
 			  <div class="clear"></div>
 			  <div style="float:right;display:block" id="cover" >
 			  
-			  <div class="inputWrapper" style="margin-top:-270px;margin-right:35px;background:none;">
+			  <div class="inputWrapper" style="position: absolute;right: 1080px;top: 100px;background:none;">
 				<div <?php echo $display;?>>Upload</div>
 					<input class="fileInput" onchange="upload_file();" type="file" multiple="multiple" name="file" >
 				</div>

@@ -42,101 +42,7 @@
         overflow: auto;
 	}	
 </style>
-<script>
 
-
-function upload_file()
-{
-    document.getElementById('bgMain').style.display='block';
-    //document.getElementById('popup_cover_corp').style.display='block';
-	document.form_rev.action='image_crop/uploadfile_review.php';
-	document.form_rev.target='frmiframe';
-	document.getElementById('uploadfile').value='yes';
-	document.form_rev.submit();
-}
-
-function show_croper(name)
-{
-	document.getElementById('popup_cover_corp').style.display='block';
-	document.getElementById('b990_image').value='new'+name;
-	document.getElementById('editCoverPicturebodyfrm').src = 'crop_reviewcover.php?file='+name;
-}
-
-function show_other_image(name)
-{
-	document.getElementById('review_cover').innerHTML = '<img src="review_images/'+name+'">';
-
-}
-
-function close_popup_cover_corp()
-{ 
-	document.getElementById('popup_cover_corp').style.display="none";
-	document.getElementById('bgMain').style.display="none";
-}
-    
-
-
-
-</script>
-<script>
-function showfulltext(id)
-{
-	{
-
-//alert(scores);
-//alert(date2);
-//$("#dvLoading").show();
-if(id!='')
-{
-$.ajax({
-url: 'review_full.php?review_id='+id,
-success: function(data) {
-//alert(data);
-$("#light").css("display","block");
-$("#cross").css("display","block");
-//$("#dvLoading").hide();
-$("#fade").css("display","block");
-$('#light').html(data);
-}
-
-});
-}
-}
-			
-}	
-function showfullopinion(id)
-{
-	{
-
-//alert(scores);
-//alert(date2);
-//$("#dvLoading").show();
-if(id!='')
-{
-$.ajax({
-url: 'review_opin_full.php?review_id='+id,
-success: function(data) {
-//alert(data);
-$("#light").css("display","block");
-$("#cross").css("display","block");
-//$("#dvLoading").hide();
-$("#fade").css("display","block");
-$('#light').html(data);
-}
-
-});
-}
-}
-			
-}	
-function cross()
-{
-//alert(data);
-$("#light").css("display","none");
-$("#cross").css("display","none");
-$("#fade").css("display","none");		
-}	
-</script>
 <?php 
 if(empty($_GET))
 {
@@ -254,7 +160,103 @@ else
 	$freview['review_description']="No description by owner";
 }	
 ?>
+<script>
 
+
+function upload_file()
+{
+    document.getElementById('bgMain').style.display='block';
+    //document.getElementById('popup_cover_corp').style.display='block';
+	document.form_rev.action='image_crop/uploadfile_review.php';
+	document.form_rev.target='frmiframe';
+	document.getElementById('uploadfile').value='yes';
+	document.form_rev.submit();
+}
+
+function show_croper(name)
+{
+	document.getElementById('popup_cover_corp').style.display='block';
+	document.getElementById('b990_image').value='new'+name;
+	document.getElementById('editCoverPicturebodyfrm').src = 'crop_reviewcover1.php?file='+name;
+}
+
+function show_other_image(name)
+{
+	//alert(name);
+	window.location.href="../main.php?review_id="+<?php echo $_GET['review_id']?>+"&review_img="+name;
+	//document.getElementById('review_cover').innerHTML = '<img src="review_images/'+name+'">';
+	
+}
+
+function close_popup_cover_corp()
+{ 
+	document.getElementById('popup_cover_corp').style.display="none";
+	document.getElementById('bgMain').style.display="none";
+}
+    
+
+
+
+</script>
+<script>
+function showfulltext(id)
+{
+	{
+
+//alert(scores);
+//alert(date2);
+//$("#dvLoading").show();
+if(id!='')
+{
+$.ajax({
+url: 'review_full.php?review_id='+id,
+success: function(data) {
+//alert(data);
+$("#light").css("display","block");
+$("#cross").css("display","block");
+//$("#dvLoading").hide();
+$("#fade").css("display","block");
+$('#light').html(data);
+}
+
+});
+}
+}
+			
+}	
+function showfullopinion(id)
+{
+	{
+
+//alert(scores);
+//alert(date2);
+//$("#dvLoading").show();
+if(id!='')
+{
+$.ajax({
+url: 'review_opin_full.php?review_id='+id,
+success: function(data) {
+//alert(data);
+$("#light").css("display","block");
+$("#cross").css("display","block");
+//$("#dvLoading").hide();
+$("#fade").css("display","block");
+$('#light').html(data);
+}
+
+});
+}
+}
+			
+}	
+function cross()
+{
+//alert(data);
+$("#light").css("display","none");
+$("#cross").css("display","none");
+$("#fade").css("display","none");		
+}	
+</script>
 <script type="text/javascript">
 function giveReview()
 {
@@ -295,13 +297,16 @@ function giveReview()
 <div class="internal-wrapper">
 
 <div style="margin-top:100px;position:relative;">
-	 <a onclick="giveReview();" style="float:left;cursor:pointer;position:absolute;top:5px;margin-left:10px;z-index:10"><img src="images/review-btrn.png" alt="" style="float:right;padding:5px 30px 0px 0px;" /></a>
+	 <a onclick="giveReview();" style="cursor: pointer;float: right;margin-left: 10px;position: absolute;right: 3px;top: 5px;z-index: 10;"><img src="images/review-btrn.png" alt="" style="float:right;padding:5px 30px 0px 0px;" /></a>
+	 <form name="form_rev" action="main.php" method="POST" id="form_rev"  enctype="multipart/form-data" >
+		   <input type="hidden" name="review_id" id="review_id" value="<?php echo $_GET['review_id']?>">
   <div id="review_cover">
+  
 	          <img  src="<?php echo $ban_img?>" alt="" class="image-border" style="width:980px;height:260px;"/>
 	          </div>
 <div style="float:right;display:block" id="cover" >
 			  
-			  <div class="inputWrapper" style="margin-top:-270px;margin-right:35px;background:none;">
+			  <div class="inputWrapper" style="position: absolute;right: 947px;top: 8px;background:none;">
 				<div <?php echo $display;?>>Upload</div>
 					<input class="fileInput" onchange="upload_file();" type="file" multiple="multiple" name="file" >
 				</div>
@@ -320,6 +325,17 @@ function giveReview()
   <?php
    }
    ?>
+   
+			    <input type="hidden" name="uploadfile" id="uploadfile" value="">
+				<input type="hidden" name="uploadfilenew" id="uploadfilenew" value="">
+				<input type="hidden" name="b990_image" id="b990_image" value="">
+				<input type="hidden" name="p250_image" id="p250_image" value="">
+				
+				<div id="PhotoPrevs" style="float:left;width:150px;">
+				</div>
+				<div id="PhotoPrevs1" style="float:left;width:120px;">
+				</div>
+   </form>
  <div class="rate-icontop" align="right"><img src="<?php echo $rate?>" alt="" class="rate-shadow" /></div>
   </div>
   <div class="clear"></div>
@@ -548,6 +564,6 @@ function giveReview()
 
 </div>
 <div style="display:none" id="cross">
-	<a href="javascript:void(0)" onclick="cross()"><img src="images/cross-icon.png"></a>
+	<a href="javascript:void(0)" onclick="cross()"><img src="images/cross-icon.png" style=""></a>
 </div>
     <div id="fade" class="black_overlay"></div>

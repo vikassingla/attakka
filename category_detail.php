@@ -548,7 +548,7 @@ background: url("images/black-bordernew.png") no-repeat;
  
 	   <div class="grey-round-bar heading-black">
 	  <div style="padding-left:5px;float:left" id="navdiv">
-	  <a style="text-decoration:none; padding-right:20px" class="<?php if ($_GET['mod']=="hot" || $mod='hot') {echo "black-button";} else {  echo "heading-black"; } ?>" href="category_detail.php?cat_id=<?php echo$cat_id?>&mod=hot">HOT</a> 
+	  <a style="text-decoration:none; padding-right:20px" class="<?php if ($_GET['mod']=="hot" || empty($_GET)) {echo "black-button";} else {  echo "heading-black"; } ?>" href="category_detail.php?cat_id=<?php echo$cat_id?>&mod=hot">HOT</a> 
 	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="new") {echo "black-button";} else {  echo "heading-black"; } ?>" href="category_detail.php?cat_id=<?php echo $cat_id?>&mod=new">NEW</a> 
 	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="rank") {echo "black-button";} else {  echo "heading-black"; } ?>" href="#">RANK</a> 
 	  <a style="text-decoration:none; padding-right:20px;" class="<?php if ($_GET['mod']=="fan") {echo " black-button";} else {  echo "heading-black"; } ?>" href="#">FANS</a>
@@ -622,6 +622,18 @@ background: url("images/black-bordernew.png") no-repeat;
 					else
 					{
 						$revop=$revs['review_opinion'];
+						if(strlen($revop)>120)
+						{
+							$top="20";
+						}	
+						else if(strlen($revop)>60)
+						{
+							$top="30";
+						}
+						else
+						{
+							$top="40";
+						}		
 					}
 				?>
  
@@ -647,7 +659,7 @@ background: url("images/black-bordernew.png") no-repeat;
 					<div class="notes-panel middle-text">
 					  <div class="internal-panel">
 						<div class="panel">
-						  <p style=" position: relative; top: 50%;padding-top:40px;"><?php echo $revop;?></p>
+						  <p style="position: relative; top: 50%;padding-top:<?php echo $top?>px;"><?php echo $revop;?></p>
 						</div>
 					  </div>
 					</div>

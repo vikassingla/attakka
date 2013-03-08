@@ -117,33 +117,44 @@ function closepopup(id)
 						<a href="main.php?email='.$email.'&ac='.rand_str().'">Resend activation link</a>';
 						echo '<div class="white-wrapper-error" style="margin-left:15px;width:554px" id="closemsg">'.$msg.'</div>
 						';
-						echo '<script>setTimeout("document.getElementById(\'closemsg\').style.display=\'none\';",4000);</script>';
 					}
 					else if (isset($_GET['msg2'])=='loginFail')
 					{	
 						$msg='Either email or password is wrong.<a href="javascript:void(0)" onclick=closepopup("closemsg1")><img src="images/cancel1.png" style=" float: right; margin-right: 8px; margin-top: 3px;"></a>';
 						echo '<div class="white-wrapper-error" id="closemsg1">'.$msg.'</div>';
-						echo '<script>setTimeout("document.getElementById(\'closemsg1\').style.display=\'none\';",4000);</script>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg1\').style.display=\'none\';",10000);</script>';
+					}
+					else if (isset($_GET['msg2'])=='aexist')
+					{	
+						$msg='Either email or password is wrong.<a href="javascript:void(0)" onclick=closepopup("closemsg1")><img src="images/cancel1.png" style=" float: right; margin-right: 8px; margin-top: 3px;"></a>';
+						echo '<div class="white-wrapper-error" id="closemsg1">'.$msg.'</div>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg1\').style.display=\'none\';",10000);</script>';
 					}
 					else if (isset($_GET['msg3'])=='plzlogin')
 					{	
 						$msg='Please login to continue.<a href="javascript:void(0)" onclick=closepopup("closemsg2")><img src="images/cancel1.png" style=" float: right; margin-right: 8px; margin-top: 3px;"></a>';
 						echo '<div class="white-wrapper-error" id="closemsg2" >'.$msg.'</div>
 						';
-						echo '<script>setTimeout("document.getElementById(\'closemsg2\').style.display=\'none\';",4000);</script>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg2\').style.display=\'none\';",10000);</script>';
 					}
 					else if (isset($_GET['msg'])=='chkacl')
 					{	
 						$msg='Please click on activation link in your email for Login.<a href="javascript:void(0)" onclick=closepopup("closemsg3")><img src="images/cancel1.png" style=" float: right; margin-right: 8px; margin-top: 3px;"></a>';
 						echo '<div class="white-wrapper-error" id="closemsg3">'.$msg.'</div>';
-						echo '<script>setTimeout("document.getElementById(\'closemsg3\').style.display=\'none\';",4000);</script>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg3\').style.display=\'none\';",10000);</script>';
+					}
+					else if (isset($_GET['msg'])=='alexist')
+					{	
+						$msg='You are alrady activated your account.<a href="javascript:void(0)" onclick=closepopup("closemsg5")><img src="images/cancel1.png" style=" float: right; margin-right: 8px; margin-top: 3px;"></a>';
+						echo '<div class="white-wrapper-error" id="closemsg5">'.$msg.'</div>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg5\').style.display=\'none\';",10000);</script>';
 					}
 					if (isset($_GET['actc']))
 					{
 						$activation_code=$_GET['actc'];
 						$msg='Please login to activate your account. <a href="javascript:void(0)" onclick=closepopup("closemsg4")><img src="images/cancel1.png"></a>';
 						echo '<div class="white-wrapper-error" id="closemsg4">'.$msg.'</div>';
-						echo '<script>setTimeout("document.getElementById(\'closemsg4\').style.display=\'none\';",4000);</script>';
+						echo '<script>setTimeout("document.getElementById(\'closemsg4\').style.display=\'none\';",10000);</script>';
 					}
 					
 				?>	
@@ -198,13 +209,13 @@ function closepopup(id)
 var frmvalidator  = new Validator("form1");
 frmvalidator.EnableOnPageErrorDisplay();
 frmvalidator.EnableMsgsTogether();
-frmvalidator.addValidation("useremail","req","Please enter your Email");
-frmvalidator.addValidation("useremail","email", "Please enter valid Email");
-frmvalidator.addValidation("useremail","maxlen=250", "Maximum length for Email is 50");
+frmvalidator.addValidation("useremail","req","Please enter your Email.");
+frmvalidator.addValidation("useremail","email", "Please enter valid Email.");
+frmvalidator.addValidation("useremail","maxlen=250", "Maximum length for Email is 50.");
 
-frmvalidator.addValidation("userpassword","req","Please enter your Password");
-frmvalidator.addValidation("userpassword","minlen=6", "Minimum length for Password is 6");
-frmvalidator.addValidation("userpassword","maxlen=20", "Maximum length for Password is 20");
+frmvalidator.addValidation("userpassword","req","Please enter your Password.");
+frmvalidator.addValidation("userpassword","minlen=6", "Minimum length for Password is 6.");
+frmvalidator.addValidation("userpassword","maxlen=20", "Maximum length for Password is 20.");
 
 </script>
 

@@ -330,7 +330,7 @@ function closepopup(id)
 					<div class="leftpanel-content">GENERAL</div>
 					
 					<?php	
-				$sql12="select review_id, review_img, review_title from tbl_review ORDER BY review_id DESC limit 0,5";
+				$sql12="select review_id, review_img, review_title from tbl_review ORDER BY review_id DESC limit 0,4";
 				//echo $sql11;
 				$rs12=mysql_query($sql12);
 				
@@ -419,7 +419,7 @@ function closepopup(id)
 				 
 				
 				<?php	
-				$sql15="select review_id, review_img, review_title from tbl_review where review_cat_id=".$row9['cat_id']." ORDER BY review_id DESC limit 0,5";
+				$sql15="select review_id, review_img, review_title from tbl_review where review_cat_id=".$row9['cat_id']." ORDER BY review_id DESC limit 0,4";
 				//echo $sql15;
 				$rs15=mysql_query($sql15);
 				if(mysql_num_rows($rs15)>0)
@@ -506,7 +506,7 @@ function closepopup(id)
 					
 					<div class="content-panel-new">
 					<?php
-					$sql10="select cat_id, cat_name, cat_banner_img from tbl_category group by cat_id ORDER BY cat_id DESC limit 0,5";
+					$sql10="select cat_id, cat_name, cat_banner_img from tbl_category group by cat_id ORDER BY cat_id DESC limit 0,4";
 					//echo $sql;
 					$rs10=mysql_query($sql10);
 					if(mysql_num_rows($rs10)>0)

@@ -13,6 +13,7 @@ $objXajax->registerFunction("moderator");
 $objXajax->registerFunction("uporder_refresh");
 $objXajax->registerFunction("moderator_refresh");
 $objXajax->registerFunction("bannerFavorites");
+$objXajax->registerFunction("fav_refresh");
 $objXajax->processRequests();
 function favorites($catid)
 {
@@ -128,6 +129,7 @@ function bannerFavorites($catid)
 		}	
 	}	
 	$objResponse->addScript($script);
+	$objResponse->addScript('xajax_fav_refresh();');
 	return $objResponse->getXML();
 	
 	
@@ -308,6 +310,32 @@ function uporder_refresh()
 	$objResponse->addAssign('wallPicDiv','innerHTML',$data);
 	return $objResponse->getXML();
 }*/
+function fav_refresh()
+{
+	$objResponse = new xajaxResponse();
+	$user_id = $_SESSION['user_id'];
+	$sqlf="select cat_id from tbl_favorites where user_id=".$user_id." limit 0,5";
+	//$objResponse->addAlert($sqlf);
+	$rsf=mysql_query($sqlf);
+	$dataf='';
+	if(mysql_num_rows($rsf)>0)
+	{
+		while($rowf=mysql_fetch_array($rsf))
+		{
+		$sqlfc="select cat_id, cat_name from tbl_category where cat_id=".$rowf['cat_id'];
+		$rsfc=mysql_query($sqlfc);
+		$rowfc=mysql_fetch_array($rsfc);
+		$dataf.='<a href="category_detail.php?cat_id='.$rowfc['cat_id'].'" title="'.$rowfc['cat_name'].'">- '.$rowfc['cat_name'].'</a>';
+		}
+	}
+	else
+	{
+		$dataf.='<a href="#">- No category found.</a>';
+	}	
+	//$objResponse->addAlert($dataf);
+	$objResponse->addAssign('dropmenu1','innerHTML',$dataf);
+	return $objResponse->getXML();
+}
 function moderator_refresh()
 {
 	$objResponse = new xajaxResponse();
@@ -696,7 +724,7 @@ span a
       </div>
       
       <!--1st drop down menu -->
-      <div id="dropmenu1" class="dropmenudiv" style="position:absolute; z-index:2;"> 
+      <div id="dropmenu1" id="dropmenu1" class="dropmenudiv" style="position:absolute; z-index:2;"> 
 		<!--
 		<a href="infowall.php" title="Info Wall">- Info Wall</a>
 		<a href="movies-categories.html" title="Movies">- Movies</a>
@@ -730,7 +758,7 @@ span a
 			}
 			else
 			{
-				print '<a href="#">- No category found.</a>';
+				print '<a href="javascript:void(0)">- No category found.</a>';
 			}
 		?>
  </div>
